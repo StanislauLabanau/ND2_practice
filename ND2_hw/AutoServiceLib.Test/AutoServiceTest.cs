@@ -27,18 +27,18 @@ namespace AutoServiceLib.Test
         public void GetTotal_CorrectListProvided_CorrectTotalReturned_ValidExperticeArea()
         {
             // Arrange
-            var customer = new Customer("Harry", "Potter");
-            var car = new Car("Renault", "12345678", new string[] { "engine", "chassis", "body" });
-            var order = new OrderForm(customer, car, new string[] { "change motor oil", "change shock absorbers" });
+            var customer = new Customer { FirstName = "Harry", SecondName = "Potter" };
+            var car = new Car { Model = "Renault", VIN = "12345678", Sections = new string[] { "engine", "chassis", "body" } };
+            var order = new OrderForm { Customer = customer, Car = car, Operations = new string[] { "change motor oil", "change shock absorbers" } };
             var operations = new List<IOperation>
             {
-                new Operation("engine", "change motor oil", 120),
-                new Operation("engine", "change air filter", 30),
-                new Operation("chassis", "change shock absorbers", 200),
-                new Operation("chassis", "change steering tips", 60),
+                new Operation { Section = "engine", Name = "change motor oil", Price = 120 },
+                new Operation { Section = "engine", Name= "change air filter", Price = 30 },
+                new Operation { Section = "chassis", Name= "change shock absorbers", Price = 200 },
+                new Operation { Section = "chassis", Name = "change steering tips", Price = 60 },
             };
-            var discount = new StubDiscount();
-            var autoService = new AutoService("PSA official", discount, operations);
+            var stubDiscount = new StubDiscount();
+            var autoService = new AutoService { Name = "PSA official", Discount = stubDiscount, Operations = operations };
 
             // Act
             var total = autoService.GetTotalPrice(order);
@@ -51,16 +51,16 @@ namespace AutoServiceLib.Test
         public void GetTotal_CorrectListProvided_CorrectTotalReturned_InvalidExperticeArea()
         {
             // Arrange
-            var customer = new Customer("Harry", "Potter");
-            var car = new Car("Renault", "12345678", new string[] { "engine", "chassis", "body" });
-            var order = new OrderForm(customer, car, new string[] { "change motor oil", "change shock absorbers" });
+            var customer = new Customer { FirstName = "Harry", SecondName = "Potter" };
+            var car = new Car { Model = "Renault", VIN = "12345678", Sections = new string[] { "engine", "chassis", "body" } };
+            var order = new OrderForm { Customer = customer, Car = car, Operations = new string[] { "change motor oil", "change shock absorbers" } };
             var operations = new List<IOperation>
             {
-                new Operation("electro", "change battary", 540),
-                new Operation("electro", "change main contacts", 400),
+                new Operation { Section = "electro", Name = "change battary", Price = 540 },
+                new Operation { Section = "electro", Name= "change main contacts", Price = 400 },
             };
-            var discount = new StubDiscount();
-            var autoService = new AutoService("PSA official", discount, operations);
+            var stubDiscount = new StubDiscount();
+            var autoService = new AutoService { Name = "PSA official", Discount = stubDiscount, Operations = operations };
 
             // Act
             var total = autoService.GetTotalPrice(order);
@@ -72,19 +72,18 @@ namespace AutoServiceLib.Test
         [Test]
         public void GetTotal_CorrectListProvided_CorrectTotalReturned_OperationMatchesAbsence()
         {
-            // Arrange
-            var customer = new Customer("Harry", "Potter");
-            var car = new Car("Renault", "12345678", new string[] { "engine", "chassis", "body" });
-            var order = new OrderForm(customer, car, new string[] { "change headlight lamps", "setting of headlight" });
+            var customer = new Customer { FirstName = "Harry", SecondName = "Potter" };
+            var car = new Car { Model = "Renault", VIN = "12345678", Sections = new string[] { "engine", "chassis", "body" } };
+            var order = new OrderForm { Customer = customer, Car = car, Operations = new string[] { "change headlight lamps", "setting of headlight" } };
             var operations = new List<IOperation>
             {
-                new Operation("engine", "change motor oil", 120),
-                new Operation("engine", "change air filter", 30),
-                new Operation("chassis", "change shock absorbers", 200),
-                new Operation("chassis", "change steering tips", 60),
+                new Operation { Section = "engine", Name = "change motor oil", Price = 120 },
+                new Operation { Section = "engine", Name= "change air filter", Price = 30 },
+                new Operation { Section = "chassis", Name= "change shock absorbers", Price = 200 },
+                new Operation { Section = "chassis", Name = "change steering tips", Price = 60 },
             };
-            var discount = new StubDiscount();
-            var autoService = new AutoService("PSA official", discount, operations);
+            var stubDiscount = new StubDiscount();
+            var autoService = new AutoService { Name = "PSA official", Discount = stubDiscount, Operations = operations };
 
             // Act
             var total = autoService.GetTotalPrice(order);
@@ -97,20 +96,19 @@ namespace AutoServiceLib.Test
         public void GetTotal_FullDefoulDiscount_CorrectListProvided_CorrectTotalReturned()
         {
             // Arrange
-            var customer = new Customer("Harry", "Potter");
-            var car = new Car("Renault", "12345678", new string[] { "engine", "chassis", "body" });
-            var order = new OrderForm(customer, car, new string[] { "change motor oil", "change shock absorbers" });
+            var goldenMember = new Membership { Title = "goldenMember", DiscountValue = 10m };
+            var customer = new Customer { FirstName = "Harry", SecondName = "Potter", Membership = goldenMember };
+            var car = new Car { Model = "Renault", VIN = "12345678", Sections = new string[] { "engine", "chassis", "body" } };
+            var order = new OrderForm { Customer = customer, Car = car, Operations = new string[] { "change motor oil", "change shock absorbers" } };
             var operations = new List<IOperation>
             {
-                new Operation("engine", "change motor oil", 120),
-                new Operation("engine", "change air filter", 30),
-                new Operation("chassis", "change shock absorbers", 200),
-                new Operation("chassis", "change steering tips", 60),
+                new Operation { Section = "engine", Name = "change motor oil", Price = 120 },
+                new Operation { Section = "engine", Name= "change air filter", Price = 30 },
+                new Operation { Section = "chassis", Name= "change shock absorbers", Price = 200 },
+                new Operation { Section = "chassis", Name = "change steering tips", Price = 60 },
             };
-
-            var goldenCustomers = new List<Customer> { customer };
-            var discount = new DefaultDiscount(goldenCustomers);
-            var autoService = new AutoService("PSA official", discount, operations);
+            var discount = new DefaultDiscount();
+            var autoService = new AutoService { Name = "PSA official", Discount = discount, Operations = operations };
 
             // Act
             var total = autoService.GetTotalPrice(order);
@@ -122,15 +120,17 @@ namespace AutoServiceLib.Test
         [Test]
         public void GetTotalMoq_CorrectListProvided_CorrectTotalReturned_ValidExperticeArea()
         {
-            var goldenCustomer = new Customer("Tom", "Riddle");
-            var usualCustomer = new Customer("Harry", "Potter");
-            var car = new Car("Renault", "12345678", new string[] { "engine", "chassis", "body" });
+            // Arrange
+            var goldenMember = new Membership { Title = "goldenMember", DiscountValue = 10m };
+            var customer = new Customer { FirstName = "Tom", SecondName = "Riddle"};
+            var goldenCustomer = new Customer { FirstName = "Harry", SecondName = "Potter", Membership = goldenMember };
+            var car = new Car { Model = "Renault", VIN = "12345678", Sections = new string[] { "engine", "chassis", "body" } };
             var operations = new List<IOperation>
             {
-                new Operation("engine", "change motor oil", 100),
-                new Operation("engine", "change air filter", 30),
-                new Operation("chassis", "change shock absorbers", 200),
-                new Operation("chassis", "change steering tips", 60),
+                new Operation { Section = "engine", Name = "change motor oil", Price = 100 },
+                new Operation { Section = "engine", Name= "change air filter", Price = 30 },
+                new Operation { Section = "chassis", Name= "change shock absorbers", Price = 200 },
+                new Operation { Section = "chassis", Name = "change steering tips", Price = 60 },
             };
 
             var mock = new Mock<IDiscount>();
@@ -144,14 +144,14 @@ namespace AutoServiceLib.Test
             mock.Setup(m => m.GetCalculatedDiscount(It.Is<decimal>(v => v >= 300), goldenCustomer))
                .Returns(45);
 
-            var autoService = new AutoService("PSA official", mock.Object, operations);
-            var order = new OrderForm(usualCustomer, car, new string[] { "change motor oil" });
+            var autoService = new AutoService { Name = "PSA official", Discount = mock.Object, Operations = operations };
+            var order = new OrderForm { Customer = customer, Car = car, Operations = new string[] { "change motor oil" } };
             var zeroDescount = autoService.GetTotalPrice(order);
 
-            order = new OrderForm(usualCustomer, car, new string[] { "change motor oil", "change shock absorbers" });
+            order = new OrderForm { Customer = customer, Car = car, Operations = new string[] { "change motor oil", "change shock absorbers" } };
             var fivePersentDescount = autoService.GetTotalPrice(order);
 
-            order = new OrderForm(goldenCustomer, car, new string[] { "change motor oil", "change shock absorbers" });
+            order = new OrderForm { Customer = goldenCustomer, Car = car, Operations = new string[] { "change motor oil", "change shock absorbers" } };
             var fifteenPersentDescount = autoService.GetTotalPrice(order);
 
             Assert.AreEqual(100, zeroDescount);

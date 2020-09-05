@@ -9,15 +9,8 @@ namespace AutoServiceLib.Types
     public class AutoService : IAutoService
     {
         public string Name { get; set; }
-        public IDiscount Discount { get; private set; }
+        public IDiscount Discount { get; set; }
         public List<IOperation> Operations { get; set; }
-
-        public AutoService(string name, IDiscount discount, List<IOperation> operations)
-        {
-            Name = name;
-            Discount = discount;
-            Operations = operations;
-        }
 
         public decimal GetTotalPrice(OrderForm orderForm)
         {
