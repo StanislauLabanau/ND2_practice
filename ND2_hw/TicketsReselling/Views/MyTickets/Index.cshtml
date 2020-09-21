@@ -1,0 +1,78 @@
+﻿@model MyTicketsViewModel
+
+@{
+    ViewData["Title"] = "MyTickets";
+}
+
+<h2>My tickets</h2>
+
+@foreach (var status in Model.Statuses)
+{
+    <h4 class="pt-3">@status.Name</h4>
+    <div class="container-fluid pt-3">
+
+        @if (Model.Tickets.Where(t => t.TicketStatus == status).Count() != 0)
+        {
+            <div class="row pt-3 mb-2">
+                <div class="col-md-2 text-center">
+                    EVENT
+                </div>
+                <div class="col-md-2 text-center">
+                    EVENT DATE
+                </div>
+                <div class="col-md-2 text-center">
+                    PRICE (USD)
+                </div>
+                <div class="col-md-3 text-center">
+                    BUYER
+                </div>
+            </div>
+
+            foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == status))
+            {
+                <div class="row">
+                    <div class="col-md-2 text-center">
+                        @ticket.EventName
+                    </div>
+                    <div class="col-md-2 text-center">
+                        @ticket.EventDate
+                    </div>
+                    <div class="col-md-2 text-center">
+                        @ticket.TicketPrice
+                    </div>
+
+                    @if (status == Model.Statuses[0])
+                    {
+                        <div class="col-md-3 text-center">
+                            @ticket.BuyerName
+                        </div>
+                        <div class="col-md-1">
+                            @Html.ActionLink("Cofirm", "Confirm", "MyTickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                        </div>
+                        <div class="col-md-1">
+                            @Html.ActionLink("Reject", "Reject", "MyTickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3 text-center">
+                            No buyer yet
+                        </div>
+                        <div class="col-md-1">
+                            @Html.ActionLink("Delete", "Delete", "MyTickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                        </div>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="row text-center">
+                <div class="col-md-7">
+                    No tickets
+                </div>
+            </div>
+        }
+
+    </div>
+}

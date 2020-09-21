@@ -1,0 +1,64 @@
+﻿@model EventTicketsViewModel
+
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card text-center">
+            <img src="~/img/@Model.Event.Banner" alt="@Model.Event.Name" class="card-img-top img-fluid" />
+        </div>
+    </div>
+    <div class="card-body col-md-6 text-center">
+        <h1>@Model.Event.Name</h1>
+        <h3>@Model.Event.Venue.City.Name</></h3>
+        <h3>@Model.Event.Venue.Name</></h3>
+        <h3>@Model.Event.Date</></h3>
+        <div class="text-break"> @Model.Event.Description</></div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (Model.Tickets.Length != 0)
+    {
+        <div class="row pt-3 mb-2">
+            <div class="col-md-4 text-center">
+                SELLER
+            </div>
+            <div class="col-md-2 text-center">
+                PRICE (USD)
+            </div>
+            <div class="col-md-6 text-center">
+                NOTES
+            </div>
+        </div>
+
+        foreach (var ticket in Model.Tickets)
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    @ticket.SellerName
+                </div>
+                <div class="col-md-1 text-center">
+                    @ticket.Price
+                </div>
+                <div class="col-md-1">
+                    @Html.ActionLink("Order", "Order", "EventTickets", new { ticketId = ticket.Id }, new { @class = "btn btn-primary pt-1 mb-1" })
+                </div>
+                <div class="col-md-6 text-center">
+                    @ticket.SellerNotes
+                </div>
+
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12 pt-2 text-center">
+                NO TICKETS FOR THIS EVENT!
+            </div>
+        </div>
+    }
+</div>
