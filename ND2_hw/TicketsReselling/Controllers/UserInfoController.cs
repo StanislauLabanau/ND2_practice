@@ -8,11 +8,11 @@ using TicketsReselling.Business;
 
 namespace TicketsReselling.Controllers
 {
-    public class ProfileController : Controller
+    public class UserInfoController : Controller
     {
         private readonly UsersRepository usersRepository;
 
-        public ProfileController(UsersRepository usersRepository)
+        public UserInfoController(UsersRepository usersRepository)
         {
             this.usersRepository = usersRepository;
         }
@@ -24,5 +24,13 @@ namespace TicketsReselling.Controllers
 
             return View(model);
         }
+
+        public IActionResult PublicInfo(int userId)
+        {
+            var model = usersRepository.GetUserById(userId);
+
+            return View(model);
+        }
+
     }
 }

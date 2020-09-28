@@ -1,0 +1,124 @@
+﻿@model TicketsViewModel
+@using TicketsReselling.Business.Enums;
+
+@{
+    ViewData["Title"] = "MyTickets";
+}
+
+<h2>My tickets</h2>
+
+<div class="container-fluid pt-2">
+    <div class="row pt-2 mb-2" style="border-bottom-style:groove">
+        <div class="col-md-3 text-center ">
+            EVENT
+        </div>
+        <div class="col-md-2 text-center">
+            EVENT DATE
+        </div>
+        <div class="col-md-2 text-center">
+            PRICE (USD)
+        </div>
+        <div class="col-md-3 text-center">
+            BUYER
+        </div>
+        <div class="col-md-2 text-center">
+            ACTIONS
+        </div>
+    </div>
+    <div class="col-md-12 pt-2 text-center" style="text-decoration: underline">
+        Waiting for confirmation
+    </div>
+
+    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.WaitingForConfirmation).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            No tickets
+        </div>
+    }
+
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.WaitingForConfirmation))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.EventDate
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Cofirm", "ConfirmOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Reject", "RejectOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+    <div class="col-md-12 pt-4 text-center" style="text-decoration:underline">
+        Selling
+    </div>
+
+    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Selling).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            No tickets
+        </div>
+    }
+
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Selling))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.EventDate
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                No buyer yet
+            </div>
+            <div class="col-md-2">
+                @Html.ActionLink("Delete", "RemoveTicket", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+    <div class="col-md-12 pt-4 text-center" style="text-decoration:underline">
+        Sold
+    </div>
+
+    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Sold).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            No tickets
+        </div>
+    }
+
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Sold))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.EventDate
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink( @ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+            </div>
+            <div class="col-md-2">
+                @Html.ActionLink("Add track", "AddTrack", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+</div>

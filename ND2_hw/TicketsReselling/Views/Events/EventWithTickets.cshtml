@@ -1,7 +1,7 @@
-﻿@model EventTicketsViewModel
+﻿@model EventWithTicketsViewModel
 
 @{
-    ViewData["Title"] = "Tickets";
+    ViewData["Title"] = "EventWithTickets";
 }
 
 <div class="row">
@@ -15,14 +15,14 @@
         <h3>@Model.Event.Venue.City.Name</></h3>
         <h3>@Model.Event.Venue.Name</></h3>
         <h3>@Model.Event.Date</></h3>
-        <div class="text-break"> @Model.Event.Description</></div>
+        @Html.Raw(Model.Event.Description)
     </div>
 </div>
 
 <div class="container-fluid">
     @if (Model.Tickets.Length != 0)
     {
-        <div class="row pt-3 mb-2">
+        <div class="row pt-3 mb-2" style="border-bottom-style:groove">
             <div class="col-md-4 text-center">
                 SELLER
             </div>
@@ -44,7 +44,7 @@
                     @ticket.Price
                 </div>
                 <div class="col-md-1">
-                    @Html.ActionLink("Order", "Order", "EventTickets", new { ticketId = ticket.Id }, new { @class = "btn btn-primary pt-1 mb-1" })
+                    @Html.ActionLink("Order", "AddOrder", "Orders", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
                 </div>
                 <div class="col-md-6 text-center">
                     @ticket.SellerNotes
@@ -56,9 +56,12 @@
     else
     {
         <div class="row">
-            <div class="col-md-12 pt-2 text-center">
+            <div class="col-md-12 pt-2 text-center text-info">
                 NO TICKETS FOR THIS EVENT!
             </div>
         </div>
     }
+    <div>
+        @Html.ActionLink("Add ticket", "AddTicket", "Tickets", new { eventId = Model.Event.Id })
+    </div>
 </div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketsReselling.Business.Enums;
 
 namespace TicketsReselling.Business.Models
 {
@@ -12,7 +13,7 @@ namespace TicketsReselling.Business.Models
         public decimal Price { get; set; }
         public int SellerId { get; set; }
         public int BuyerId { get; set; }
-        public TicketStatus Status { get; set; }
+        public TicketStatuses Status { get; set; }
         public string SellerNotes { get; set; }
     }
 }

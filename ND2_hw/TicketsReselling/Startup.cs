@@ -42,12 +42,13 @@ namespace TicketsReselling
             {
                 opts.AddPolicy("HasRole", policy => policy.RequireClaim(ClaimTypes.Role));
                 opts.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.User));
+                opts.AddPolicy("Administrator", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Administrator));
             });
 
-            services.AddScoped<EventsRepository>();
-            services.AddScoped<UsersRepository>();
-            services.AddScoped<TicketsRepository>();
-            services.AddScoped<OrdersRepository>();
+            services.AddSingleton<EventsRepository>();
+            services.AddSingleton<UsersRepository>();
+            services.AddSingleton<TicketsRepository>();
+            services.AddSingleton<OrdersRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

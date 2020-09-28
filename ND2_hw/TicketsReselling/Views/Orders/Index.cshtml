@@ -1,0 +1,122 @@
+﻿@model OrderViewModel
+@using TicketsReselling.Business.Enums;
+
+@{
+    ViewData["Title"] = "MyOrders";
+}
+
+<h2>My orders</h2>
+
+<div class="container-fluid pt-2">
+    <div class="row pt-2 mb-2" style="border-bottom-style:groove">
+        <div class="col-md-3 text-center">
+            EVENT
+        </div>
+        <div class="col-md-2 text-center">
+            EVENT DATE
+        </div>
+        <div class="col-md-2 text-center">
+            PRICE (USD)
+        </div>
+        <div class="col-md-3 text-center">
+            SELLER
+        </div>
+        <div class="col-md-2 text-center">
+            ACTIONS
+        </div>
+    </div>
+    <div class="col-md-12 pt-2 text-center" style="text-decoration: underline">
+        Waiting for confirmation
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            No orders
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+            </div>
+            <div class="col-md-1 text-center">
+                @Html.ActionLink("Cancel", "CancelOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+    <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
+        Confirmed
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Confirmed).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            No orders
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Confirmed))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Info", "OrderTrackingInfo", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Close", "ConfirmOrderReceiving", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+    <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
+        Rejected
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Rejected).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            No orders
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Rejected))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+            </div>
+        </div>
+    }
+</div>
+

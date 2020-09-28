@@ -1,4 +1,5 @@
-﻿<ul class="navbar-nav flex-grow-1">
+﻿@using TicketsReselling.Business.Models
+<ul class="navbar-nav flex-grow-1">
     @if (User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
@@ -7,16 +8,28 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="MyTickets" asp-action="Index">My Tickets</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="MyOrders" asp-action="Index">My Orders</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Profile</a>
-        </li>
+
+        if (User.IsInRole(UserRoles.User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">My tickets</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">My orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="UserInfo" asp-action="Index">My profile</a>
+            </li>
+        }
+
+        if (User.IsInRole(UserRoles.Administrator))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="AddEvent">Add Event</a>
+            </li>
+        }
     }
+
     else
     {
 

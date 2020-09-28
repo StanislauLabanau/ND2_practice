@@ -5,13 +5,47 @@
 }
 
 <h1>Events</h1>
-
-@foreach (var category in Model.Categories)
+<form class="form-inline">
+    <label>Choose the category</label>
+    <select name="categoryId" class="form-control">
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+    <input type="submit" value="Apply" class="btn btn-primary" />
+</form>
+@if (ViewBag.categoryId == 0)
 {
-    <h2 class="pt-5">@category.Name</h2>
+    @foreach (var category in Model.Categories)
+    {
+        <h2 class="pt-5">@category.Name</h2>
+        <div class="container-fluid pt-4">
+            <div class="row row-cols-md-3">
+                @foreach (var eventItem in Model.Events.Where(e => e.Category.Id == category.Id))
+                {
+                    <div class="col mb-4">
+                        <div class="card text-center">
+                            <img src="~/img/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
+                            <h3>@eventItem.Name</h3>
+                            <h4><b>@eventItem.Venue.City.Name</b></h4>
+                            <h4><b>@eventItem.Venue.Name</b></h4>
+                            <h4><b>@eventItem.Date</b></h4>
+                            @Html.ActionLink("Show tickets", "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}
+
+else
+{
+    <h2 class="pt-5">@ViewBag.categoryName</h2>
     <div class="container-fluid pt-4">
         <div class="row row-cols-md-3">
-            @foreach (var eventItem in Model.Events.Where(e => e.Category == category))
+            @foreach (var eventItem in Model.Events.Where(e => e.Category.Id == ViewBag.categoryId))
             {
                 <div class="col mb-4">
                     <div class="card text-center">
@@ -20,7 +54,7 @@
                         <h4><b>@eventItem.Venue.City.Name</b></h4>
                         <h4><b>@eventItem.Venue.Name</b></h4>
                         <h4><b>@eventItem.Date</b></h4>
-                        @Html.ActionLink("Show tickets", "Index", "EventTickets", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Show tickets", "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
                     </div>
                 </div>
             }

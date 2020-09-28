@@ -12,6 +12,7 @@ namespace TicketsReselling.Business
         private readonly List<Venue> venues;
         private readonly List<Category> categories;
         private readonly List<Event> events;
+        public static int EventIdCounter { get; set; } = 7;
 
         public EventsRepository()
         {
@@ -43,26 +44,39 @@ namespace TicketsReselling.Business
 
             categories = new List<Category>
             {
-                new Category {Id = 0, Name = "Concerts"},
-                new Category {Id = 1, Name = "Sports"},
-                new Category {Id = 2, Name = "Exhibitions"}
+                new Category {Id = 0, Name = "All categories"},
+                new Category {Id = 1, Name = "Concerts"},
+                new Category {Id = 2, Name = "Sports"},
+                new Category {Id = 3, Name = "Exhibitions"}
             };
 
             events = new List<Event>
             {
-                new Event {Id = 1, Category = categories[0], Name = "Concert1", Venue = venues[0], Banner = "ImagineD1.jpg", Description ="Concert1 description", Date = "22.01.2022"},
-                new Event {Id = 2, Category = categories[0], Name = "Concert2", Venue = venues[2], Banner = "ImagineD2.jpg", Description ="Concert2 description", Date = "22.02.2022"},
-                new Event {Id = 3, Category = categories[0], Name = "Concert3", Venue = venues[3], Banner = "ImagineD3.jpg", Description ="Concert3 description", Date = "22.03.2022"},
-                new Event {Id = 4, Category = categories[0], Name = "Concert4", Venue = venues[4], Banner = "ImagineD4.jpg", Description ="Concert4 description", Date = "22.04.2022"},
-                new Event {Id = 5, Category = categories[1], Name = "Sports1", Venue = venues[9], Banner = "Foot1.jpg", Description ="Sports1 description", Date = "22.05.2022"},
-                new Event {Id = 6, Category = categories[1], Name = "Sports2", Venue = venues[10], Banner = "Foot2.jpg", Description ="Sports2 description", Date = "22.06.2022"},
-                new Event {Id = 7, Category = categories[2], Name = "Exhibition1", Venue = venues[11], Banner = "Exhibition1.jpg", Description ="Exhibition1 description", Date = "22.07.2022"},
+                new Event {Id = 1, Category = categories[1], Name = "Concert1", Venue = venues[0], Banner = "ImagineD1.jpg",
+                    Description = "<div class=\"text-break\"> Concert1 description </></div>", Date = "22.01.2022"},
+                new Event {Id = 2, Category = categories[1], Name = "Concert2", Venue = venues[2], Banner = "ImagineD2.jpg",
+                    Description = "<div class=\"text-break\"> Concert2 description </></div>", Date = "22.02.2022"},
+                new Event {Id = 3, Category = categories[1], Name = "Concert3", Venue = venues[3], Banner = "ImagineD3.jpg",
+                    Description = "<div class=\"text-break\"> Concert3 description </></div>", Date = "22.03.2022"},
+                new Event {Id = 4, Category = categories[1], Name = "Concert4", Venue = venues[4], Banner = "ImagineD4.jpg",
+                    Description = "<div class=\"text-break\"> Concert4 description </></div>", Date = "22.04.2022"},
+                new Event {Id = 5, Category = categories[2], Name = "Sports1", Venue = venues[9], Banner = "Foot1.jpg",
+                    Description = "<div class=\"text-break\"> Sports1 description </></div>", Date = "22.05.2022"},
+                new Event {Id = 6, Category = categories[2], Name = "Sports2", Venue = venues[10], Banner = "Foot2.jpg",
+                    Description = "<div class=\"text-break\"> Sports2 description </></div>", Date = "22.06.2022"},
+                new Event {Id = 7, Category = categories[3], Name = "Exhibition1", Venue = venues[11], Banner = "Exhibition1.jpg",
+                    Description = "<div class=\"text-break\"> Exhibition1 description </></div>", Date = "22.07.2022"},
             };
         }
 
         public Category[] GetCategories()
         {
             return categories.ToArray();
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            return categories.FirstOrDefault(c => c.Id == id);
         }
 
         public Event[] GetEvents()
@@ -73,6 +87,26 @@ namespace TicketsReselling.Business
         public Event GetEventById(int id)
         {
             return events.FirstOrDefault(p => p.Id == id);
+        }
+
+        public Venue[] GetVenues()
+        {
+            return venues.ToArray();
+        }
+
+        public Venue GetVenueById(int id)
+        {
+            return venues.FirstOrDefault(v => v.Id == id);
+        }
+
+        public void AddEvent(Event newEvent)
+        {
+            events.Add(newEvent);
+        }
+
+        public void RemoveEvent(int Id)
+        {
+            events.Remove(GetEventById(Id));
         }
     }
 }

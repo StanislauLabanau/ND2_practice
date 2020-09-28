@@ -1,0 +1,35 @@
+﻿@model TicketsReselling.Models.AddTicketViewModel
+
+@{
+    ViewData["Title"] = "AddTicket";
+}
+
+<h3>You are adding ticket for</h3>
+<h3>@ViewBag.EventName</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTicket">
+            <input type="hidden" value="@ViewBag.EventId" name="eventId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add ticket" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
