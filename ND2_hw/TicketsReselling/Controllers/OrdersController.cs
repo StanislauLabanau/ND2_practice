@@ -10,7 +10,7 @@ using TicketsReselling.Models;
 
 namespace TicketsReselling.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = UserRoles.User)]
     public class OrdersController : Controller
     {
         private readonly TicketsRepository ticketsRepository;
@@ -31,7 +31,7 @@ namespace TicketsReselling.Controllers
             var currentUser = usersRepository.GetUserByUserName(User.Identity.Name);
             var userOrders = orderRepository.GetOrders().Where(o => o.UserId == currentUser.Id);
 
-            var myOrders = new List<MyOrder> { };
+            var myOrders = new List<OrderView> { };
 
             foreach (var order in userOrders)
             {
@@ -39,12 +39,12 @@ namespace TicketsReselling.Controllers
                 var ticketEvent = eventsRepository.GetEventById(orderTicket.EventId);
 
                 myOrders.Add(
-                    new MyOrder
+                    new OrderView
                     {
                         OrderId = order.Id,
                         TicketPrice = orderTicket.Price,
                         OrderStatus = order.Status,
-                        SellerName = $"{usersRepository.GetUserById(orderTicket.SellerId)?.FirstName} {usersRepository.GetUserById(orderTicket.SellerId)?.SecondName}",
+                        SellerName = Business.Models.User.GetFullName(usersRepository.GetUserById(orderTicket.SellerId)),
                         SellerId = orderTicket.SellerId,
                         EventId = orderTicket.EventId,
                         EventName = ticketEvent.Name,
@@ -63,16 +63,19 @@ namespace TicketsReselling.Controllers
 
         public IActionResult AddOrder(int ticketId)
         {
+            var orderId = ++OrdersRepository.IdCounter;
             var ticket = ticketsRepository.GetTicket(ticketId);
 
             ticket.Status = TicketStatuses.WaitingForConfirmation;
+            ticket.OrderId = orderId;
             ticket.BuyerId = usersRepository.GetUserByUserName(User.Identity.Name).Id;
+
 
             ticketsRepository.RemoveTicket(ticketId);
             ticketsRepository.AddTicket(ticket);
             orderRepository.AddOrder(new Order
             {
-                Id = ++OrdersRepository.IdCounter,
+                Id = orderId,
                 TicketId = ticketId,
                 Status = OrderStatuses.WaitingForConfirmation,
                 UserId = usersRepository.GetUserByUserName(User.Identity.Name).Id,
@@ -88,6 +91,7 @@ namespace TicketsReselling.Controllers
             var ticket = ticketsRepository.GetTicket(order.TicketId);
 
             ticket.Status = TicketStatuses.Selling;
+            ticket.OrderId = default;
 
             ticketsRepository.RemoveTicket(order.TicketId);
             ticketsRepository.AddTicket(ticket);

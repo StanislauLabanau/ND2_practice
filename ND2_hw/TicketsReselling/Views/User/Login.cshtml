@@ -1,10 +1,11 @@
 ﻿@model TicketsReselling.Models.LoginViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1>@Localizer["Login"]</h1>
 
 <hr />
 <div class="row">
@@ -12,24 +13,20 @@
         <form asp-action="Login" asp-route-returnurl=@ViewBag.ReturnUrl>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
+                <label>@Localizer["UserName"]</label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+                <label>@Localizer["Password"]</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["Login"] class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 

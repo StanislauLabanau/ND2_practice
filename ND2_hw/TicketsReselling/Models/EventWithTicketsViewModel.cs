@@ -11,12 +11,13 @@ namespace TicketsReselling.Models
         public Event Event { get; set; } 
         public EventTickets[] Tickets { get; set; }
 
-        public class EventTickets
-        {
-            public int TicketId { get; set; }
-            public string SellerName { get; set; }
-            public decimal Price { get; set; }
-            public string SellerNotes { get; set; }
-        }
+    }
+
+    public class EventTickets
+    {
+        public int TicketId { get; set; }
+        public string SellerName { get; set; }
+        public decimal Price { get; set; }
+        public string SellerNotes { get; set; }
     }
 }

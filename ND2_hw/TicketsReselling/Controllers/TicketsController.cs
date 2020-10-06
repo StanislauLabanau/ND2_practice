@@ -11,7 +11,7 @@ using TicketsReselling.Models;
 
 namespace TicketsReselling.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = UserRoles.User)]
     public class TicketsController : Controller
     {
         private readonly TicketsRepository ticketsRepository;
@@ -32,19 +32,19 @@ namespace TicketsReselling.Controllers
             var currentUser = usersRepository.GetUserByUserName(User.Identity.Name);
             var userTickets = ticketsRepository.GetTickets().Where(t => t.SellerId == currentUser.Id);
 
-            var myTickets = new List<MyTicket> { };
+            var myTickets = new List<TicketView> { };
 
             foreach (var ticket in userTickets)
             {
                 var ticketEvent = eventsRepository.GetEventById(ticket.EventId);
 
                 myTickets.Add(
-                    new MyTicket
+                    new TicketView
                     {
                         TicketId = ticket.Id,
                         TicketPrice = ticket.Price,
                         TicketStatus = ticket.Status,
-                        BuyerName = $"{usersRepository.GetUserById(ticket.BuyerId)?.FirstName} {usersRepository.GetUserById(ticket.BuyerId)?.SecondName}",
+                        BuyerName = Business.Models.User.GetFullName(usersRepository.GetUserById(ticket.BuyerId)),
                         BuyerId = ticket.BuyerId,
                         EventName = ticketEvent.Name,
                         EventId = ticket.EventId,
@@ -97,7 +97,7 @@ namespace TicketsReselling.Controllers
         public IActionResult ConfirmOrder(int ticketId)
         {
             var ticket = ticketsRepository.GetTicket(ticketId);
-            var order = ordersRepository.GetOrderByTicketId(ticketId);
+            var order = ordersRepository.GetOrder(ticket.OrderId);
 
             ticket.Status = TicketStatuses.Sold;
             order.Status = OrderStatuses.Confirmed;
@@ -113,9 +113,10 @@ namespace TicketsReselling.Controllers
         public IActionResult RejectOrder(int ticketId)
         {
             var ticket = ticketsRepository.GetTicket(ticketId);
-            var order = ordersRepository.GetOrderByTicketId(ticketId);
+            var order = ordersRepository.GetOrder(ticket.OrderId);
 
             ticket.Status = TicketStatuses.Selling;
+            ticket.OrderId = default;
             order.Status = OrderStatuses.Rejected;
 
             ticketsRepository.RemoveTicket(ticketId);

@@ -1,19 +1,18 @@
 ﻿@model TicketsReselling.Models.AddEventViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "AddEvent";
 }
 
-<h1>AddEvent</h1>
+<h1>@Localizer["AddEvent"]</h1>
 
-<h4>AddEventViewModel</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddEvent" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label>Category</label>
+                <label>@Localizer["Category"]</label>
                 <select asp-for="CategoryId" class="form-control">
                     @foreach (var category in ViewBag.categories)
                     {
@@ -23,17 +22,17 @@
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label>@Localizer["Name"]</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <label>@Localizer["Date"]</label>
+                <input asp-for="Date" type="date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Venue</label>
+                <label>@Localizer["Venue"]</label>
                 <select asp-for="VenueId" class="form-control">
                     @foreach (var venue in ViewBag.venues)
                     {
@@ -42,24 +41,21 @@
                 </select>
                 <span asp-validation-for="VenueId" class="text-danger"></span>
             </div>
-            <div class="form-inline">
-                <label asp-for="Banner" class="control-label"></label>
-                <input asp-for="Banner" type="file" class="form-control" />
+            <div class="form-group">
+                <p>@Localizer["Banner"]</p>
+                <input asp-for="Banner" type="file" class="card-text" />
                 <span asp-validation-for="Banner" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label>@Localizer["Description"]</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

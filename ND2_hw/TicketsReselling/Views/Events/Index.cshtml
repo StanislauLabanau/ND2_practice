@@ -1,19 +1,16 @@
 ﻿@model EventsViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
-@{
-    ViewData["Title"] = "Events";
-}
-
-<h1>Events</h1>
+<h1>@Localizer["Events"]</h1>
 <form class="form-inline">
-    <label>Choose the category</label>
+    <label>@Localizer["ChooseCategory"]</label>
     <select name="categoryId" class="form-control">
         @foreach (var category in Model.Categories)
         {
             <option value="@category.Id">@category.Name</option>
         }
     </select>
-    <input type="submit" value="Apply" class="btn btn-primary" />
+    <input type="submit" value=@Localizer["Apply"] class="btn btn-primary" />
 </form>
 @if (ViewBag.categoryId == 0)
 {
@@ -26,12 +23,12 @@
                 {
                     <div class="col mb-4">
                         <div class="card text-center">
-                            <img src="~/img/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
+                            <img src="~/Public/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
                             <h3>@eventItem.Name</h3>
                             <h4><b>@eventItem.Venue.City.Name</b></h4>
                             <h4><b>@eventItem.Venue.Name</b></h4>
-                            <h4><b>@eventItem.Date</b></h4>
-                            @Html.ActionLink("Show tickets", "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
+                            <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
+                            @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
                         </div>
                     </div>
                 }
@@ -49,12 +46,12 @@ else
             {
                 <div class="col mb-4">
                     <div class="card text-center">
-                        <img src="~/img/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
+                        <img src="~/Public/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
                         <h3>@eventItem.Name</h3>
                         <h4><b>@eventItem.Venue.City.Name</b></h4>
                         <h4><b>@eventItem.Venue.Name</b></h4>
                         <h4><b>@eventItem.Date</b></h4>
-                        @Html.ActionLink("Show tickets", "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
                     </div>
                 </div>
             }

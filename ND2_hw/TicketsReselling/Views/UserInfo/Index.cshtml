@@ -1,70 +1,69 @@
 ﻿@model TicketsReselling.Business.Models.User
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h3>User profile</h3>
+<h3> @Localizer["UserProfile"]</h3>
 
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-           User Id
+        <dt class="col-sm-2">
+            @Localizer["UserId"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
-           First name
+        <dt class="col-sm-2">
+            @Localizer["FirstName"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class = "col-sm-2">
-           Second name
+        <dt class="col-sm-2">
+            @Localizer["SecondName"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SecondName)
         </dd>
-        <dt class = "col-sm-2">
-           Localization
+        <dt class="col-sm-2">
+            @Localizer["Location"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Localization)
         </dd>
-        <dt class = "col-sm-2">
-          Addres
+        <dt class="col-sm-2">
+            @Localizer["Addres"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address)
         </dd>
-        <dt class = "col-sm-2">
-          Phone number
+        <dt class="col-sm-2">
+            @Localizer["PhoneNumber"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Role)
+        <dt class="col-sm-2">
+            @Localizer["Role"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Role)
         </dd>
-        <dt class = "col-sm-2">
-            Login
+        <dt class="col-sm-2">
+            @Localizer["Login"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserName)
         </dd>
-        <dt class = "col-sm-2">
-           Password
+        <dt class="col-sm-2">
+            @Localizer["Password"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+

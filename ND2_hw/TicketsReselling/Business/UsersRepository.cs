@@ -20,7 +20,8 @@ namespace TicketsReselling.Business
                 new User {Id = 2,  FirstName = "Ron", SecondName="Weasley", Localization = "England", Address = "Address2",
                     PhoneNumber="222-22-22", UserName = "Ron", Password = "ron", Role = UserRoles.User },
 
-                new User {Id = 3,  FirstName = "Hermione", SecondName ="Granger", Localization = "England", Address = "Address3", PhoneNumber="333-33-33"},
+                new User {Id = 3,  FirstName = "Hermione", SecondName ="Granger", Localization = "England", Address = "Address3",
+                    PhoneNumber="333-33-33", UserName = "Hermione", Password = "hermione", Role = UserRoles.User },
 
                 new User {Id = 4,  FirstName = "Tom", SecondName ="Riddle", Localization = "England", Address = "Address4",
                     PhoneNumber="444-44-44", UserName = "Tom", Password = "tom", Role = UserRoles.User },

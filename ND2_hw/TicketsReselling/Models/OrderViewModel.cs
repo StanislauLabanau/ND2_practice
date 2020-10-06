@@ -9,10 +9,10 @@ namespace TicketsReselling.Models
 {
     public class OrderViewModel
     {
-        public MyOrder[] Orders { get; set; }
+        public OrderView[] Orders { get; set; }
     }
 
-    public class MyOrder
+    public class OrderView
     {
         public int OrderId { get; set; }
         public OrderStatuses OrderStatus { get; set; }
@@ -21,6 +21,6 @@ namespace TicketsReselling.Models
         public decimal TicketPrice { get; set; }
         public int EventId { get; set; }
         public string EventName { get; set; }
-        public string EventDate { get; set; }
+        public DateTime EventDate { get; set; }
     }
 }

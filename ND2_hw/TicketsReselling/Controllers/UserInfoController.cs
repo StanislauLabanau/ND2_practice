@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicketsReselling.Business;
+using TicketsReselling.Business.Models;
 
 namespace TicketsReselling.Controllers
 {
@@ -17,7 +18,7 @@ namespace TicketsReselling.Controllers
             this.usersRepository = usersRepository;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = UserRoles.User)]
         public IActionResult Index()
         {
             var model = usersRepository.GetUserByUserName(User.Identity.Name);

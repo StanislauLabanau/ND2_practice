@@ -12,7 +12,9 @@ namespace TicketsReselling.Business.Models
     {
         public static async Task<string> UploadFile(IFormFile file)
         {
-            var newFileName = Path.GetRandomFileName();
+
+            var newFileName = Path.ChangeExtension(Path.GetRandomFileName(), Path.GetExtension(file.FileName));
+
             using (var stream = File.Create(Path.Combine("wwwroot/Public", newFileName)))
             {
                 await file.CopyToAsync(stream);

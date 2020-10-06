@@ -1,4 +1,6 @@
 ﻿@model EventWithTicketsViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
 
 @{
     ViewData["Title"] = "EventWithTickets";
@@ -7,14 +9,14 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card text-center">
-            <img src="~/img/@Model.Event.Banner" alt="@Model.Event.Name" class="card-img-top img-fluid" />
+            <img src="/Public/@Model.Event.Banner" alt="@Model.Event.Name" class="card-img-top img-fluid" />
         </div>
     </div>
     <div class="card-body col-md-6 text-center">
         <h1>@Model.Event.Name</h1>
         <h3>@Model.Event.Venue.City.Name</></h3>
         <h3>@Model.Event.Venue.Name</></h3>
-        <h3>@Model.Event.Date</></h3>
+        <h3>@Model.Event.Date.ToShortDateString()</></h3>
         @Html.Raw(Model.Event.Description)
     </div>
 </div>
@@ -24,13 +26,13 @@
     {
         <div class="row pt-3 mb-2" style="border-bottom-style:groove">
             <div class="col-md-4 text-center">
-                SELLER
+                @Localizer["Seller"]
             </div>
             <div class="col-md-2 text-center">
-                PRICE (USD)
+                @Localizer["Price"]
             </div>
             <div class="col-md-6 text-center">
-                NOTES
+                @Localizer["Notes"]
             </div>
         </div>
 
@@ -44,7 +46,7 @@
                     @ticket.Price
                 </div>
                 <div class="col-md-1">
-                    @Html.ActionLink("Order", "AddOrder", "Orders", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                    @Html.ActionLink(@Localizer["Order"].Value.ToString(), "AddOrder", "Orders", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
                 </div>
                 <div class="col-md-6 text-center">
                     @ticket.SellerNotes
@@ -57,11 +59,11 @@
     {
         <div class="row">
             <div class="col-md-12 pt-2 text-center text-info">
-                NO TICKETS FOR THIS EVENT!
+                @Localizer["NoTickets"]
             </div>
         </div>
     }
     <div>
-        @Html.ActionLink("Add ticket", "AddTicket", "Tickets", new { eventId = Model.Event.Id })
+        @Html.ActionLink(Localizer["AddTicket"].Value.ToString(), "AddTicket", "Tickets", new { eventId = Model.Event.Id })
     </div>
 </div>

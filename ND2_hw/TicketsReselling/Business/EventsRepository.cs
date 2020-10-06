@@ -53,19 +53,19 @@ namespace TicketsReselling.Business
             events = new List<Event>
             {
                 new Event {Id = 1, Category = categories[1], Name = "Concert1", Venue = venues[0], Banner = "ImagineD1.jpg",
-                    Description = "<div class=\"text-break\"> Concert1 description </></div>", Date = "22.01.2022"},
+                    Description = "<div class=\"text-break\"> Concert1 description </></div>", Date = new DateTime(2022,01,22)},
                 new Event {Id = 2, Category = categories[1], Name = "Concert2", Venue = venues[2], Banner = "ImagineD2.jpg",
-                    Description = "<div class=\"text-break\"> Concert2 description </></div>", Date = "22.02.2022"},
+                    Description = "<div class=\"text-break\"> Concert2 description </></div>", Date = new DateTime(2022,02,22)},
                 new Event {Id = 3, Category = categories[1], Name = "Concert3", Venue = venues[3], Banner = "ImagineD3.jpg",
-                    Description = "<div class=\"text-break\"> Concert3 description </></div>", Date = "22.03.2022"},
+                    Description = "<div class=\"text-break\"> Concert3 description </></div>", Date = new DateTime(2022,03,22)},
                 new Event {Id = 4, Category = categories[1], Name = "Concert4", Venue = venues[4], Banner = "ImagineD4.jpg",
-                    Description = "<div class=\"text-break\"> Concert4 description </></div>", Date = "22.04.2022"},
+                    Description = "<div class=\"text-break\"> Concert4 description </></div>", Date = new DateTime(2022,04,22)},
                 new Event {Id = 5, Category = categories[2], Name = "Sports1", Venue = venues[9], Banner = "Foot1.jpg",
-                    Description = "<div class=\"text-break\"> Sports1 description </></div>", Date = "22.05.2022"},
+                    Description = "<div class=\"text-break\"> Sports1 description </></div>", Date = new DateTime(2022,05,22)},
                 new Event {Id = 6, Category = categories[2], Name = "Sports2", Venue = venues[10], Banner = "Foot2.jpg",
-                    Description = "<div class=\"text-break\"> Sports2 description </></div>", Date = "22.06.2022"},
+                    Description = "<div class=\"text-break\"> Sports2 description </></div>", Date = new DateTime(2022,06,22)},
                 new Event {Id = 7, Category = categories[3], Name = "Exhibition1", Venue = venues[11], Banner = "Exhibition1.jpg",
-                    Description = "<div class=\"text-break\"> Exhibition1 description </></div>", Date = "22.07.2022"},
+                    Description = "<div class=\"text-break\"> Exhibition1 description </></div>", Date = new DateTime(2022,07,22)},
             };
         }
 

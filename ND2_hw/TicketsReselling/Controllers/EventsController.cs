@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using TicketsReselling.Business;
 using TicketsReselling.Business.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Models;
-using static TicketsReselling.Models.EventWithTicketsViewModel;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TicketsReselling.Controllers
 {
@@ -20,17 +17,23 @@ namespace TicketsReselling.Controllers
         private readonly UsersRepository usersRepository;
         private readonly EventsRepository eventsRepository;
         private readonly OrdersRepository orderRepository;
+        private readonly IStringLocalizer<EventsController> stringLocalizer;
 
-        public EventsController(TicketsRepository ticketsRepository, UsersRepository usersRepository, EventsRepository eventsRepository, OrdersRepository orderRepository)
+        public EventsController(TicketsRepository ticketsRepository, UsersRepository usersRepository
+            , EventsRepository eventsRepository, OrdersRepository orderRepository
+            , IStringLocalizer<EventsController> stringLocalizer)
         {
             this.ticketsRepository = ticketsRepository;
             this.usersRepository = usersRepository;
             this.eventsRepository = eventsRepository;
             this.orderRepository = orderRepository;
+            this.stringLocalizer = stringLocalizer;
         }
 
         public IActionResult Index(int categoryId)
         {
+            ViewData["Title"] = stringLocalizer["eventpagetitle"];
+
             ViewBag.categoryId = categoryId;
             ViewBag.categoryName = eventsRepository.GetCategoryById(categoryId).Name;
 
@@ -73,8 +76,7 @@ namespace TicketsReselling.Controllers
             return View(model);
         }
 
-        [Authorize(Roles ="Administrator")]
-
+        [Authorize(Roles =UserRoles.Administrator)]
         public IActionResult AddEvent()
         {
             ViewBag.categories = eventsRepository.GetCategories();
@@ -82,6 +84,7 @@ namespace TicketsReselling.Controllers
             return View();
         }
 
+        [Authorize(Roles = UserRoles.Administrator)]
         [HttpPost]
         public  IActionResult AddEvent(AddEventViewModel newEvent)
         {

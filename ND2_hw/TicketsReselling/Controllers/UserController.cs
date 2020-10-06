@@ -8,16 +8,20 @@ using TicketsReselling.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Localization;
 
 namespace TicketsReselling.Controllers
 {
     public class UserController : Controller
     {
         private readonly UsersRepository usersRepository;
+        private readonly IStringLocalizer<UserController> stringLocalizer;
 
-        public UserController(UsersRepository usersRepository)
+
+        public UserController(UsersRepository usersRepository, IStringLocalizer<UserController> stringLocalizer)
         {
             this.usersRepository = usersRepository;
+            this.stringLocalizer = stringLocalizer;
         }
 
         public IActionResult Login(string returnUrl)
@@ -32,16 +36,28 @@ namespace TicketsReselling.Controllers
         {
             var user = usersRepository.GetUserByUserName(loginModel.UserName);
 
-            if (user==null)
+            if (String.IsNullOrEmpty(loginModel.UserName))
             {
-                ModelState.AddModelError(nameof(loginModel.UserName), "User not found");
-                return View();
+                ModelState.AddModelError(nameof(loginModel.UserName), stringLocalizer["FieldIsRequired"]);
+                return View(loginModel);
+            }
+
+            if (user == null)
+            {
+                ModelState.AddModelError(nameof(loginModel.UserName), stringLocalizer["UserNotFound"]);
+                return View(loginModel);
+            }
+
+            if (String.IsNullOrEmpty(loginModel.Password))
+            {
+                ModelState.AddModelError(nameof(loginModel.Password), stringLocalizer["FieldIsRequired"]);
+                return View(loginModel);
             }
 
             if (!user.Password.Equals(loginModel.Password))
             {
-                ModelState.AddModelError(nameof(loginModel.UserName), "Wrong password");
-                return View();
+                ModelState.AddModelError(nameof(loginModel.Password), stringLocalizer["WrongPassword"]);
+                return View(loginModel);
             }
 
             var claims = new List<Claim>
@@ -56,7 +72,7 @@ namespace TicketsReselling.Controllers
 
             if (!String.IsNullOrEmpty(returnUrl))
             {
-                return Redirect(returnUrl);
+                return LocalRedirect(returnUrl);
             }
 
             return RedirectToAction("Index", "Home");

@@ -17,5 +17,9 @@ namespace TicketsReselling.Business.Models
         public string UserName { get; set; }
         public string Password { get; set; }
 
+        public static string GetFullName (User user)
+        {
+            return $"{user?.FirstName} {user?.SecondName}";
+        }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketsReselling.Business;
 using TicketsReselling.Business.Models;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace TicketsReselling
 {
@@ -28,7 +29,15 @@ namespace TicketsReselling
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
+            services.AddLocalization(opts =>
+            {
+                opts.ResourcesPath = "Resources";
+            });
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(opts =>
@@ -66,6 +75,13 @@ namespace TicketsReselling
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            var localizationoptions = new RequestLocalizationOptions()
+                .SetDefaultCulture(Locales.SupportedLocales[0])
+                .AddSupportedCultures(Locales.SupportedLocales)
+                .AddSupportedUICultures(Locales.SupportedLocales);
+
+            app.UseRequestLocalization(localizationoptions);
 
             app.UseRouting();
 
