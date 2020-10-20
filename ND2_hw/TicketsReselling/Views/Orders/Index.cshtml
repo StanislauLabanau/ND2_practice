@@ -1,0 +1,126 @@
+﻿@model OrderViewModel
+@using TicketsReselling.Business.Enums;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "MyOrders";
+}
+
+<h2>@Localizer["MyOrders"]</h2>
+
+<div class="container-fluid pt-2">
+    <div class="row pt-2 mb-2" style="border-bottom-style:groove">
+        <div class="col-md-3 text-center">
+            @Localizer["Event"]
+        </div>
+        <div class="col-md-2 text-center">
+            @Localizer["EventDate"]
+        </div>
+        <div class="col-md-2 text-center">
+            @Localizer["Price"]
+        </div>
+        <div class="col-md-3 text-center">
+            @Localizer["Seller"]
+        </div>
+        <div class="col-md-2 text-center">
+            @Localizer["Actions"]
+        </div>
+    </div>
+    <div class="col-md-12 pt-2 text-center" style="text-decoration: underline">
+        @Localizer["WaitingForConfirmation"]
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            @Localizer["NoOrders"]
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate.ToShortDateString()
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+            </div>
+            <div class="col-md-1 text-center">
+                @Html.ActionLink(Localizer["Cancel"].Value.ToString(), "CancelOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+    <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
+        @Localizer["Confirmed"]
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Confirmed).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            @Localizer["NoOrders"]
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Confirmed))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate.ToShortDateString()
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink(Localizer["Info"].Value.ToString(), "OrderTrackingInfo", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink(Localizer["Close"].Value.ToString(), "ConfirmOrderReceiving", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+    <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
+        @Localizer["Rejected"]
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Rejected).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            @Localizer["NoOrders"]
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Rejected))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate.ToShortDateString()
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+            </div>
+            <div class="col-md-1 text-center">
+                @Html.ActionLink(Localizer["Delete"].Value.ToString(), "DeleteOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+</div>
+

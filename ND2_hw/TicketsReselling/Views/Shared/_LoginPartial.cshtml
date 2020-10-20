@@ -1,0 +1,42 @@
+﻿@using TicketsReselling.Business.Models
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<ul class="navbar-nav flex-grow-1">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <span class="navbar-text">@Localizer["Hello"], @User.Identity.Name!</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">@Localizer["Logout"]</a>
+        </li>
+
+        if (User.IsInRole(UserRoles.User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">@Localizer["MyTickets"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">@Localizer["MyOrders"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="UserInfo" asp-action="Index">@Localizer["MyProfile"]</a>
+            </li>
+        }
+
+        if (User.IsInRole(UserRoles.Administrator))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="AddEvent">@Localizer["AddEvent"]</a>
+            </li>
+        }
+    }
+
+    else
+    {
+        <li class="nav-item">
+            @*<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login" >@Localizer["Login"]</a>*@
+            @Html.ActionLink(@Localizer["Login"].Value.ToString(), "Login", "User", new {returnUrl = Context.Request.Path })
+        </li>
+    }
+</ul>

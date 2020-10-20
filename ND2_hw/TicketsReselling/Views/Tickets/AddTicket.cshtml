@@ -1,0 +1,33 @@
+﻿@model TicketsReselling.Models.AddTicketViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "AddTicket";
+}
+
+<h3>@Localizer["AddingTicket"]</h3>
+<h3>@ViewBag.EventName</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTicket">
+            <input type="hidden" value="@ViewBag.EventId" name="eventId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Localizer["Price"]</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["Notes"]</label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Add"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,18 @@
+﻿@using TicketsReselling.Business.Models
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<ul class="navbar-nav flex-grow-2">
+    @if (System.Globalization.CultureInfo.CurrentCulture.Name == Locales.SupportedLocales[0])
+    {
+        <li class="nav-item">
+            @Html.ActionLink("RU", "SetLanguage", "Language", new { locale = Locales.SupportedLocales[1], returnUrl = Context.Request.Path, queryString = Context.Request.QueryString.Value })
+        </li>
+    }
+
+    else if (System.Globalization.CultureInfo.CurrentCulture.Name == Locales.SupportedLocales[1])
+    {
+        <li class="nav-item">
+            @Html.ActionLink("EN", "SetLanguage", "Language", new { locale = Locales.SupportedLocales[0], returnUrl = Context.Request.Path, queryString = Context.Request.QueryString.Value })
+        </li>
+    }
+</ul>

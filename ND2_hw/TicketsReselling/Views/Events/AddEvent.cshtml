@@ -1,0 +1,61 @@
+﻿@model TicketsReselling.Models.AddEventViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "AddEvent";
+}
+
+<h1>@Localizer["AddEvent"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddEvent" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Localizer["Category"]</label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in ViewBag.categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["Name"]</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["Date"]</label>
+                <input asp-for="Date" type="date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["Venue"]</label>
+                <select asp-for="VenueId" class="form-control">
+                    @foreach (var venue in ViewBag.venues)
+                    {
+                        <option value="@venue.Id">@venue.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="VenueId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p>@Localizer["Banner"]</p>
+                <input asp-for="Banner" type="file" class="card-text" />
+                <span asp-validation-for="Banner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Localizer["Description"]</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
