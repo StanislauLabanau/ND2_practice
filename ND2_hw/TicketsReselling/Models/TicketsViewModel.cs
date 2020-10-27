@@ -15,7 +15,7 @@ namespace TicketsReselling.Models
     public class TicketView
     {
         public int TicketId{ get; set; }
-        public TicketStatuses TicketStatus{ get; set; }
+        public int TicketStatus{ get; set; }
         public string BuyerName  { get; set; }
         public int BuyerId  { get; set; }
         public decimal TicketPrice { get; set; }

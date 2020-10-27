@@ -13,6 +13,11 @@
     <Folder Include="wwwroot\Public\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TicketsReselling.Core\TicketsReselling.Core.csproj" />
+    <ProjectReference Include="..\TicketsReselling.DAL\TicketsReselling.DAL.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

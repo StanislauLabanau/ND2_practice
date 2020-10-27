@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 using TicketsReselling.Business;
 using TicketsReselling.Business.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
+using TicketsReselling.Core;
+using TicketsReselling.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace TicketsReselling
 {
@@ -54,10 +57,18 @@ namespace TicketsReselling
                 opts.AddPolicy("Administrator", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Administrator));
             });
 
-            services.AddSingleton<EventsRepository>();
+            services.AddScoped<EventsService>();
+            services.AddScoped<OrdersService>();
+            services.AddScoped<TicketsService>();
+            services.AddScoped<VenuesService>();
+            services.AddScoped<CitiesService>();
             services.AddSingleton<UsersRepository>();
-            services.AddSingleton<TicketsRepository>();
-            services.AddSingleton<OrdersRepository>();
+
+            services.AddDbContext<TicketsResellingContext>(o =>
+            {
+                o.UseSqlServer(Configuration.GetConnectionString("TicketResellingConnection"))
+                    .EnableSensitiveDataLogging();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

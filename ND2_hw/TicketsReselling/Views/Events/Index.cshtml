@@ -12,7 +12,7 @@
     </select>
     <input type="submit" value=@Localizer["Apply"] class="btn btn-primary" />
 </form>
-@if (ViewBag.categoryId == 0)
+@if (ViewBag.categoryId == 1)
 {
     @foreach (var category in Model.Categories)
     {
@@ -50,7 +50,7 @@ else
                         <h3>@eventItem.Name</h3>
                         <h4><b>@eventItem.Venue.City.Name</b></h4>
                         <h4><b>@eventItem.Venue.Name</b></h4>
-                        <h4><b>@eventItem.Date</b></h4>
+                        <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
                         @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
                     </div>
                 </div>

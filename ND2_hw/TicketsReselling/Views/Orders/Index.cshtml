@@ -30,14 +30,14 @@
         @Localizer["WaitingForConfirmation"]
     </div>
 
-    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation).Count() == 0)
+    @if (Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.WaitingForConfirmation).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
             @Localizer["NoOrders"]
         </div>
     }
 
-    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation))
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.WaitingForConfirmation))
     {
         <div class="row">
             <div class="col-md-3 text-center">
@@ -61,14 +61,14 @@
         @Localizer["Confirmed"]
     </div>
 
-    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Confirmed).Count() == 0)
+    @if (Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.Confirmed).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
             @Localizer["NoOrders"]
         </div>
     }
 
-    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Confirmed))
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.Confirmed))
     {
         <div class="row">
             <div class="col-md-3 text-center">
@@ -95,14 +95,14 @@
         @Localizer["Rejected"]
     </div>
 
-    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Rejected).Count() == 0)
+    @if (Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.Rejected).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
             @Localizer["NoOrders"]
         </div>
     }
 
-    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Rejected))
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.Rejected))
     {
         <div class="row">
             <div class="col-md-3 text-center">

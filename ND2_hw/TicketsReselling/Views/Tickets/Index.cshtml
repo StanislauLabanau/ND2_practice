@@ -30,14 +30,14 @@
         @Localizer["WaitingForConfirmation"]
     </div>
 
-    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.WaitingForConfirmation).Count() == 0)
+    @if (Model.Tickets.Where(t => t.TicketStatus == (int)TicketStatuses.WaitingForConfirmation).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
             @Localizer["NoTickets"]
         </div>
     }
 
-    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.WaitingForConfirmation))
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == (int)TicketStatuses.WaitingForConfirmation))
     {
         <div class="row">
             <div class="col-md-3 text-center">
@@ -64,14 +64,14 @@
         @Localizer["Selling"]
     </div>
 
-    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Selling).Count() == 0)
+    @if (Model.Tickets.Where(t => t.TicketStatus == (int)TicketStatuses.Selling).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
             @Localizer["NoTickets"]
         </div>
     }
 
-    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Selling))
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == (int)TicketStatuses.Selling))
     {
         <div class="row">
             <div class="col-md-3 text-center">
@@ -95,14 +95,14 @@
         @Localizer["Sold"]
     </div>
 
-    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Sold).Count() == 0)
+    @if (Model.Tickets.Where(t => t.TicketStatus == (int)TicketStatuses.Sold).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
             @Localizer["NoTickets"]
         </div>
     }
 
-    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.Sold))
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == (int)TicketStatuses.Sold))
     {
         <div class="row">
             <div class="col-md-3 text-center">

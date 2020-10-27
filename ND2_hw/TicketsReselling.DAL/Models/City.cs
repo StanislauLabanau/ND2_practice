@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TicketsReselling.Business.Models
+namespace TicketsReselling.DAL.Models
 {
     public class City
     {
