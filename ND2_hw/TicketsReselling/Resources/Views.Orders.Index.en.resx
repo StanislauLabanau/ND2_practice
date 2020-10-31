@@ -113,7 +113,7 @@
     <value>ACTIONS</value>
   </data>
   <data name="WaitingForConfirmation" xml:space="preserve">
-    <value>Waiting for confirmation</value>
+    <value>Waiting for seller confirmation</value>
   </data>
   <data name="NoOrders" xml:space="preserve">
     <value>No orders</value>
@@ -138,5 +138,8 @@
   </data>
   <data name="MyOrders" xml:space="preserve">
     <value>My orders</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
   </data>
 </root>

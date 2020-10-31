@@ -48,13 +48,18 @@ namespace TicketsReselling.Controllers
             foreach (var ticket in userTickets)
             {
                 var ticketEvent = await eventsService.GetEventById(ticket.EventId);
-                var ticketOrder = await ordersService.GetOrderByTicketId(ticket.Id);
+                var ticketOrder = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id,
+                    (int) OrderStatuses.WaitingForConfirmation,
+                    (int) OrderStatuses.Confirmed,
+                    (int) OrderStatuses.Completed);
                 int buyerId = 0;
+                int orderId = 0;
                 string buyerName = null;
 
                 if(ticketOrder!=null)
                 {
                     buyerId = ticketOrder.UserId;
+                    orderId = ticketOrder.Id;
                     buyerName = usersRepository.GetUserById(buyerId).UserName;
                 }
 
@@ -66,9 +71,11 @@ namespace TicketsReselling.Controllers
                         TicketStatus = ticket.Status,
                         BuyerName = buyerName,
                         BuyerId = buyerId,
+                        OrderId = orderId,
                         EventName = ticketEvent.Name,
                         EventId = ticket.EventId,
                         EventDate = ticketEvent.Date,
+                        OrderTrackingNumber = ticketOrder?.TrackingNumber
                     }
                 );
             };
@@ -108,7 +115,8 @@ namespace TicketsReselling.Controllers
 
         public async Task<IActionResult> RemoveTicket(int ticketId)
         {
-            await ticketsService.RemoveTicket(ticketId);
+            var ticket = await ticketsService.GetTicketById(ticketId);
+            await ticketsService.ChangeTicketStatus(ticket, (int) TicketStatuses.Removed);
 
             return View("InstructionTicketDeleted");
         }
@@ -116,9 +124,9 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> ConfirmOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketId(ticketId);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.WaitingForConfirmation);
 
-            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Sold);
+            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.WaitingForReceivingConfirmation);
             await ordersService.ChangeOrderStatus(order, (int)OrderStatuses.Confirmed);
 
             return View("InstructionOrderConfirmed");
@@ -127,12 +135,28 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RejectOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketId(ticket.Id);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.WaitingForConfirmation);
 
             await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Selling);
             await ordersService.ChangeOrderStatus(order, (int)OrderStatuses.Rejected);
 
             return View("InstructionOrderRejected");
+        }
+
+        public IActionResult AddTracking(int ticketId)
+        {
+            ViewBag.ticketId = ticketId;
+            
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddTracking(AddTrackingViewModel tracking)
+        {
+            var ticket = await ticketsService.GetTicketById(tracking.TicketId);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.Confirmed);
+            await ordersService.ChangeOrderTracking(order, tracking.TrackingNumber);
+
+            return View("InstructionTrackingAdded");
         }
     }
 }

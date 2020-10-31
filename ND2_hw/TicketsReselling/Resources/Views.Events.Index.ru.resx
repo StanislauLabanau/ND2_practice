@@ -129,4 +129,7 @@
   <data name="ShowTickets" xml:space="preserve">
     <value>Показать билеты</value>
   </data>
+  <data name="RemoveEvent" xml:space="preserve">
+    <value>Удалить событие</value>
+  </data>
 </root>

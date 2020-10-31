@@ -117,58 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>ДЕЙСТВИЯ</value>
+  <data name="NoTrackingNumberInfo" xml:space="preserve">
+    <value>Tracking number is not provided yet. You may contact the seller</value>
   </data>
-  <data name="AddTrack" xml:space="preserve">
-    <value>Добавить трек</value>
-  </data>
-  <data name="Buyer" xml:space="preserve">
-    <value>ПОКУПАТЕЛЬ</value>
-  </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>Подтв</value>
-  </data>
-  <data name="Event" xml:space="preserve">
-    <value>СОБЫТИЕ</value>
-  </data>
-  <data name="EventDate" xml:space="preserve">
-    <value>ДАТА СОБЫТИЯ</value>
-  </data>
-  <data name="MyTickets" xml:space="preserve">
-    <value>Мои билеты</value>
-  </data>
-  <data name="NoBuyerYet" xml:space="preserve">
-    <value>Нет покупателя</value>
-  </data>
-  <data name="NoTickets" xml:space="preserve">
-    <value>Нет билетов</value>
-  </data>
-  <data name="PriceUSD" xml:space="preserve">
-    <value>Цена (USD)</value>
-  </data>
-  <data name="Reject" xml:space="preserve">
-    <value>Отказать</value>
-  </data>
-  <data name="Selling" xml:space="preserve">
-    <value>Продаются</value>
-  </data>
-  <data name="Sold" xml:space="preserve">
-    <value>Проданы</value>
-  </data>
-  <data name="WaitingForConfirmation" xml:space="preserve">
-    <value>Ожидают подтверждения</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
-  <data name="WaitingForReceivingConfirmation" xml:space="preserve">
-    <value>Ожидают подтверждения получения покупателем</value>
-  </data>
-  <data name="Info" xml:space="preserve">
-    <value>Детали</value>
-  </data>
-  <data name="ChangeTrack" xml:space="preserve">
-    <value>Изм</value>
+  <data name="TrackingNunberInfo" xml:space="preserve">
+    <value>Tracking number of this order is </value>
   </data>
 </root>

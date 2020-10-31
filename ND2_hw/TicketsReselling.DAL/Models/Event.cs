@@ -16,6 +16,7 @@ namespace TicketsReselling.DAL.Models
         public int VenueId { get; set; }
         public DateTime Date { get; set; }
         public string Banner { get; set; }
+        public int Status { get; set; }
         public string Description { get; set; }
     }
 }

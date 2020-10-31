@@ -8,7 +8,9 @@ namespace TicketsReselling.Business.Enums
     public enum TicketStatuses
     {
         WaitingForConfirmation,
+        WaitingForReceivingConfirmation,
         Selling,
         Sold,
+        Removed
     }
 }

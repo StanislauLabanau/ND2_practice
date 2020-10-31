@@ -1,0 +1,16 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "TrackingNumberInfo";
+}
+
+@if (string.IsNullOrEmpty(ViewBag.trackingNumber))
+{
+    <h4>@Localizer["NoTrackingNumberInfo"]</h4>
+}
+else
+{
+    <h4>@Localizer["TrackingNunberInfo"]</h4>
+    <h4>@ViewBag.trackingNumber</h4>
+}
+

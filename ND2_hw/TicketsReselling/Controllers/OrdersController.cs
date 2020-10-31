@@ -83,7 +83,6 @@ namespace TicketsReselling.Controllers
                 TicketId = ticket.Id,
                 Status = (int)OrderStatuses.WaitingForConfirmation,
                 UserId = usersRepository.GetUserByUserName(User.Identity.Name).Id,
-                TrackingNumber = "No tracking number yet"
             });
 
             return View("InstructionOrderAdded");
@@ -95,9 +94,37 @@ namespace TicketsReselling.Controllers
             var ticket = await ticketsService.GetTicketById(order.TicketId);
 
             await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Selling);
-            await ordersService.RemoveOrder(orderId);
+            await ordersService.ChangeOrderStatus(order, (int) OrderStatuses.Cancelled);
 
             return View("InstructionOrderCanceled");
+        }
+
+        public async Task<IActionResult> TrackingInfo(int orderId)
+        {
+            ViewBag.trackingNumber = (await ordersService.GetOrerById(orderId))?.TrackingNumber;
+
+            return View("TrackingNumberInfo");
+        }
+
+        public async Task<IActionResult> ConfirmOrderReceiving(int orderId)
+        {
+            var order = await ordersService.GetOrerById(orderId);
+            var ticket = await ticketsService.GetTicketById(order.TicketId);
+
+            await ordersService.ChangeOrderStatus(order, (int) OrderStatuses.Completed);
+            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Sold);
+
+
+            return View("InstructionOrderReceivingConfirmed");
+        }
+
+        public async Task<IActionResult> RemoveOrder(int orderId)
+        {
+            var order = await ordersService.GetOrerById(orderId);
+
+            await ordersService.ChangeOrderStatus(order, (int)OrderStatuses.Removed);
+
+            return View("InstructionOrderRemoved");
         }
     }
 }

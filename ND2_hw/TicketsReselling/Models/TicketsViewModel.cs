@@ -21,6 +21,8 @@ namespace TicketsReselling.Models
         public decimal TicketPrice { get; set; }
         public string EventName { get; set; }
         public int EventId { get; set; }
+        public int OrderId { get; set; }
+        public string OrderTrackingNumber { get; set; }
         public DateTime EventDate { get; set; }
     }
 }

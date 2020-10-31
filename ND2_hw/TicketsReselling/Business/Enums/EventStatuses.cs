@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 
 namespace TicketsReselling.Business.Enums
 {
-    public enum OrderStatuses
+    public enum EventStatuses
     {
-        WaitingForConfirmation,
-        Confirmed,
-        Rejected,
-        Removed,
+        Current,
+        Expired,
         Cancelled,
-        Completed
+        Removed
     }
 }

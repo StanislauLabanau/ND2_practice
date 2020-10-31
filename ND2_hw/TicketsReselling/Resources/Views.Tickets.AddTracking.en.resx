@@ -97,7 +97,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InstructionEventAdded" xml:space="preserve">
-    <value>Вы добавили событие. Теперь его можно увидеть в разделе "События"</value>
+  <data name="EnterTracking" xml:space="preserve">
+    <value>Enter tracking number</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="AddingTrecking" xml:space="preserve">
+    <value>Adding tracking number</value>
   </data>
 </root>

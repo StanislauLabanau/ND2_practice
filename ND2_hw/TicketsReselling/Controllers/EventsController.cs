@@ -51,7 +51,7 @@ namespace TicketsReselling.Controllers
             var model = new EventsViewModel
             {
                 Categories = await eventsService.GetCategories(),
-                Events = await eventsService.GetEvents()
+                Events = await eventsService.GetEventsByStatus((int) EventStatuses.Current)
             };
 
             foreach (Event eventItem in model.Events)
@@ -94,7 +94,7 @@ namespace TicketsReselling.Controllers
             return View(model);
         }
 
-        [Authorize(Roles =UserRoles.Administrator)]
+        [Authorize(Roles = UserRoles.Administrator)]
         public async Task<IActionResult> AddEvent()
         {
             ViewBag.categories = await eventsService.GetCategories();
@@ -124,6 +124,15 @@ namespace TicketsReselling.Controllers
             }
 
             return View("Index");
+        }
+
+        [Authorize(Roles = UserRoles.Administrator)]
+        public async Task<IActionResult> RemoveEvent(int eventId)
+        {
+            var eventItem = await eventsService.GetEventById(eventId);
+            await eventsService.ChangeEventStatus(eventItem, (int) EventStatuses.Removed);
+
+            return View("InstructionEventRemoved");
         }
     }
 }

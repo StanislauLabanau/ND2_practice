@@ -1,0 +1,27 @@
+﻿@model TicketsReselling.Models.AddTrackingViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "AddTracking";
+}
+
+<h3>@Localizer["AddingTrecking"]</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTracking">
+            <input type="hidden" value="@ViewBag.TicketId" name="TicketId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Localizer["EnterTracking"]</label>
+                <input asp-for="TrackingNumber" class="form-control" />
+                <span asp-validation-for="TrackingNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Submit"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -28,14 +28,21 @@ namespace TicketsReselling.Core
             return await context.Categories.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Event>> GetEvents()
+        public async Task<IEnumerable<Event>> GetEventsByStatus(int status)
         {
-            return await context.Events.ToListAsync();
+            return await context.Events.Where(e=>e.Status == status).ToListAsync();
         }
 
         public async Task<Event> GetEventById(int id)
         {
             return await context.Events.FindAsync(id);
+        }
+
+        public async Task ChangeEventStatus(Event eventItem, int status)
+        {
+            eventItem.Status = status;
+            context.Events.Update(eventItem);
+            await context.SaveChangesAsync();
         }
 
         public async Task AddEvent(Event newEvent)
@@ -44,7 +51,7 @@ namespace TicketsReselling.Core
             await context.SaveChangesAsync();
         }
 
-        public async void RemoveEvent(int id)
+        public async Task RemoveEvent(int id)
         {
             context.Events.Remove(await GetEventById(id));
             await context.SaveChangesAsync();

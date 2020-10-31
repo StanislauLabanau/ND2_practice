@@ -129,4 +129,7 @@
   <data name="ShowTickets" xml:space="preserve">
     <value>Show tickets</value>
   </data>
+  <data name="RemoveEvent" xml:space="preserve">
+    <value>Remove event</value>
+  </data>
 </root>

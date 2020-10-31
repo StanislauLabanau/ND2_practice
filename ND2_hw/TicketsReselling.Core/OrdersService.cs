@@ -37,14 +37,31 @@ namespace TicketsReselling.Core
             return await userOrders.ToListAsync();
         }
 
-        public async Task<Order> GetOrderByTicketId(int ticketId)
+        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, int status)
         {
-            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId);
+            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && o.Status == status);
+        }
+
+        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, int status, int status1)
+        {
+            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && (o.Status == status || o.Status == status1));
+        }
+
+        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, int status, int status1, int status2)
+        {
+            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && (o.Status == status || o.Status == status1 || o.Status == status2));
         }
 
         public async Task ChangeOrderStatus(Order order, int status)
         {
             order.Status = status;
+            context.Orders.Update(order);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task ChangeOrderTracking(Order order, string trackingNumber)
+        {
+            order.TrackingNumber = trackingNumber;
             context.Orders.Update(order);
             await context.SaveChangesAsync();
         }
