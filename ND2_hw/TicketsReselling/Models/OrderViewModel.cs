@@ -17,7 +17,7 @@ namespace TicketsReselling.Models
         public int OrderId { get; set; }
         public int OrderStatus { get; set; }
         public string SellerName { get; set; }
-        public int SellerId { get; set; }
+        public string SellerId { get; set; }
         public decimal TicketPrice { get; set; }
         public int EventId { get; set; }
         public string EventName { get; set; }

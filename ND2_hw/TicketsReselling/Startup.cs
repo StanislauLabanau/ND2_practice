@@ -1,21 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TicketsReselling.Business;
 using TicketsReselling.Business.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
 using TicketsReselling.Core;
 using TicketsReselling.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling
 {
@@ -36,25 +33,11 @@ namespace TicketsReselling
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
 
+            //services.AddRazorPages();
+
             services.AddLocalization(opts =>
             {
                 opts.ResourcesPath = "Resources";
-            });
-
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-              .AddCookie(opts =>
-              {
-                  opts.LoginPath = "/User/Login";
-                  opts.AccessDeniedPath = "/User/Login";
-                  opts.Cookie.Name = "AuthDemo";
-              });
-
-            services.AddAuthorization(opts =>
-            {
-                opts.AddPolicy("HasRole", policy => policy.RequireClaim(ClaimTypes.Role));
-                opts.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.User));
-                opts.AddPolicy("Administrator", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Administrator));
             });
 
             services.AddScoped<EventsService>();
@@ -62,12 +45,34 @@ namespace TicketsReselling
             services.AddScoped<TicketsService>();
             services.AddScoped<VenuesService>();
             services.AddScoped<CitiesService>();
-            services.AddSingleton<UsersRepository>();
 
             services.AddDbContext<TicketsResellingContext>(o =>
             {
                 o.UseSqlServer(Configuration.GetConnectionString("TicketResellingConnection"))
                     .EnableSensitiveDataLogging();
+            });
+
+            //services.AddIdentity<User, IdentityRole>()
+            //    .AddEntityFrameworkStores<TicketsResellingContext>();
+
+            services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<TicketsResellingContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
             });
         }
 
@@ -101,9 +106,10 @@ namespace TicketsReselling
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

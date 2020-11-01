@@ -30,9 +30,9 @@ namespace TicketsReselling.Core
             return await context.Orders.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByUserId(int userId)
+        public async Task<IEnumerable<Order>> GetOrdersByUserId(string userId)
         {
-            var userOrders = context.Orders.Where(o => o.UserId == userId);
+            var userOrders = context.Orders.Where(o => o.UserId.Equals(userId));
 
             return await userOrders.ToListAsync();
         }

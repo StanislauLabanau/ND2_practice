@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using TicketsReselling.Business;
 using TicketsReselling.Business.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
@@ -20,7 +20,7 @@ namespace TicketsReselling.Controllers
         private readonly TicketsService ticketsService;
         private readonly EventsService eventsService;
         private readonly OrdersService ordersService;
-        private readonly UsersRepository usersRepository;
+        private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
 
@@ -28,20 +28,20 @@ namespace TicketsReselling.Controllers
             TicketsService ticketsService,
             EventsService eventsService,
             OrdersService ordersService,
-            UsersRepository usersRepository,
+            UserManager<User> userManager,
             IStringLocalizer<EventsController> stringLocalizer)
         {
             this.ticketsService = ticketsService;
             this.ordersService = ordersService;
             this.eventsService = eventsService;
-            this.usersRepository = usersRepository;
+            this.userManager = userManager;
             this.stringLocalizer = stringLocalizer;
         }
 
         public async Task<IActionResult> Index()
         {
-            var currentUser = usersRepository.GetUserByUserName(User.Identity.Name);
-            var userTickets = await ticketsService.GetTicketsByUserId(currentUser.Id);
+            var currentUserId = userManager.GetUserId(User);
+            var userTickets = await ticketsService.GetTicketsByUserId(currentUserId);
 
             var myTickets = new List<TicketView> { };
 
@@ -52,7 +52,7 @@ namespace TicketsReselling.Controllers
                     (int) OrderStatuses.WaitingForConfirmation,
                     (int) OrderStatuses.Confirmed,
                     (int) OrderStatuses.Completed);
-                int buyerId = 0;
+                string buyerId = null;
                 int orderId = 0;
                 string buyerName = null;
 
@@ -60,7 +60,7 @@ namespace TicketsReselling.Controllers
                 {
                     buyerId = ticketOrder.UserId;
                     orderId = ticketOrder.Id;
-                    buyerName = usersRepository.GetUserById(buyerId).UserName;
+                    buyerName = (await userManager.FindByIdAsync(buyerId))?.UserName;
                 }
 
                 myTickets.Add(
@@ -102,7 +102,7 @@ namespace TicketsReselling.Controllers
             var ticket = new Ticket
             {
                 EventId = eventId,
-                SellerId = usersRepository.GetUserByUserName(User.Identity.Name).Id,
+                SellerId = userManager.GetUserId(User),
                 Price = ticketModel.Price,
                 SellerNotes = ticketModel.Notes,
                 Status = (int)TicketStatuses.Selling

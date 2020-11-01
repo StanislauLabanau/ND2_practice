@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using TicketsReselling.Business;
 using TicketsReselling.Business.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
@@ -20,28 +20,27 @@ namespace TicketsReselling.Controllers
         private readonly TicketsService ticketsService;
         private readonly EventsService eventsService;
         private readonly OrdersService ordersService;
-        private readonly UsersRepository usersRepository;
+        private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
-
 
         public OrdersController(
             TicketsService ticketsService,
             EventsService eventsService,
             OrdersService ordersService,
-            UsersRepository usersRepository,
+            UserManager<User> userManager,
             IStringLocalizer<EventsController> stringLocalizer)
         {
             this.ticketsService = ticketsService;
             this.ordersService = ordersService;
             this.eventsService = eventsService;
-            this.usersRepository = usersRepository;
+            this.userManager = userManager;
             this.stringLocalizer = stringLocalizer;
         }
 
         public async Task<IActionResult> Index()
         {
-            var currentUser = usersRepository.GetUserByUserName(User.Identity.Name);
-            var userOrders = await ordersService.GetOrdersByUserId(currentUser.Id);
+            var currentUserId = userManager.GetUserId(User);
+            var userOrders = await ordersService.GetOrdersByUserId(currentUserId);
 
             var myOrders = new List<OrderView> { };
 
@@ -56,7 +55,7 @@ namespace TicketsReselling.Controllers
                         OrderId = order.Id,
                         TicketPrice = orderTicket.Price,
                         OrderStatus = order.Status,
-                        SellerName = usersRepository.GetUserById(orderTicket.SellerId)?.UserName,
+                        SellerName = (await userManager.FindByIdAsync(orderTicket.SellerId))?.UserName,
                         SellerId = orderTicket.SellerId,
                         EventId = orderTicket.EventId,
                         EventName = ticketEvent.Name,
@@ -82,7 +81,7 @@ namespace TicketsReselling.Controllers
             {
                 TicketId = ticket.Id,
                 Status = (int)OrderStatuses.WaitingForConfirmation,
-                UserId = usersRepository.GetUserByUserName(User.Identity.Name).Id,
+                UserId = userManager.GetUserId (User)
             });
 
             return View("InstructionOrderAdded");

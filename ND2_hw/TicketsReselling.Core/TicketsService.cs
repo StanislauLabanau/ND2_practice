@@ -29,9 +29,9 @@ namespace TicketsReselling.Core
             return await context.Tickets.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsByUserId(int userId)
+        public async Task<IEnumerable<Ticket>> GetTicketsByUserId(string userId)
         {
-            var userTickets = context.Tickets.Where(t => t.SellerId == userId);
+            var userTickets = context.Tickets.Where(t => t.SellerId.Equals(userId));
 
             return await userTickets.ToListAsync();
         }

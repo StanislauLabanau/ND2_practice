@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using TicketsReselling.Business;
 using TicketsReselling.Business.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
@@ -19,8 +18,8 @@ namespace TicketsReselling.Controllers
         private readonly TicketsService ticketsService;
         private readonly EventsService eventsService;
         private readonly VenuesService venuesService;
-        private readonly CitiesService citiesService;
-        private readonly UsersRepository usersRepository;
+        private readonly CitiesService citiesService; 
+        private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
 
@@ -29,14 +28,14 @@ namespace TicketsReselling.Controllers
             EventsService eventsService,
             VenuesService venuesService,
             CitiesService citiesService,
-            UsersRepository usersRepository,
+            UserManager<User> userManager,
             IStringLocalizer<EventsController> stringLocalizer)
         {
             this.ticketsService = ticketsService;
             this.venuesService = venuesService;
             this.citiesService = citiesService;
             this.eventsService = eventsService;
-            this.usersRepository = usersRepository;
+            this.userManager = userManager;
             this.stringLocalizer = stringLocalizer;
         }
 
@@ -73,7 +72,8 @@ namespace TicketsReselling.Controllers
 
             foreach (var ticket in eventTickets)
             {
-                var seller = usersRepository.GetUserById(ticket.SellerId);
+                var seller = await userManager.FindByIdAsync(ticket.SellerId);
+
                 ticketsList.Add(
                     new EventTickets
                     {
