@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TicketsReselling.DAL.Models
 {
-    public class Order
+    public class Order : IEntity<int>
     {
         public int Id { get; set; }
         public int TicketId { get; set; }

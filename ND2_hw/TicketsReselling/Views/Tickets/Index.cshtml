@@ -50,7 +50,7 @@
                 @ticket.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "Users", new { userId = ticket.BuyerId })
             </div>
             <div class="col-md-1">
                 @Html.ActionLink(Localizer["Confirm"].Value.ToString(), "ConfirmOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
@@ -116,7 +116,7 @@
                 @ticket.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "Users", new { userId = ticket.BuyerId })
             </div>
 
             @if (string.IsNullOrEmpty(ticket.OrderTrackingNumber))
@@ -162,7 +162,7 @@
                 @ticket.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "Users", new { userId = ticket.BuyerId })
             </div>
             <div class="col-md-2">
                 @Html.ActionLink(Localizer["Delete"].Value.ToString(), "RemoveTicket", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })

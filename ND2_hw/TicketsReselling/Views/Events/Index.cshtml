@@ -31,9 +31,9 @@
                             <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
                             @if (User.IsInRole(UserRoles.Administrator))
                             {
-                                @Html.ActionLink(Localizer["RemoveEvent"].Value.ToString(), "RemoveEvent", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink(Localizer["RemoveEvent"].Value.ToString(), "RemoveEvent", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
                             }
-                            @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary pt-1 mb-1" })
                         </div>
                     </div>
                 }

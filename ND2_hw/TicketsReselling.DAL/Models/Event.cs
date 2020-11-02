@@ -6,7 +6,7 @@ using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling.DAL.Models
 {
-    public class Event
+    public class Event : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -25,7 +25,7 @@ namespace TicketsReselling
         private readonly string[] userPasswords;
         private readonly string[] adminPasswords;
 
-        public DataSeeder(TicketsResellingContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager )
+        public DataSeeder(TicketsResellingContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -98,7 +98,7 @@ namespace TicketsReselling
                 //    PhoneNumber="444-44-44", UserName = "Tom", Email = "tom@hogwarts.en"},
             };
 
-            userPasswords = new string[] { "harry123", "ron123", "hermione123"};
+            userPasswords = new string[] { "harry123", "ron123", "hermione123" };
 
             administrators = new List<User>
             {
@@ -122,13 +122,18 @@ namespace TicketsReselling
 
         public async Task SeedDataAsync()
         {
-            //await context.Database.EnsureDeletedAsync();
+            context.Database.EnsureDeleted();
 
-            await context.Database.EnsureCreatedAsync();
+            context.Database.EnsureCreated();
 
             if (await roleManager.FindByNameAsync(UserRoles.Administrator) == null)
             {
                 await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.Administrator });
+            }
+
+            if (await roleManager.FindByNameAsync(UserRoles.User) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.User });
             }
 
             if ((await userManager.GetUsersInRoleAsync(UserRoles.Administrator)).Count() == 0)
@@ -139,13 +144,9 @@ namespace TicketsReselling
                     if (result.Succeeded)
                     {
                         await userManager.AddToRoleAsync(administrators[i], UserRoles.Administrator);
+                        await userManager.AddToRoleAsync(administrators[i], UserRoles.User);
                     }
                 }
-            }
-
-            if (await roleManager.FindByNameAsync(UserRoles.User) == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.User });
             }
 
             if ((await userManager.GetUsersInRoleAsync(UserRoles.User)).Count() == 0)
