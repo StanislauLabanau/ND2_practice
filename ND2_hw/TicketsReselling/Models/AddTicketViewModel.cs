@@ -10,7 +10,6 @@ namespace TicketsReselling.Models
     {
         [Required]
         public int Price { get; set; }
-
         public string Notes { get; set; }
     }
 }

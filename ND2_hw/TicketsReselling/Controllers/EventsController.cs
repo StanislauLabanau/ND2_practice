@@ -22,7 +22,6 @@ namespace TicketsReselling.Controllers
         private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
-
         public EventsController(
             TicketsService ticketsService,
             EventsService eventsService,
@@ -38,7 +37,6 @@ namespace TicketsReselling.Controllers
             this.userManager = userManager;
             this.stringLocalizer = stringLocalizer;
         }
-
 
         public async Task<IActionResult> Index(int categoryId=1)
         {

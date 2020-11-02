@@ -23,7 +23,6 @@ namespace TicketsReselling.Controllers
         private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
-
         public TicketsController(
             TicketsService ticketsService,
             EventsService eventsService,
@@ -42,7 +41,6 @@ namespace TicketsReselling.Controllers
         {
             var currentUserId = userManager.GetUserId(User);
             var userTickets = await ticketsService.GetTicketsByUserId(currentUserId);
-
             var myTickets = new List<TicketView> { };
 
             foreach (var ticket in userTickets)
@@ -154,6 +152,7 @@ namespace TicketsReselling.Controllers
         {
             var ticket = await ticketsService.GetTicketById(tracking.TicketId);
             var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.Confirmed);
+
             await ordersService.ChangeOrderTracking(order, tracking.TrackingNumber);
 
             return View("InstructionTrackingAdded");

@@ -41,7 +41,6 @@ namespace TicketsReselling.Controllers
         {
             var currentUserId = userManager.GetUserId(User);
             var userOrders = await ordersService.GetOrdersByUserId(currentUserId);
-
             var myOrders = new List<OrderView> { };
 
             foreach (var order in userOrders)
@@ -112,7 +111,6 @@ namespace TicketsReselling.Controllers
 
             await ordersService.ChangeOrderStatus(order, (int) OrderStatuses.Completed);
             await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Sold);
-
 
             return View("InstructionOrderReceivingConfirmed");
         }

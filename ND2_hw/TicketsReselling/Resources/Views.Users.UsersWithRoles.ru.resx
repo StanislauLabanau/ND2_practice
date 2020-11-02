@@ -97,34 +97,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UserProfile" xml:space="preserve">
-    <value>User profile</value>
+  <data name="UserRoles" xml:space="preserve">
+    <value>ПРАВА ПОЛЬЗОВАТЕЛЯ</value>
   </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>First name</value>
+  <data name="UserName" xml:space="preserve">
+    <value>ИМЯ ПОЛЬЗОВАТЕЛЯ</value>
   </data>
-  <data name="SecondName" xml:space="preserve">
-    <value>Second name</value>
-  </data>
-  <data name="Location" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="Addres" xml:space="preserve">
-    <value>Addres</value>
-  </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>Phone number</value>
-  </data>
-  <data name="Role" xml:space="preserve">
-    <value>Role</value>
-  </data>
-  <data name="UserId" xml:space="preserve">
-    <value>User id</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
+  <data name="UsersList" xml:space="preserve">
+    <value>Список пользователей</value>
   </data>
 </root>

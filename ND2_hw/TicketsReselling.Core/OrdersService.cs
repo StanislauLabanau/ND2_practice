@@ -77,7 +77,5 @@ namespace TicketsReselling.Core
             context.Orders.Remove(await GetOrerById(id));
             await context.SaveChangesAsync();
         }
-
-
     }
 }

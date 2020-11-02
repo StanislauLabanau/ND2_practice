@@ -94,8 +94,6 @@ namespace TicketsReselling
                 new User {FirstName = "Hermione", SecondName ="Granger", Localization = "England", Address = "Address3",
                     PhoneNumber="333-33-33", UserName = "hermione@hogwarts.en", Email = "hermione@hogwarts.en", EmailConfirmed = true},
 
-                //new User {FirstName = "Tom", SecondName ="Riddle", Localization = "England", Address = "Address4",
-                //    PhoneNumber="444-44-44", UserName = "Tom", Email = "tom@hogwarts.en"},
             };
 
             userPasswords = new string[] { "harry123", "ron123", "hermione123" };
@@ -122,8 +120,6 @@ namespace TicketsReselling
 
         public async Task SeedDataAsync()
         {
-            context.Database.EnsureDeleted();
-
             context.Database.EnsureCreated();
 
             if (await roleManager.FindByNameAsync(UserRoles.Administrator) == null)
@@ -144,7 +140,6 @@ namespace TicketsReselling
                     if (result.Succeeded)
                     {
                         await userManager.AddToRoleAsync(administrators[i], UserRoles.Administrator);
-                        await userManager.AddToRoleAsync(administrators[i], UserRoles.User);
                     }
                 }
             }

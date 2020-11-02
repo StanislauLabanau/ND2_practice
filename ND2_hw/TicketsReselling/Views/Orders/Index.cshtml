@@ -7,7 +7,6 @@
 }
 
 <h2>@Localizer["MyOrders"]</h2>
-
 <div class="container-fluid pt-2">
     <div class="row pt-2 mb-2" style="border-bottom-style:groove">
         <div class="col-md-3 text-center">
@@ -26,11 +25,9 @@
             @Localizer["Actions"]
         </div>
     </div>
-
     <div class="col-md-12 pt-2 text-center" style="text-decoration: underline">
         @Localizer["WaitingForConfirmation"]
     </div>
-
     @if (Model.Orders.Where(t => t.OrderStatus == (int)OrderStatuses.WaitingForConfirmation).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">

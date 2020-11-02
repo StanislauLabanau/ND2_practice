@@ -52,9 +52,6 @@ namespace TicketsReselling
                     .EnableSensitiveDataLogging();
             });
 
-            //services.AddIdentity<User, IdentityRole>()
-            //    .AddEntityFrameworkStores<TicketsResellingContext>();
-
             services.AddDefaultIdentity<User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<TicketsResellingContext>();
