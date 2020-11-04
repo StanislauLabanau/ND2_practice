@@ -1,17 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TicketsReselling.Business.Enums;
+using TicketsReselling.Business;
 using TicketsReselling.Business.Models;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Models;
+using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling
 {
     public class DataSeeder
     {
+
         private readonly TicketsResellingContext context;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -33,28 +36,29 @@ namespace TicketsReselling
 
             cities = new List<City>
             {
-                new City {Name = "Tallin"},
-                new City {Name = "Vilnius"},
-                new City {Name = "Riga"},
-                new City {Name = "Warsaw"},
-                new City {Name = "Praga"},
-                new City {Name = "Bratislava"},
+                new City {Name = "All cities", Status = CityStatuses.Avaliable},
+                new City {Name = "Tallin", Status = CityStatuses.Avaliable},
+                new City {Name = "Vilnius", Status = CityStatuses.Avaliable},
+                new City {Name = "Riga", Status = CityStatuses.Avaliable},
+                new City {Name = "Warsaw", Status = CityStatuses.Avaliable},
+                new City {Name = "Praga", Status = CityStatuses.Avaliable},
+                new City {Name = "Bratislava", Status = CityStatuses.Avaliable},
             };
 
             venues = new List<Venue>
             {
-                new Venue {Name = "TallinVenueA", City = cities[0], Address = "TallinVenueAAddres"},
-                new Venue {Name = "TallinVenueB", City = cities[0], Address = "TallinVenueBAddres"},
-                new Venue {Name = "VilniusVenueA", City = cities[1], Address = "VilniusVenueAAddres"},
-                new Venue {Name = "VilniusVenueB", City = cities[1], Address = "VilniusVenueBAddres"},
-                new Venue {Name = "RigaVenueA", City = cities[2], Address = "RigaVenueAAddres"},
-                new Venue {Name = "RigaVenueB", City = cities[2], Address = "RigaVenueBAddres"},
-                new Venue {Name = "WasawVenueA", City = cities[3], Address = "WasawVenueAAddres"},
-                new Venue {Name = "WasawVenueB", City = cities[3], Address = "WasawVenueBAddres"},
-                new Venue {Name = "PragaVenueA", City = cities[4], Address = "PragaVenueAAddres"},
-                new Venue {Name = "PragaVenueB", City = cities[4], Address = "PragaVenueBAddres"},
-                new Venue {Name = "BratislavaVenueA", City = cities[5], Address = "BratislavaVenueAAddres"},
-                new Venue {Name = "BratislavaVenueB", City = cities[5], Address = "BratislavaVenueBAddres"}
+                new Venue {Name = "TallinVenueA", City = cities[1], Address = "TallinVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "TallinVenueB", City = cities[1], Address = "TallinVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "VilniusVenueA", City = cities[2], Address = "VilniusVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "VilniusVenueB", City = cities[2], Address = "VilniusVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "RigaVenueA", City = cities[3], Address = "RigaVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "RigaVenueB", City = cities[3], Address = "RigaVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "WasawVenueA", City = cities[4], Address = "WasawVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "WasawVenueB", City = cities[4], Address = "WasawVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "PragaVenueA", City = cities[5], Address = "PragaVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "PragaVenueB", City = cities[5], Address = "PragaVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "BratislavaVenueA", City = cities[6], Address = "BratislavaVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "BratislavaVenueB", City = cities[6], Address = "BratislavaVenueBAddres", Status = VenueStatuses.Avaliable}
             };
 
             categories = new List<Category>
@@ -67,19 +71,19 @@ namespace TicketsReselling
 
             events = new List<Event>
             {
-                new Event {Category = categories[1], Name = "Concert1", Status = (int) EventStatuses.Current, Venue = venues[0], Banner = "ImagineD1.jpg",
+                new Event {Category = categories[1], Name = "Concert1", Status = EventStatuses.Current, Venue = venues[0], Banner = "ImagineD1.jpg",
                     Description = "<div class=\"text-break\"> Concert1 description </></div>", Date = new DateTime(2022,01,01)},
-                new Event {Category = categories[1], Name = "Concert2", Status = (int) EventStatuses.Current, Venue = venues[1], Banner = "ImagineD2.jpg",
+                new Event {Category = categories[1], Name = "Concert2", Status = EventStatuses.Current, Venue = venues[1], Banner = "ImagineD2.jpg",
                     Description = "<div class=\"text-break\"> Concert2 description </></div>", Date = new DateTime(2022,02,02)},
-                new Event {Category = categories[1], Name = "Concert3", Status = (int) EventStatuses.Current, Venue = venues[3], Banner = "ImagineD3.jpg",
+                new Event {Category = categories[1], Name = "Concert3", Status = EventStatuses.Current, Venue = venues[3], Banner = "ImagineD3.jpg",
                     Description = "<div class=\"text-break\"> Concert3 description </></div>", Date = new DateTime(2022,03,03)},
-                new Event {Category = categories[1], Name = "Concert4", Status = (int) EventStatuses.Current, Venue = venues[4], Banner = "ImagineD4.jpg",
+                new Event {Category = categories[1], Name = "Concert4", Status = EventStatuses.Current, Venue = venues[4], Banner = "ImagineD4.jpg",
                     Description = "<div class=\"text-break\"> Concert4 description </></div>", Date = new DateTime(2022,04,04)},
-                new Event {Category = categories[2], Name = "Sports1", Venue = venues[4], Status = (int) EventStatuses.Current, Banner = "Foot1.jpg",
+                new Event {Category = categories[2], Name = "Sports1", Venue = venues[4], Status = EventStatuses.Current, Banner = "Foot1.jpg",
                     Description = "<div class=\"text-break\"> Sports1 description </></div>", Date = new DateTime(2022,05,05)},
-                new Event {Category = categories[2], Name = "Sports2", Venue = venues[10], Status = (int) EventStatuses.Current, Banner = "Foot2.jpg",
+                new Event {Category = categories[2], Name = "Sports2", Venue = venues[10], Status = EventStatuses.Current, Banner = "Foot2.jpg",
                     Description = "<div class=\"text-break\"> Sports2 description </></div>", Date = new DateTime(2022,06,06)},
-                new Event {Category = categories[3], Name = "Exhibition1", Venue = venues[11], Status = (int) EventStatuses.Current, Banner = "Exhibition1.jpg",
+                new Event {Category = categories[3], Name = "Exhibition1", Venue = venues[11], Status = EventStatuses.Current, Banner = "Exhibition1.jpg",
                     Description = "<div class=\"text-break\"> Exhibition1 description </></div>", Date = new DateTime(2022,07,07)},
             };
 
@@ -108,80 +112,88 @@ namespace TicketsReselling
 
             tickets = new List<Ticket>
             {
-                new Ticket {EventId = 1, Status = (int) TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
-                new Ticket {EventId = 1, Status = (int) TicketStatuses.Selling, Price = 100, Seller = users[0], SellerNotes="Notes" },
-                new Ticket {EventId = 1, Status = (int) TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
-                new Ticket {EventId = 2, Status = (int) TicketStatuses.Selling, Price = 100, Seller = users[1], SellerNotes="Notes" },
-                new Ticket {EventId = 3, Status = (int) TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
-                new Ticket {EventId = 4, Status = (int) TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
-                new Ticket {EventId = 5, Status = (int) TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {EventId = 1, Status = TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
+                new Ticket {EventId = 1, Status = TicketStatuses.Selling, Price = 100, Seller = users[0], SellerNotes="Notes" },
+                new Ticket {EventId = 1, Status = TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
+                new Ticket {EventId = 2, Status = TicketStatuses.Selling, Price = 100, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {EventId = 3, Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {EventId = 4, Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {EventId = 5, Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
             };
         }
 
         public async Task SeedDataAsync()
         {
-            context.Database.EnsureCreated();
+            //context.Database.EnsureDeleted();
+            //context.Database.EnsureCreated();
 
-            if (await roleManager.FindByNameAsync(UserRoles.Administrator) == null)
+            if (await context.Database.CanConnectAsync())
             {
-                await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.Administrator });
-            }
-
-            if (await roleManager.FindByNameAsync(UserRoles.User) == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.User });
-            }
-
-            if ((await userManager.GetUsersInRoleAsync(UserRoles.Administrator)).Count() == 0)
-            {
-                for (int i = 0; i < administrators.Count(); i++)
+                if (await roleManager.FindByNameAsync(UserRoles.Administrator) == null)
                 {
-                    IdentityResult result = await userManager.CreateAsync(administrators[i], adminPasswords[i]);
-                    if (result.Succeeded)
+                    await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.Administrator });
+                }
+
+                if (await roleManager.FindByNameAsync(UserRoles.User) == null)
+                {
+                    await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.User });
+                }
+
+                if ((await userManager.GetUsersInRoleAsync(UserRoles.Administrator)).Count() == 0)
+                {
+                    for (int i = 0; i < administrators.Count(); i++)
                     {
-                        await userManager.AddToRoleAsync(administrators[i], UserRoles.Administrator);
+                        IdentityResult result = await userManager.CreateAsync(administrators[i], adminPasswords[i]);
+                        if (result.Succeeded)
+                        {
+                            await userManager.AddToRoleAsync(administrators[i], UserRoles.Administrator);
+                        }
                     }
                 }
-            }
 
-            if ((await userManager.GetUsersInRoleAsync(UserRoles.User)).Count() == 0)
-            {
-                for (int i = 0; i < users.Count(); i++)
+                if ((await userManager.GetUsersInRoleAsync(UserRoles.User)).Count() == 0)
                 {
-                    IdentityResult result = await userManager.CreateAsync(users[i], userPasswords[i]);
-                    if (result.Succeeded)
+                    for (int i = 0; i < users.Count(); i++)
                     {
-                        await userManager.AddToRoleAsync(users[i], UserRoles.User);
+                        IdentityResult result = await userManager.CreateAsync(users[i], userPasswords[i]);
+                        if (result.Succeeded)
+                        {
+                            await userManager.AddToRoleAsync(users[i], UserRoles.User);
+                        }
                     }
                 }
-            }
 
-            if (!context.Categories.Any())
+                if (!context.Categories.Any())
+                {
+                    await context.Categories.AddRangeAsync(categories);
+                }
+
+                if (!context.Events.Any())
+                {
+                    await context.Events.AddRangeAsync(events);
+                }
+
+                if (!context.Tickets.Any())
+                {
+                    await context.Tickets.AddRangeAsync(tickets);
+                }
+
+                if (!context.Cities.Any())
+                {
+                    await context.Cities.AddRangeAsync(cities);
+                }
+
+                if (!context.Venues.Any())
+                {
+                    await context.Venues.AddRangeAsync(venues);
+                }
+
+                await context.SaveChangesAsync();
+            }
+            else
             {
-                await context.Categories.AddRangeAsync(categories);
+                throw new Exception(AppConstants.NoDBConnection);
             }
-
-            if (!context.Events.Any())
-            {
-                await context.Events.AddRangeAsync(events);
-            }
-
-            if (!context.Tickets.Any())
-            {
-                await context.Tickets.AddRangeAsync(tickets);
-            }
-
-            if (!context.Cities.Any())
-            {
-                await context.Cities.AddRangeAsync(cities);
-            }
-
-            if (!context.Venues.Any())
-            {
-                await context.Venues.AddRangeAsync(venues);
-            }
-
-            await context.SaveChangesAsync();
         }
     }
 }

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TicketsReselling.Business.Enums;
-using TicketsReselling.Business.Models;
+using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.Models
 {
@@ -15,7 +14,7 @@ namespace TicketsReselling.Models
     public class OrderView
     {
         public int OrderId { get; set; }
-        public int OrderStatus { get; set; }
+        public OrderStatuses OrderStatus { get; set; }
         public string SellerName { get; set; }
         public string SellerId { get; set; }
         public decimal TicketPrice { get; set; }

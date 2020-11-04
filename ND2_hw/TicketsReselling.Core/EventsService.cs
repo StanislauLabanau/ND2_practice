@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Models;
+using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.Core
 {
@@ -28,7 +29,7 @@ namespace TicketsReselling.Core
             return await context.Categories.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Event>> GetEventsByStatus(int status)
+        public async Task<IEnumerable<Event>> GetEventsByStatus(EventStatuses status)
         {
             return await context.Events.Where(e=>e.Status == status).ToListAsync();
         }
@@ -38,7 +39,7 @@ namespace TicketsReselling.Core
             return await context.Events.FindAsync(id);
         }
 
-        public async Task ChangeEventStatus(Event eventItem, int status)
+        public async Task ChangeEventStatus(Event eventItem, EventStatuses status)
         {
             eventItem.Status = status;
             context.Events.Update(eventItem);

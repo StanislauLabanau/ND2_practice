@@ -1,0 +1,26 @@
+﻿@model TicketsReselling.DAL.Models.City
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "AddCity";
+}
+
+<h1>@Localizer["AddCity"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddCity">
+            <input type="hidden" value="@TicketsReselling.DAL.Enums.CityStatuses.Avaliable" name="Status" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Localizer["Name"]</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Add"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

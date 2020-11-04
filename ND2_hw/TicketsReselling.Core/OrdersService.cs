@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Models;
+using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.Core
 {
@@ -37,22 +38,22 @@ namespace TicketsReselling.Core
             return await userOrders.ToListAsync();
         }
 
-        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, int status)
+        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, OrderStatuses status)
         {
             return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && o.Status == status);
         }
 
-        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, int status, int status1)
+        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, OrderStatuses status, OrderStatuses status1)
         {
             return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && (o.Status == status || o.Status == status1));
         }
 
-        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, int status, int status1, int status2)
+        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, OrderStatuses status, OrderStatuses status1, OrderStatuses status2)
         {
             return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && (o.Status == status || o.Status == status1 || o.Status == status2));
         }
 
-        public async Task ChangeOrderStatus(Order order, int status)
+        public async Task ChangeOrderStatus(Order order, OrderStatuses status)
         {
             order.Status = status;
             context.Orders.Update(order);

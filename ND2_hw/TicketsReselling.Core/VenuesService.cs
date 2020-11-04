@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketsReselling.DAL;
+using TicketsReselling.DAL.Enums;
 using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling.Core
@@ -27,6 +29,27 @@ namespace TicketsReselling.Core
         public async Task<Venue> GetVenueById(int id)
         {
             return await context.Venues.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Venue>> GetVenuesByStatus(VenueStatuses status)
+        {
+            var venues = context.Venues.Where(v => v.Status == status);
+
+            return await venues.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Venue>> GetVenuesByStatus(VenueStatuses status, VenueStatuses status1)
+        {
+            var venues = context.Venues.Where(v => v.Status == status || v.Status == status1);
+
+            return await venues.ToListAsync();
+        }
+
+        public async Task ChangeVenueStatus(Venue venue, VenueStatuses status)
+        {
+            venue.Status = status;
+            context.Venues.Update(venue);
+            await context.SaveChangesAsync();
         }
 
         public async Task AddVenue(Venue newVenue)

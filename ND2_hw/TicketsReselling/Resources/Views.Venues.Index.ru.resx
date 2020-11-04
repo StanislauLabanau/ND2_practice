@@ -117,22 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Events" xml:space="preserve">
-    <value>События</value>
+  <data name="ACTIONS" xml:space="preserve">
+    <value>ДЕЙСТВИЯ</value>
   </data>
-  <data name="ChooseCategory" xml:space="preserve">
-    <value>Выберите категорию</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="AddCity" xml:space="preserve">
+    <value>Добавить город</value>
+  </data>
+  <data name="ADDRES" xml:space="preserve">
+    <value>АДРЕС</value>
+  </data>
+  <data name="AddVenue" xml:space="preserve">
+    <value>Добавить площадку</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Применить</value>
   </data>
-  <data name="ShowTickets" xml:space="preserve">
-    <value>Показать билеты</value>
+  <data name="Avaliable" xml:space="preserve">
+    <value>Доступно</value>
   </data>
-  <data name="RemoveEvent" xml:space="preserve">
-    <value>Удалить событие</value>
+  <data name="ChooseCity" xml:space="preserve">
+    <value>Выбрать город  </value>
   </data>
-  <data name="AddEvent" xml:space="preserve">
-    <value>Добавить событие</value>
+  <data name="NAME" xml:space="preserve">
+    <value>НАЗВАНИЕ</value>
+  </data>
+  <data name="NotAvaliable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="NoVenues" xml:space="preserve">
+    <value>Площадки отсутствуют</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>СТАТУС</value>
+  </data>
+  <data name="Venues" xml:space="preserve">
+    <value>Площадки</value>
   </data>
 </root>

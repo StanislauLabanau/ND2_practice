@@ -97,31 +97,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Login" xml:space="preserve">
-    <value>Войти</value>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Выйти</value>
+  <data name="AddVenue" xml:space="preserve">
+    <value>Adding venue for city</value>
   </data>
-  <data name="MyTickets" xml:space="preserve">
-    <value>Мои билеты</value>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="MyOrders" xml:space="preserve">
-    <value>Мои заказы</value>
-  </data>
-  <data name="MyProfile" xml:space="preserve">
-    <value>Мой профиль</value>
-  </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Привет</value>
-  </data>
-  <data name="Venues" xml:space="preserve">
-    <value>Площадки</value>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Регистрация</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>Пользователи</value>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
   </data>
 </root>

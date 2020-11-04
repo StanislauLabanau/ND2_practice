@@ -6,9 +6,9 @@ using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling.Models
 {
-    public class EventsViewModel
+    public class VenuesViewModel
     {
-        public IEnumerable<Category> Categories { get; set; }
-        public IEnumerable<Event> Events { get; set; }
+        public IEnumerable<City> Cities { get; set; }
+        public IEnumerable<Venue> Venues { get; set; }
     }
 }

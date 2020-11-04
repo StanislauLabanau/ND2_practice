@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketsReselling.DAL.Enums;
 using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling.DAL.Models
@@ -16,7 +17,7 @@ namespace TicketsReselling.DAL.Models
         public int VenueId { get; set; }
         public DateTime Date { get; set; }
         public string Banner { get; set; }
-        public int Status { get; set; }
+        public EventStatuses Status { get; set; }
         public string Description { get; set; }
     }
 }

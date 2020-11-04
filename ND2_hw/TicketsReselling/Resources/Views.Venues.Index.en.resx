@@ -117,22 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Events" xml:space="preserve">
-    <value>События</value>
+  <data name="ACTIONS" xml:space="preserve">
+    <value>ACTIONS</value>
   </data>
-  <data name="ChooseCategory" xml:space="preserve">
-    <value>Выберите категорию</value>
+  <data name="Venues" xml:space="preserve">
+    <value>Venues</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="ChooseCity" xml:space="preserve">
+    <value>Choose city  </value>
   </data>
   <data name="Apply" xml:space="preserve">
-    <value>Применить</value>
+    <value>Apply</value>
   </data>
-  <data name="ShowTickets" xml:space="preserve">
-    <value>Показать билеты</value>
+  <data name="AddCity" xml:space="preserve">
+    <value>Add city</value>
   </data>
-  <data name="RemoveEvent" xml:space="preserve">
-    <value>Удалить событие</value>
+  <data name="NAME" xml:space="preserve">
+    <value>NAME</value>
   </data>
-  <data name="AddEvent" xml:space="preserve">
-    <value>Добавить событие</value>
+  <data name="ADDRES" xml:space="preserve">
+    <value>ADDRESS</value>
+  </data>
+  <data name="STATUS" xml:space="preserve">
+    <value>STATUS</value>
+  </data>
+  <data name="Avaliable" xml:space="preserve">
+    <value>Avaliable</value>
+  </data>
+  <data name="AddVenue" xml:space="preserve">
+    <value>Add venue</value>
+  </data>
+  <data name="NotAvaliable" xml:space="preserve">
+    <value>Not avaliable</value>
+  </data>
+  <data name="NoVenues" xml:space="preserve">
+    <value>No venues</value>
   </data>
 </root>

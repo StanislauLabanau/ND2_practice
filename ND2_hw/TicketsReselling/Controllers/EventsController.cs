@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using TicketsReselling.Business.Enums;
+using TicketsReselling.DAL.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.Models;
-
 
 namespace TicketsReselling.Controllers
 {
@@ -63,7 +62,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> EventWithTickets(int eventId)
         {
             var currentEvent = await eventsService.GetEventById(eventId);
-            var eventTickets = await ticketsService.GetTicketsByEventIdAndStatus(eventId, (int) TicketStatuses.Selling);
+            var eventTickets = await ticketsService.GetTicketsByEventIdAndStatus(eventId, TicketStatuses.Selling);
             currentEvent.Venue = await venuesService.GetVenueById(currentEvent.VenueId);
             currentEvent.Venue.City = await citiesService.GetCityById(currentEvent.Venue.CityId);
             var ticketsList = new List<EventTickets>();
@@ -96,7 +95,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> AddEvent()
         {
             ViewBag.categories = await eventsService.GetCategories();
-            ViewBag.venues = await venuesService.GetVenues();
+            ViewBag.venues = await venuesService.GetVenuesByStatus(VenueStatuses.Avaliable);
             return View();
         }
 
@@ -128,7 +127,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RemoveEvent(int eventId)
         {
             var eventItem = await eventsService.GetEventById(eventId);
-            await eventsService.ChangeEventStatus(eventItem, (int) EventStatuses.Removed);
+            await eventsService.ChangeEventStatus(eventItem, EventStatuses.Removed);
 
             return View("InstructionEventRemoved");
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.DAL.Models
 {
@@ -12,5 +13,6 @@ namespace TicketsReselling.DAL.Models
         public City City { get; set; }
         public int CityId { get; set; }
         public string Address { get; set; }
+        public VenueStatuses Status { get; set; }
     }
 }

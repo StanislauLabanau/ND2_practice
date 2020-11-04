@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using TicketsReselling.Business.Enums;
+using TicketsReselling.DAL.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
 using TicketsReselling.DAL.Models;
@@ -46,20 +46,8 @@ namespace TicketsReselling.Controllers
             foreach (var ticket in userTickets)
             {
                 var ticketEvent = await eventsService.GetEventById(ticket.EventId);
-                var ticketOrder = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id,
-                    (int) OrderStatuses.WaitingForConfirmation,
-                    (int) OrderStatuses.Confirmed,
-                    (int) OrderStatuses.Completed);
-                string buyerId = null;
-                int orderId = 0;
-                string buyerName = null;
-
-                if(ticketOrder!=null)
-                {
-                    buyerId = ticketOrder.UserId;
-                    orderId = ticketOrder.Id;
-                    buyerName = (await userManager.FindByIdAsync(buyerId))?.UserName;
-                }
+                var ticketOrder = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.WaitingForConfirmation, OrderStatuses.Confirmed, OrderStatuses.Completed);
+                var orderUser = await userManager.FindByIdAsync(ticketOrder?.UserId);
 
                 myTickets.Add(
                     new TicketView
@@ -67,9 +55,9 @@ namespace TicketsReselling.Controllers
                         TicketId = ticket.Id,
                         TicketPrice = ticket.Price,
                         TicketStatus = ticket.Status,
-                        BuyerName = buyerName,
-                        BuyerId = buyerId,
-                        OrderId = orderId,
+                        BuyerName = orderUser?.UserName,
+                        BuyerId = orderUser?.Id,
+                        OrderId = ticketOrder?.Id,
                         EventName = ticketEvent.Name,
                         EventId = ticket.EventId,
                         EventDate = ticketEvent.Date,
@@ -103,7 +91,7 @@ namespace TicketsReselling.Controllers
                 SellerId = userManager.GetUserId(User),
                 Price = ticketModel.Price,
                 SellerNotes = ticketModel.Notes,
-                Status = (int)TicketStatuses.Selling
+                Status = TicketStatuses.Selling
             };
 
             await ticketsService.AddTicket(ticket);
@@ -114,7 +102,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RemoveTicket(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            await ticketsService.ChangeTicketStatus(ticket, (int) TicketStatuses.Removed);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Removed);
 
             return View("InstructionTicketDeleted");
         }
@@ -122,10 +110,10 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> ConfirmOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.WaitingForConfirmation);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int)OrderStatuses.WaitingForConfirmation);
 
-            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.WaitingForReceivingConfirmation);
-            await ordersService.ChangeOrderStatus(order, (int)OrderStatuses.Confirmed);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.WaitingForReceivingConfirmation);
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Confirmed);
 
             return View("InstructionOrderConfirmed");
         }
@@ -133,10 +121,10 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RejectOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.WaitingForConfirmation);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int)OrderStatuses.WaitingForConfirmation);
 
-            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Selling);
-            await ordersService.ChangeOrderStatus(order, (int)OrderStatuses.Rejected);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Selling);
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Rejected);
 
             return View("InstructionOrderRejected");
         }
@@ -144,14 +132,15 @@ namespace TicketsReselling.Controllers
         public IActionResult AddTracking(int ticketId)
         {
             ViewBag.ticketId = ticketId;
-            
+
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddTracking(AddTrackingViewModel tracking)
         {
             var ticket = await ticketsService.GetTicketById(tracking.TicketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int) OrderStatuses.Confirmed);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.Confirmed);
 
             await ordersService.ChangeOrderTracking(order, tracking.TrackingNumber);
 

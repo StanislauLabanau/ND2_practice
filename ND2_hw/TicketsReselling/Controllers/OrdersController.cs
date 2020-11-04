@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using TicketsReselling.Business.Enums;
+using TicketsReselling.DAL.Enums;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
 using TicketsReselling.DAL.Models;
@@ -74,7 +74,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> AddOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.WaitingForConfirmation);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.WaitingForConfirmation);
 
             await ordersService.AddOrder(new Order
             {
@@ -91,8 +91,8 @@ namespace TicketsReselling.Controllers
             var order = await ordersService.GetOrerById(orderId);
             var ticket = await ticketsService.GetTicketById(order.TicketId);
 
-            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Selling);
-            await ordersService.ChangeOrderStatus(order, (int) OrderStatuses.Cancelled);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Selling);
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Cancelled);
 
             return View("InstructionOrderCanceled");
         }
@@ -109,8 +109,8 @@ namespace TicketsReselling.Controllers
             var order = await ordersService.GetOrerById(orderId);
             var ticket = await ticketsService.GetTicketById(order.TicketId);
 
-            await ordersService.ChangeOrderStatus(order, (int) OrderStatuses.Completed);
-            await ticketsService.ChangeTicketStatus(ticket, (int)TicketStatuses.Sold);
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Completed);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Sold);
 
             return View("InstructionOrderReceivingConfirmed");
         }
@@ -119,7 +119,7 @@ namespace TicketsReselling.Controllers
         {
             var order = await ordersService.GetOrerById(orderId);
 
-            await ordersService.ChangeOrderStatus(order, (int)OrderStatuses.Removed);
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Removed);
 
             return View("InstructionOrderRemoved");
         }

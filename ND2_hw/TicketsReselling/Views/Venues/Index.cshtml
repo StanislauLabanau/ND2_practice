@@ -1,0 +1,191 @@
+﻿@model VenuesViewModel
+@using TicketsReselling.Business.Models
+@using TicketsReselling.DAL.Enums
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+<h1>@Localizer["Venues"]</h1>
+<div class="col-md-6 pt-2">
+    <form class="form-inline">
+        <label>@Localizer["ChooseCity"] =></label>
+        <select name="cityId" class="form-control">
+            @foreach (var city in Model.Cities)
+            {
+                <option value="@city.Id">@city.Name</option>
+            }
+        </select>
+        <input type="submit" value=@Localizer["Apply"] class="btn btn-primary" />
+    </form>
+    @Html.ActionLink(Localizer["AddCity"].Value.ToString(), "AddCity", "Venues")
+</div>
+<div class="row pt-2 mb-2" style="border-bottom-style:groove">
+    <div class="col-md-3 text-center ">
+        @Localizer["NAME"]
+    </div>
+    <div class="col-md-3 text-center">
+        @Localizer["ADDRES"]
+    </div>
+    <div class="col-md-2 text-center">
+        @Localizer["STATUS"]
+    </div>
+    <div class="col-md-4 text-center">
+        @Localizer["ACTIONS"]
+    </div>
+</div>
+
+<div class="row pt-2 mb-2">
+    @if (ViewBag.cityId == 1)
+    {
+        foreach (var city in Model.Cities.Where(c => c.Id != 1))
+        {
+            <div class="col-md-6 pt-2 text-center" style="text-decoration: underline">
+                @city.Name
+            </div>
+            @if (city.Status == CityStatuses.Avaliable)
+            {
+                <div class="col-md-2 pt-2 text-center">
+                    @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeCityNotAvaliable", "Venues", new { cityId = city.Id }, new { @class = "btn btn-primary" })
+                </div>
+                <div class="col-md-2 pt-2 text-center">
+                    @Html.ActionLink(Localizer["AddVenue"].Value.ToString(), "AddVenue", "Venues", new { cityId = city.Id })
+                </div>
+            }
+            else if (city.Status == CityStatuses.NotAvaliable)
+            {
+                <div class="col-md-2 pt-2 text-center">
+                    @Html.ActionLink(Localizer["NotAvaliable"].Value, "MakeCityAvaliable", "Venues", new { cityId = city.Id }, new { @class = "btn btn-secondary" })
+                </div>
+                <div class="col-md-2 pt-2 text-center">
+                </div>
+            }
+            <div class="col-md-2 pt-2 text-center">
+                @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveCity", "Venues", new { cityId = city.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
+            </div>
+
+            if (Model.Venues.Where(v => v.CityId == city.Id).Count() == 0)
+            {
+                <div class="col-md-12 text-center text-info">
+                    @Localizer["NoVenues"]
+                </div>
+            }
+            else
+            {
+                foreach (var venue in Model.Venues.Where(v => v.CityId == city.Id))
+                {
+                    <div class="col-md-3 pt-2 text-center">
+                        @venue.Name
+                    </div>
+                    <div class="col-md-3 pt-2 text-center">
+                        @venue.Address
+                    </div>
+                    <div class="col-md-2 pt-2 text-center">
+                        @if (venue.Status == VenueStatuses.Avaliable)
+                        {
+                            @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeVanueNotAvaliable", "Venues", new { venueId = venue.Id }, new { @class = "btn btn-primary" })
+                        }
+                        else if (venue.Status == VenueStatuses.NotAvaliable)
+                        {
+                            @Html.ActionLink(Localizer["NotAvaliable"].Value.ToString(), "MakeVanueAvaliable", "Venues", new { venueId = venue.Id }, new { @class = "btn btn-secondary" })
+                        }
+                    </div>
+                    <div class="col-md-2 pt-2 text-center">
+                    </div>
+                    <div class="col-md-2 pt-2 text-center">
+                        @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveVenue", "Venues", new { venueId = venue.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
+                    </div>
+                }
+            }
+
+        }
+    }
+    else
+    {
+        <div class="col-md-6 pt-2 text-center" style="text-decoration: underline">
+            @ViewBag.cityName
+        </div>
+        @if (ViewBag.cityStatus == CityStatuses.Avaliable)
+        {
+            <div class="col-md-2 pt-2 text-center">
+                @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeCityNotAvaliable", "Venues", new
+                {
+                    cityId = ViewBag.cityId,
+                    returnUrl = Context.Request.Path,
+                    queryString = Context.Request.QueryString.Value
+                }, new { @class = "btn btn-primary" })
+            </div>
+            <div class="col-md-2 pt-2 text-center">
+                @Html.ActionLink(Localizer["AddVenue"].Value.ToString(), "AddVenue", "Venues", new
+                {
+                    cityId = ViewBag.cityId,
+                    returnUrl = Context.Request.Path,
+                    queryString = Context.Request.QueryString.Value
+                })
+            </div>
+        }
+        else if (ViewBag.cityStatus == CityStatuses.NotAvaliable)
+        {
+            <div class="col-md-2 pt-2 text-center">
+                @Html.ActionLink(Localizer["NotAvaliable"].Value.ToString(), "MakeCityAvaliable", "Venues", new
+                {
+                    cityId = ViewBag.cityId,
+                    returnUrl = Context.Request.Path,
+                    queryString = Context.Request.QueryString.Value
+                }, new { @class = "btn btn-secondary" })
+            </div>
+            <div class="col-md-2 pt-2 text-center">
+            </div>
+        }
+        <div class="col-md-2 pt-2 text-center">
+            @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveCity", "Venues", new { cityId = ViewBag.cityId }, new { @class = "btn btn-danger pt-1 mb-1" })
+        </div>
+
+        if (Model.Venues.Where(v => v.CityId == ViewBag.cityId).Count() == 0)
+        {
+            <div class="col-md-12 text-center text-info">
+                @Localizer["NoVenues"]
+            </div>
+        }
+        else
+        {
+            foreach (var venue in Model.Venues.Where(v => v.CityId == ViewBag.cityId))
+            {
+                <div class="col-md-3 pt-2 text-center">
+                    @venue.Name
+                </div>
+                <div class="col-md-3 pt-2 text-center">
+                    @venue.Address
+                </div>
+                <div class="col-md-2 pt-2 text-center">
+                    @if (venue.Status == VenueStatuses.Avaliable)
+                    {
+                        @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeVanueNotAvaliable", "Venues", new
+                        {
+                            venueId = venue.Id,
+                            returnUrl = Context.Request.Path,
+                            queryString = Context.Request.QueryString.Value
+                        }, new { @class = "btn btn-primary" })
+                    }
+                    else if (venue.Status == VenueStatuses.NotAvaliable)
+                    {
+                        @Html.ActionLink(Localizer["NotAvaliable"].Value.ToString(), "MakeVanueAvaliable", "Venues", new
+                        {
+                            venueId = venue.Id,
+                            returnUrl = Context.Request.Path,
+                            queryString = Context.Request.QueryString.Value
+                        }, new { @class = "btn btn-secondary" })
+                    }
+                </div>
+                <div class="col-md-2 pt-2 text-center">
+
+                </div>
+                <div class="col-md-2 pt-2 text-center">
+                    @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveVenue", "Venues", new
+                    {
+                        venueId = venue.Id,
+                        returnUrl = Context.Request.Path,
+                        queryString = Context.Request.QueryString.Value
+                    }, new { @class = "btn btn-danger pt-1 mb-1" })
+                </div>
+            }
+        }
+    }
+</div>

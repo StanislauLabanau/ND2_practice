@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Controllers\EventsController.cs~RF1a2ff1f6.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\Public\" />
   </ItemGroup>
@@ -23,6 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="SendGrid" Version="9.21.0" />
   </ItemGroup>
 
   <ItemGroup>

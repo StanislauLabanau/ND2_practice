@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Models;
+using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.Core
 {
@@ -36,14 +37,14 @@ namespace TicketsReselling.Core
             return await userTickets.ToListAsync();
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsByEventIdAndStatus(int eventId, int status)
+        public async Task<IEnumerable<Ticket>> GetTicketsByEventIdAndStatus(int eventId, TicketStatuses status)
         {
             var eventTickets = context.Tickets.Where(t => t.EventId == eventId && t.Status == status);
 
             return await eventTickets.ToListAsync();
         }
 
-        public async Task ChangeTicketStatus(Ticket ticket, int status)
+        public async Task ChangeTicketStatus(Ticket ticket, TicketStatuses status)
         {
             ticket.Status = status;
             context.Tickets.Update(ticket);
