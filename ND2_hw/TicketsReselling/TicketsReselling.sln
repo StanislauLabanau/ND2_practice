@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketsReselling.Core", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketsReselling.DAL", "..\TicketsReselling.DAL\TicketsReselling.DAL.csproj", "{C389B126-0A29-4B45-9ED1-0F1AFD47D37B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketsReselling.Tests", "..\TicketsReselling.Tests\TicketsReselling.Tests.csproj", "{70D43EC5-FD74-4D13-910C-06E0D516833E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C389B126-0A29-4B45-9ED1-0F1AFD47D37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C389B126-0A29-4B45-9ED1-0F1AFD47D37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C389B126-0A29-4B45-9ED1-0F1AFD47D37B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70D43EC5-FD74-4D13-910C-06E0D516833E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70D43EC5-FD74-4D13-910C-06E0D516833E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70D43EC5-FD74-4D13-910C-06E0D516833E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70D43EC5-FD74-4D13-910C-06E0D516833E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

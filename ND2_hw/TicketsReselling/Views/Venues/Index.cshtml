@@ -37,27 +37,27 @@
     {
         foreach (var city in Model.Cities.Where(c => c.Id != 1))
         {
-            <div class="col-md-6 pt-2 text-center" style="text-decoration: underline">
-                @city.Name
+            <div class="col-md-6 pt-1 text-center" style="text-decoration: underline">
+                <h5>@city.Name</h5>
             </div>
             @if (city.Status == CityStatuses.Avaliable)
             {
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
                     @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeCityNotAvaliable", "Venues", new { cityId = city.Id }, new { @class = "btn btn-primary" })
                 </div>
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
                     @Html.ActionLink(Localizer["AddVenue"].Value.ToString(), "AddVenue", "Venues", new { cityId = city.Id })
                 </div>
             }
             else if (city.Status == CityStatuses.NotAvaliable)
             {
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
                     @Html.ActionLink(Localizer["NotAvaliable"].Value, "MakeCityAvaliable", "Venues", new { cityId = city.Id }, new { @class = "btn btn-secondary" })
                 </div>
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
                 </div>
             }
-            <div class="col-md-2 pt-2 text-center">
+            <div class="col-md-2 pt-1 text-center">
                 @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveCity", "Venues", new { cityId = city.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
             </div>
 
@@ -71,13 +71,13 @@
             {
                 foreach (var venue in Model.Venues.Where(v => v.CityId == city.Id))
                 {
-                    <div class="col-md-3 pt-2 text-center">
+                    <div class="col-md-3 pt-1 text-center">
                         @venue.Name
                     </div>
-                    <div class="col-md-3 pt-2 text-center">
+                    <div class="col-md-3 pt-1 text-center">
                         @venue.Address
                     </div>
-                    <div class="col-md-2 pt-2 text-center">
+                    <div class="col-md-2 pt-1 text-center">
                         @if (venue.Status == VenueStatuses.Avaliable)
                         {
                             @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeVanueNotAvaliable", "Venues", new { venueId = venue.Id }, new { @class = "btn btn-primary" })
@@ -87,9 +87,9 @@
                             @Html.ActionLink(Localizer["NotAvaliable"].Value.ToString(), "MakeVanueAvaliable", "Venues", new { venueId = venue.Id }, new { @class = "btn btn-secondary" })
                         }
                     </div>
-                    <div class="col-md-2 pt-2 text-center">
+                    <div class="col-md-2 pt-1 text-center">
                     </div>
-                    <div class="col-md-2 pt-2 text-center">
+                    <div class="col-md-2 pt-1 text-center">
                         @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveVenue", "Venues", new { venueId = venue.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
                     </div>
                 }
@@ -99,12 +99,12 @@
     }
     else
     {
-        <div class="col-md-6 pt-2 text-center" style="text-decoration: underline">
-            @ViewBag.cityName
+        <div class="col-md-6 pt-1 text-center" style="text-decoration: underline">
+            <h4>@ViewBag.cityName</h4>
         </div>
         @if (ViewBag.cityStatus == CityStatuses.Avaliable)
         {
-            <div class="col-md-2 pt-2 text-center">
+            <div class="col-md-2 pt-1 text-center">
                 @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeCityNotAvaliable", "Venues", new
                 {
                     cityId = ViewBag.cityId,
@@ -112,7 +112,7 @@
                     queryString = Context.Request.QueryString.Value
                 }, new { @class = "btn btn-primary" })
             </div>
-            <div class="col-md-2 pt-2 text-center">
+            <div class="col-md-2 pt-1 text-center">
                 @Html.ActionLink(Localizer["AddVenue"].Value.ToString(), "AddVenue", "Venues", new
                 {
                     cityId = ViewBag.cityId,
@@ -123,7 +123,7 @@
         }
         else if (ViewBag.cityStatus == CityStatuses.NotAvaliable)
         {
-            <div class="col-md-2 pt-2 text-center">
+            <div class="col-md-2 pt-1 text-center">
                 @Html.ActionLink(Localizer["NotAvaliable"].Value.ToString(), "MakeCityAvaliable", "Venues", new
                 {
                     cityId = ViewBag.cityId,
@@ -131,7 +131,7 @@
                     queryString = Context.Request.QueryString.Value
                 }, new { @class = "btn btn-secondary" })
             </div>
-            <div class="col-md-2 pt-2 text-center">
+            <div class="col-md-2 pt-1 text-center">
             </div>
         }
         <div class="col-md-2 pt-2 text-center">
@@ -148,13 +148,13 @@
         {
             foreach (var venue in Model.Venues.Where(v => v.CityId == ViewBag.cityId))
             {
-                <div class="col-md-3 pt-2 text-center">
+                <div class="col-md-3 pt-1 text-center">
                     @venue.Name
                 </div>
-                <div class="col-md-3 pt-2 text-center">
+                <div class="col-md-3 pt-1 text-center">
                     @venue.Address
                 </div>
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
                     @if (venue.Status == VenueStatuses.Avaliable)
                     {
                         @Html.ActionLink(Localizer["Avaliable"].Value.ToString(), "MakeVanueNotAvaliable", "Venues", new
@@ -174,10 +174,10 @@
                         }, new { @class = "btn btn-secondary" })
                     }
                 </div>
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
 
                 </div>
-                <div class="col-md-2 pt-2 text-center">
+                <div class="col-md-2 pt-1 text-center">
                     @Html.ActionLink(Localizer["Remove"].Value.ToString(), "RemoveVenue", "Venues", new
                     {
                         venueId = venue.Id,

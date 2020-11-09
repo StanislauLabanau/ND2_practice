@@ -121,6 +121,6 @@
     <value>Tracking number is not provided yet. You may contact the seller</value>
   </data>
   <data name="TrackingNunberInfo" xml:space="preserve">
-    <value>Tracking number of this order is </value>
+    <value>Tracking number of this order is</value>
   </data>
 </root>

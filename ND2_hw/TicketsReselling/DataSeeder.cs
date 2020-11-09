@@ -124,9 +124,6 @@ namespace TicketsReselling
 
         public async Task SeedDataAsync()
         {
-            //context.Database.EnsureDeleted();
-            //context.Database.EnsureCreated();
-
             if (await context.Database.CanConnectAsync())
             {
                 if (await roleManager.FindByNameAsync(UserRoles.Administrator) == null)

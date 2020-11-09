@@ -110,7 +110,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> ConfirmOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int)OrderStatuses.WaitingForConfirmation);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.WaitingForConfirmation);
 
             await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.WaitingForReceivingConfirmation);
             await ordersService.ChangeOrderStatus(order, OrderStatuses.Confirmed);
@@ -121,7 +121,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RejectOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, (int)OrderStatuses.WaitingForConfirmation);
+            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.WaitingForConfirmation);
 
             await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Selling);
             await ordersService.ChangeOrderStatus(order, OrderStatuses.Rejected);

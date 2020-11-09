@@ -13,6 +13,7 @@ using TicketsReselling.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using TicketsReselling.DAL.Models;
+using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling
 {
@@ -45,6 +46,7 @@ namespace TicketsReselling
             services.AddScoped<TicketsService>();
             services.AddScoped<VenuesService>();
             services.AddScoped<CitiesService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddDbContext<TicketsResellingContext>(o =>
             {
@@ -70,6 +72,8 @@ namespace TicketsReselling
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedAccount = true;
             });
         }
 

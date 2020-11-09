@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InstructionTicketAdded" xml:space="preserve">
-    <value>Вы добавили билет. Проверьте его статус в "Мои билеты".</value>
+    <value>Вы добавили билет. Проверьте его статус в "Мои билеты"</value>
   </data>
 </root>
