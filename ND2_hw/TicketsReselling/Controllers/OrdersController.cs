@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TicketsReselling.Business;
-using TicketsReselling.Business.Enums;
+using Microsoft.Extensions.Localization;
+using TicketsReselling.DAL.Enums;
 using TicketsReselling.Business.Models;
+using TicketsReselling.Core;
+using TicketsReselling.DAL.Models;
 using TicketsReselling.Models;
 
 namespace TicketsReselling.Controllers
@@ -13,30 +17,36 @@ namespace TicketsReselling.Controllers
     [Authorize(Roles = UserRoles.User)]
     public class OrdersController : Controller
     {
-        private readonly TicketsRepository ticketsRepository;
-        private readonly UsersRepository usersRepository;
-        private readonly EventsRepository eventsRepository;
-        private readonly OrdersRepository orderRepository;
+        private readonly TicketsService ticketsService;
+        private readonly EventsService eventsService;
+        private readonly OrdersService ordersService;
+        private readonly UserManager<User> userManager;
+        private readonly IStringLocalizer<EventsController> stringLocalizer;
 
-        public OrdersController(TicketsRepository ticketsRepository, UsersRepository usersRepository, EventsRepository eventsRepository, OrdersRepository orderRepository)
+        public OrdersController(
+            TicketsService ticketsService,
+            EventsService eventsService,
+            OrdersService ordersService,
+            UserManager<User> userManager,
+            IStringLocalizer<EventsController> stringLocalizer)
         {
-            this.ticketsRepository = ticketsRepository;
-            this.usersRepository = usersRepository;
-            this.eventsRepository = eventsRepository;
-            this.orderRepository = orderRepository;
+            this.ticketsService = ticketsService;
+            this.ordersService = ordersService;
+            this.eventsService = eventsService;
+            this.userManager = userManager;
+            this.stringLocalizer = stringLocalizer;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var currentUser = usersRepository.GetUserByUserName(User.Identity.Name);
-            var userOrders = orderRepository.GetOrders().Where(o => o.UserId == currentUser.Id);
-
+            var currentUserId = userManager.GetUserId(User);
+            var userOrders = await ordersService.GetOrdersByUserId(currentUserId);
             var myOrders = new List<OrderView> { };
 
             foreach (var order in userOrders)
             {
-                var orderTicket = ticketsRepository.GetTicket(order.TicketId);
-                var ticketEvent = eventsRepository.GetEventById(orderTicket.EventId);
+                var orderTicket = await ticketsService.GetTicketById(order.TicketId);
+                var ticketEvent = await eventsService.GetEventById(orderTicket.EventId);
 
                 myOrders.Add(
                     new OrderView
@@ -44,7 +54,7 @@ namespace TicketsReselling.Controllers
                         OrderId = order.Id,
                         TicketPrice = orderTicket.Price,
                         OrderStatus = order.Status,
-                        SellerName = Business.Models.User.GetFullName(usersRepository.GetUserById(orderTicket.SellerId)),
+                        SellerName = (await userManager.FindByIdAsync(orderTicket.SellerId))?.UserName,
                         SellerId = orderTicket.SellerId,
                         EventId = orderTicket.EventId,
                         EventName = ticketEvent.Name,
@@ -61,43 +71,57 @@ namespace TicketsReselling.Controllers
             return View(model);
         }
 
-        public IActionResult AddOrder(int ticketId)
+        public async Task<IActionResult> AddOrder(int ticketId)
         {
-            var orderId = ++OrdersRepository.IdCounter;
-            var ticket = ticketsRepository.GetTicket(ticketId);
+            var ticket = await ticketsService.GetTicketById(ticketId);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.WaitingForConfirmation);
 
-            ticket.Status = TicketStatuses.WaitingForConfirmation;
-            ticket.OrderId = orderId;
-            ticket.BuyerId = usersRepository.GetUserByUserName(User.Identity.Name).Id;
-
-
-            ticketsRepository.RemoveTicket(ticketId);
-            ticketsRepository.AddTicket(ticket);
-            orderRepository.AddOrder(new Order
+            await ordersService.AddOrder(new Order
             {
-                Id = orderId,
-                TicketId = ticketId,
-                Status = OrderStatuses.WaitingForConfirmation,
-                UserId = usersRepository.GetUserByUserName(User.Identity.Name).Id,
-                TrackingNumber = "No tracking number yet"
+                TicketId = ticket.Id,
+                Status = (int)OrderStatuses.WaitingForConfirmation,
+                UserId = userManager.GetUserId (User)
             });
 
             return View("InstructionOrderAdded");
         }
 
-        public IActionResult CancelOrder(int orderId)
+        public async Task<IActionResult> CancelOrder(int orderId)
         {
-            var order = orderRepository.GetOrder(orderId);
-            var ticket = ticketsRepository.GetTicket(order.TicketId);
+            var order = await ordersService.GetOrderById(orderId);
+            var ticket = await ticketsService.GetTicketById(order.TicketId);
 
-            ticket.Status = TicketStatuses.Selling;
-            ticket.OrderId = default;
-
-            ticketsRepository.RemoveTicket(order.TicketId);
-            ticketsRepository.AddTicket(ticket);
-            orderRepository.DeleteOrder(orderId);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Selling);
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Cancelled);
 
             return View("InstructionOrderCanceled");
+        }
+
+        public async Task<IActionResult> TrackingInfo(int orderId)
+        {
+            ViewBag.trackingNumber = (await ordersService.GetOrderById(orderId))?.TrackingNumber;
+
+            return View("TrackingNumberInfo");
+        }
+
+        public async Task<IActionResult> ConfirmOrderReceiving(int orderId)
+        {
+            var order = await ordersService.GetOrderById(orderId);
+            var ticket = await ticketsService.GetTicketById(order.TicketId);
+
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Completed);
+            await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Sold);
+
+            return View("InstructionOrderReceivingConfirmed");
+        }
+
+        public async Task<IActionResult> RemoveOrder(int orderId)
+        {
+            var order = await ordersService.GetOrderById(orderId);
+
+            await ordersService.ChangeOrderStatus(order, OrderStatuses.Removed);
+
+            return View("InstructionOrderRemoved");
         }
     }
 }

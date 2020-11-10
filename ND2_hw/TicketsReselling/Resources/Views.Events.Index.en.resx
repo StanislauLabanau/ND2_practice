@@ -121,12 +121,18 @@
     <value>Events</value>
   </data>
   <data name="ChooseCategory" xml:space="preserve">
-    <value>Choose the category</value>
+    <value>Choose category</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
   <data name="ShowTickets" xml:space="preserve">
     <value>Show tickets</value>
+  </data>
+  <data name="RemoveEvent" xml:space="preserve">
+    <value>Remove event</value>
+  </data>
+  <data name="AddEvent" xml:space="preserve">
+    <value>Add event</value>
   </data>
 </root>

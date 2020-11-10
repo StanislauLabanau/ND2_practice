@@ -1,9 +1,13 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/TicketsReselling",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:55243",
+      "applicationUrl": "http://localhost:53113",
       "sslPort": 44300
     }
   },
@@ -18,10 +22,10 @@
     "TicketsReselling": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }

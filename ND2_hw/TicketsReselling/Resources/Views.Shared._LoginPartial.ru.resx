@@ -115,7 +115,13 @@
   <data name="Hello" xml:space="preserve">
     <value>Привет</value>
   </data>
-  <data name="AddEvent" xml:space="preserve">
-    <value>Добавить событие</value>
+  <data name="Venues" xml:space="preserve">
+    <value>Площадки</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
   </data>
 </root>

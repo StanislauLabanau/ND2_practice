@@ -1,5 +1,5 @@
 ﻿@model OrderViewModel
-@using TicketsReselling.Business.Enums;
+@using TicketsReselling.DAL.Enums;
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
@@ -7,7 +7,6 @@
 }
 
 <h2>@Localizer["MyOrders"]</h2>
-
 <div class="container-fluid pt-2">
     <div class="row pt-2 mb-2" style="border-bottom-style:groove">
         <div class="col-md-3 text-center">
@@ -29,7 +28,6 @@
     <div class="col-md-12 pt-2 text-center" style="text-decoration: underline">
         @Localizer["WaitingForConfirmation"]
     </div>
-
     @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.WaitingForConfirmation).Count() == 0)
     {
         <div class="col-md-12 text-center text-info">
@@ -50,13 +48,14 @@
                 @order.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "Users", new { userId = order.SellerId })
             </div>
             <div class="col-md-1 text-center">
                 @Html.ActionLink(Localizer["Cancel"].Value.ToString(), "CancelOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
         </div>
     }
+
     <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
         @Localizer["Confirmed"]
     </div>
@@ -72,7 +71,7 @@
     {
         <div class="row">
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+                @Html.ActionLink(order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
             </div>
             <div class="col-md-2 text-center">
                 @order.EventDate.ToShortDateString()
@@ -81,16 +80,17 @@
                 @order.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+                @Html.ActionLink(order.SellerName, "PublicInfo", "Users", new { userId = order.SellerId })
             </div>
             <div class="col-md-1">
-                @Html.ActionLink(Localizer["Info"].Value.ToString(), "OrderTrackingInfo", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                @Html.ActionLink(Localizer["Info"].Value.ToString(), "TrackingInfo", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
             <div class="col-md-1">
                 @Html.ActionLink(Localizer["Close"].Value.ToString(), "ConfirmOrderReceiving", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
         </div>
     }
+
     <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
         @Localizer["Rejected"]
     </div>
@@ -106,6 +106,38 @@
     {
         <div class="row">
             <div class="col-md-3 text-center">
+                @Html.ActionLink(order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @order.EventDate.ToShortDateString()
+            </div>
+            <div class="col-md-2 text-center">
+                @order.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(order.SellerName, "PublicInfo", "Users", new { userId = order.SellerId })
+            </div>
+            <div class="col-md-1 text-center">
+                @Html.ActionLink(Localizer["Delete"].Value.ToString(), "RemoveOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+            </div>
+        </div>
+    }
+
+    <div class="col-md-12 pt-4 text-center" style="text-decoration: underline">
+        @Localizer["Completed"]
+    </div>
+
+    @if (Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Completed).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            @Localizer["NoOrders"]
+        </div>
+    }
+
+    @foreach (var order in Model.Orders.Where(t => t.OrderStatus == OrderStatuses.Completed))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
                 @Html.ActionLink(@order.EventName, "EventWithTickets", "Events", new { eventId = order.EventId })
             </div>
             <div class="col-md-2 text-center">
@@ -115,10 +147,10 @@
                 @order.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@order.SellerName, "PublicInfo", "UserInfo", new { userId = order.SellerId })
+                @Html.ActionLink(@order.SellerName, "PublicInfo", "Users", new { userId = order.SellerId })
             </div>
             <div class="col-md-1 text-center">
-                @Html.ActionLink(Localizer["Delete"].Value.ToString(), "DeleteOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                @Html.ActionLink(Localizer["Delete"].Value.ToString(), "RemoveOrder", "Orders", new { orderId = order.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
         </div>
     }

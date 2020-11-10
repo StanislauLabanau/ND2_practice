@@ -127,7 +127,7 @@
     <value>ПОКУПАТЕЛЬ</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Подтв.</value>
+    <value>Подтв</value>
   </data>
   <data name="Event" xml:space="preserve">
     <value>СОБЫТИЕ</value>
@@ -161,5 +161,14 @@
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
+  </data>
+  <data name="WaitingForReceivingConfirmation" xml:space="preserve">
+    <value>Ожидают подтверждения получения покупателем</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Детали</value>
+  </data>
+  <data name="ChangeTrack" xml:space="preserve">
+    <value>Изм</value>
   </data>
 </root>

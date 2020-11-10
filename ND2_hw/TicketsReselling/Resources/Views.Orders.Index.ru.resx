@@ -113,7 +113,7 @@
     <value>ДЕЙСТВИЯ</value>
   </data>
   <data name="WaitingForConfirmation" xml:space="preserve">
-    <value>Ожидают подтверждения</value>
+    <value>Ожидают подтверждения продавца</value>
   </data>
   <data name="NoOrders" xml:space="preserve">
     <value>Нет заказов</value>
@@ -138,5 +138,8 @@
   </data>
   <data name="MyOrders" xml:space="preserve">
     <value>Мои заказы</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Завершенные</value>
   </data>
 </root>

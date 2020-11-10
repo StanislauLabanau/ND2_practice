@@ -1,20 +1,25 @@
 ﻿@model EventsViewModel
+@using TicketsReselling.Business.Models
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 <h1>@Localizer["Events"]</h1>
-<form class="form-inline">
-    <label>@Localizer["ChooseCategory"]</label>
-    <select name="categoryId" class="form-control">
-        @foreach (var category in Model.Categories)
-        {
-            <option value="@category.Id">@category.Name</option>
-        }
-    </select>
-    <input type="submit" value=@Localizer["Apply"] class="btn btn-primary" />
-</form>
-@if (ViewBag.categoryId == 0)
+<div class="col-md-6 pt-2">
+
+    <form class="form-inline">
+        <label>@Localizer["ChooseCategory"] =></label>
+        <select name="categoryId" class="form-control">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+        <input type="submit" value=@Localizer["Apply"] class="btn btn-primary" />
+    </form>
+    @Html.ActionLink(Localizer["AddEvent"].Value.ToString(), "AddEvent", "Events")
+</div>
+@if (ViewBag.categoryId == 1)
 {
-    @foreach (var category in Model.Categories)
+    @foreach (var category in Model.Categories.Where(c => c.Id != 1))
     {
         <h2 class="pt-5">@category.Name</h2>
         <div class="container-fluid pt-4">
@@ -28,7 +33,11 @@
                             <h4><b>@eventItem.Venue.City.Name</b></h4>
                             <h4><b>@eventItem.Venue.Name</b></h4>
                             <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
-                            @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
+                            @if (User.IsInRole(UserRoles.Administrator))
+                            {
+                                @Html.ActionLink(Localizer["RemoveEvent"].Value.ToString(), "RemoveEvent", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
+                            }
+                            @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary pt-1 mb-1" })
                         </div>
                     </div>
                 }
@@ -36,7 +45,6 @@
         </div>
     }
 }
-
 else
 {
     <h2 class="pt-5">@ViewBag.categoryName</h2>
@@ -50,7 +58,11 @@ else
                         <h3>@eventItem.Name</h3>
                         <h4><b>@eventItem.Venue.City.Name</b></h4>
                         <h4><b>@eventItem.Venue.Name</b></h4>
-                        <h4><b>@eventItem.Date</b></h4>
+                        <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
+                        @if (User.IsInRole(UserRoles.Administrator))
+                        {
+                            @Html.ActionLink(Localizer["RemoveEvent"].Value.ToString(), "RemoveEvent", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
+                        }
                         @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
                     </div>
                 </div>

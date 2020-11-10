@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TicketsReselling.Business;
 using TicketsReselling.Business.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
+using TicketsReselling.Core;
+using TicketsReselling.DAL;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using TicketsReselling.DAL.Models;
+using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling
 {
@@ -33,31 +34,47 @@ namespace TicketsReselling
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
 
+            //services.AddRazorPages();
+
             services.AddLocalization(opts =>
             {
                 opts.ResourcesPath = "Resources";
             });
 
+            services.AddScoped<IEventsService, EventsService>();
+            services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<ITicketsService, TicketsService>();
+            services.AddScoped<IVenuesService, VenuesService>();
+            services.AddScoped<ICitiesService, CitiesService>();
+            services.AddScoped<IEmailService, EmailService>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-              .AddCookie(opts =>
-              {
-                  opts.LoginPath = "/User/Login";
-                  opts.AccessDeniedPath = "/User/Login";
-                  opts.Cookie.Name = "AuthDemo";
-              });
-
-            services.AddAuthorization(opts =>
+            services.AddDbContext<TicketsResellingContext>(o =>
             {
-                opts.AddPolicy("HasRole", policy => policy.RequireClaim(ClaimTypes.Role));
-                opts.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.User));
-                opts.AddPolicy("Administrator", policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Administrator));
+                o.UseSqlServer(Configuration.GetConnectionString("TicketResellingConnection"))
+                    .EnableSensitiveDataLogging();
             });
 
-            services.AddSingleton<EventsRepository>();
-            services.AddSingleton<UsersRepository>();
-            services.AddSingleton<TicketsRepository>();
-            services.AddSingleton<OrdersRepository>();
+            services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<TicketsResellingContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedAccount = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,9 +107,10 @@ namespace TicketsReselling
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

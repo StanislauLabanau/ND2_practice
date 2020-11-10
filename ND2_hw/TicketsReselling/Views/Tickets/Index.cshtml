@@ -1,5 +1,5 @@
 ﻿@model TicketsViewModel
-@using TicketsReselling.Business.Enums;
+@using TicketsReselling.DAL.Enums;
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @{
@@ -7,7 +7,6 @@
 }
 
 <h2>@Localizer["MyTickets"]</h2>
-
 <div class="container-fluid pt-2">
     <div class="row pt-2 mb-2" style="border-bottom-style:groove">
         <div class="col-md-3 text-center ">
@@ -41,7 +40,7 @@
     {
         <div class="row">
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+                @Html.ActionLink(ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
             </div>
             <div class="col-md-2 text-center">
                 @ticket.EventDate.ToShortDateString()
@@ -50,13 +49,13 @@
                 @ticket.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "Users", new { userId = ticket.BuyerId })
             </div>
             <div class="col-md-1">
-                @Html.ActionLink(@Localizer["Confirm"].Value.ToString(), "ConfirmOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                @Html.ActionLink(Localizer["Confirm"].Value.ToString(), "ConfirmOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
             <div class="col-md-1">
-                @Html.ActionLink(@Localizer["Reject"].Value.ToString(), "RejectOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                @Html.ActionLink(Localizer["Reject"].Value.ToString(), "RejectOrder", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
         </div>
     }
@@ -75,7 +74,7 @@
     {
         <div class="row">
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+                @Html.ActionLink(ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
             </div>
             <div class="col-md-2 text-center">
                 @ticket.EventDate.ToShortDateString()
@@ -87,10 +86,57 @@
                 @Localizer["NoBuyerYet"]
             </div>
             <div class="col-md-2">
-                @Html.ActionLink(@Localizer["Delete"].Value.ToString(), "RemoveTicket", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                @Html.ActionLink(Localizer["Delete"].Value.ToString(), "RemoveTicket", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
         </div>
     }
+
+    <div class="col-md-12 pt-4 text-center" style="text-decoration:underline">
+        @Localizer["WaitingForReceivingConfirmation"]
+    </div>
+
+    @if (Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.WaitingForReceivingConfirmation).Count() == 0)
+    {
+        <div class="col-md-12 text-center text-info">
+            @Localizer["NoTickets"]
+        </div>
+    }
+
+    @foreach (var ticket in Model.Tickets.Where(t => t.TicketStatus == TicketStatuses.WaitingForReceivingConfirmation))
+    {
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.EventDate.ToShortDateString()
+            </div>
+            <div class="col-md-2 text-center">
+                @ticket.TicketPrice
+            </div>
+            <div class="col-md-3 text-center">
+                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "Users", new { userId = ticket.BuyerId })
+            </div>
+
+            @if (string.IsNullOrEmpty(ticket.OrderTrackingNumber))
+            {
+                <div class="col-md-2">
+                    @Html.ActionLink(Localizer["AddTrack"].Value.ToString(), "AddTracking", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                </div>
+
+            }
+            else
+            {
+                <div class="col-md-1">
+                    @Html.ActionLink(Localizer["Info"].Value.ToString(), "TrackingInfo", "Orders", new { orderId =ticket.OrderId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                </div>
+                <div class="col-md-1">
+                    @Html.ActionLink(Localizer["ChangeTrack"].Value.ToString(), "AddTracking", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                </div>
+            }
+        </div>
+    }
+
     <div class="col-md-12 pt-4 text-center" style="text-decoration:underline">
         @Localizer["Sold"]
     </div>
@@ -106,7 +152,7 @@
     {
         <div class="row">
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
+                @Html.ActionLink(ticket.EventName, "EventWithTickets", "Events", new { eventId = ticket.EventId })
             </div>
             <div class="col-md-2 text-center">
                 @ticket.EventDate.ToShortDateString()
@@ -115,10 +161,10 @@
                 @ticket.TicketPrice
             </div>
             <div class="col-md-3 text-center">
-                @Html.ActionLink(@ticket.BuyerName, "PublicInfo", "UserInfo", new { userId = ticket.BuyerId })
+                @Html.ActionLink(ticket.BuyerName, "PublicInfo", "Users", new { userId = ticket.BuyerId })
             </div>
             <div class="col-md-2">
-                @Html.ActionLink(@Localizer["AddTrack"].Value.ToString(), "AddTrack", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                @Html.ActionLink(Localizer["Delete"].Value.ToString(), "RemoveTicket", "Tickets", new { ticketId = ticket.TicketId }, new { @class = "btn btn-primary pt-1 mb-1" })
             </div>
         </div>
     }

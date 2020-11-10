@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>ACTIONS</value>
   </data>
   <data name="AddTrack" xml:space="preserve">
     <value>Add track</value>
@@ -161,5 +161,14 @@
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="WaitingForReceivingConfirmation" xml:space="preserve">
+    <value>Waiting for buyer receiving confirmation</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="ChangeTrack" xml:space="preserve">
+    <value>Change</value>
   </data>
 </root>

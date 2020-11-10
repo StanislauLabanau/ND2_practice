@@ -1,0 +1,44 @@
+﻿@model TicketsReselling.DAL.Models.User
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "PublicInfo";
+}
+
+<h3>@Localizer["UserInfo"]</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["FirstName"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["SecondName"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SecondName)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["Location"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Localization)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["Addres"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["PhoneNumber"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+

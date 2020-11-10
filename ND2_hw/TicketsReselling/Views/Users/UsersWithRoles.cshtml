@@ -1,0 +1,46 @@
+﻿@model ChangeRoleViewModel
+@using TicketsReselling.Business.Models;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "UsersWithRoles";
+}
+
+<h3>@Localizer["UsersList"]</h3>
+<div class="container-fluid pt-2">
+    <div class="row pt-2 mb-2" style="border-bottom-style:groove">
+        <div class="col-md-6 text-center">
+            @Localizer["UserName"]
+        </div>
+        <div class="col-md-6 text-center">
+            @Localizer["UserRoles"]
+        </div>
+    </div>
+    @foreach (var user in Model.UsersWithRoles)
+    {
+        <div class="row">
+            <div class="col-md-6 text-center">
+                @Html.ActionLink(user.UserName, "PublicInfo", "Users", new { userId = user.UserId })
+            </div>
+            <div class="col-md-6 text-center">
+                @if (user.UserRoles.Contains(UserRoles.User))
+                {
+                    @Html.ActionLink(UserRoles.User, "RevokeUserRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                }
+                else
+                {
+                    @Html.ActionLink(UserRoles.User, "GrantUserRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-secondary pt-1 mb-1" })
+                }
+
+                @if (user.UserRoles.Contains(UserRoles.Administrator))
+                {
+                    @Html.ActionLink(UserRoles.Administrator, "RevokeAdminRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                }
+                else
+                {
+                    @Html.ActionLink(UserRoles.Administrator, "GrantAdminRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-secondary pt-1 mb-1" })
+                }
+            </div>
+        </div>
+    }
+</div>

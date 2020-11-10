@@ -20,9 +20,8 @@
         @Html.Raw(Model.Event.Description)
     </div>
 </div>
-
 <div class="container-fluid">
-    @if (Model.Tickets.Length != 0)
+    @if (Model.Tickets.Count() != 0)
     {
         <div class="row pt-3 mb-2" style="border-bottom-style:groove">
             <div class="col-md-4 text-center">
@@ -35,7 +34,6 @@
                 @Localizer["Notes"]
             </div>
         </div>
-
         foreach (var ticket in Model.Tickets)
         {
             <div class="row">

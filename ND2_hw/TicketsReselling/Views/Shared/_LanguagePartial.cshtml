@@ -8,7 +8,6 @@
             @Html.ActionLink("RU", "SetLanguage", "Language", new { locale = Locales.SupportedLocales[1], returnUrl = Context.Request.Path, queryString = Context.Request.QueryString.Value })
         </li>
     }
-
     else if (System.Globalization.CultureInfo.CurrentCulture.Name == Locales.SupportedLocales[1])
     {
         <li class="nav-item">

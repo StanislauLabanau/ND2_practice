@@ -115,7 +115,13 @@
   <data name="Hello" xml:space="preserve">
     <value>Hello</value>
   </data>
-  <data name="AddEvent" xml:space="preserve">
-    <value>Add event</value>
+  <data name="Venues" xml:space="preserve">
+    <value>Venues</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
   </data>
 </root>
