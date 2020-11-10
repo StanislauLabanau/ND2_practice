@@ -9,23 +9,24 @@ using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.Models;
+using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly TicketsService ticketsService;
-        private readonly EventsService eventsService;
-        private readonly VenuesService venuesService;
-        private readonly CitiesService citiesService; 
+        private readonly ITicketsService ticketsService;
+        private readonly IEventsService eventsService;
+        private readonly IVenuesService venuesService;
+        private readonly ICitiesService citiesService; 
         private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
         public EventsController(
-            TicketsService ticketsService,
-            EventsService eventsService,
-            VenuesService venuesService,
-            CitiesService citiesService,
+            ITicketsService ticketsService,
+            IEventsService eventsService,
+            IVenuesService venuesService,
+            ICitiesService citiesService,
             UserManager<User> userManager,
             IStringLocalizer<EventsController> stringLocalizer)
         {
@@ -95,7 +96,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> AddEvent()
         {
             ViewBag.categories = await eventsService.GetCategories();
-            ViewBag.venues = await venuesService.GetVenuesByStatus(VenueStatuses.Avaliable);
+            ViewBag.venues = await venuesService.GetVenuesByStatuses(VenueStatuses.Avaliable);
             return View();
         }
 

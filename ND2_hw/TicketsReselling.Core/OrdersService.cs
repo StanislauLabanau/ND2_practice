@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.DAL.Enums;
+using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling.Core
 {
-    public class OrdersService
+    public class OrdersService : IOrdersService
     {
         private readonly TicketsResellingContext context;
 
@@ -26,7 +27,7 @@ namespace TicketsReselling.Core
             return await orders.ToListAsync();
         }
 
-        public async Task<Order> GetOrerById(int id)
+        public async Task<Order> GetOrderById(int id)
         {
             return await context.Orders.FindAsync(id);
         }
@@ -38,19 +39,9 @@ namespace TicketsReselling.Core
             return await userOrders.ToListAsync();
         }
 
-        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, OrderStatuses status)
+        public async Task<Order> GetOrderByTicketIdAndStatuses(int ticketId, params OrderStatuses[] statuses)
         {
-            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && o.Status == status);
-        }
-
-        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, OrderStatuses status, OrderStatuses status1)
-        {
-            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && (o.Status == status || o.Status == status1));
-        }
-
-        public async Task<Order> GetOrderByTicketIdAndStatus(int ticketId, OrderStatuses status, OrderStatuses status1, OrderStatuses status2)
-        {
-            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && (o.Status == status || o.Status == status1 || o.Status == status2));
+            return await context.Orders.FirstOrDefaultAsync(o => o.TicketId == ticketId && statuses.Contains(o.Status));
         }
 
         public async Task ChangeOrderStatus(Order order, OrderStatuses status)
@@ -75,7 +66,7 @@ namespace TicketsReselling.Core
 
         public async Task RemoveOrder(int id)
         {
-            context.Orders.Remove(await GetOrerById(id));
+            context.Orders.Remove(await GetOrderById(id));
             await context.SaveChangesAsync();
         }
     }

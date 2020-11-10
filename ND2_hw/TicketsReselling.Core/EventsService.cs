@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.DAL.Enums;
+using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling.Core
 {
-    public class EventsService
+    public class EventsService : IEventsService
     {
         private readonly TicketsResellingContext context;
 

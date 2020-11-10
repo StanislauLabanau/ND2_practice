@@ -46,7 +46,7 @@ namespace TicketsReselling.Controllers
             foreach (var ticket in userTickets)
             {
                 var ticketEvent = await eventsService.GetEventById(ticket.EventId);
-                var ticketOrder = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.WaitingForConfirmation, OrderStatuses.Confirmed, OrderStatuses.Completed);
+                var ticketOrder = await ordersService.GetOrderByTicketIdAndStatuses(ticket.Id, OrderStatuses.WaitingForConfirmation, OrderStatuses.Confirmed, OrderStatuses.Completed);
                 var orderUser = await userManager.FindByIdAsync(ticketOrder?.UserId);
 
                 myTickets.Add(
@@ -110,7 +110,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> ConfirmOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.WaitingForConfirmation);
+            var order = await ordersService.GetOrderByTicketIdAndStatuses(ticket.Id, OrderStatuses.WaitingForConfirmation);
 
             await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.WaitingForReceivingConfirmation);
             await ordersService.ChangeOrderStatus(order, OrderStatuses.Confirmed);
@@ -121,7 +121,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RejectOrder(int ticketId)
         {
             var ticket = await ticketsService.GetTicketById(ticketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.WaitingForConfirmation);
+            var order = await ordersService.GetOrderByTicketIdAndStatuses(ticket.Id, OrderStatuses.WaitingForConfirmation);
 
             await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Selling);
             await ordersService.ChangeOrderStatus(order, OrderStatuses.Rejected);
@@ -140,7 +140,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> AddTracking(AddTrackingViewModel tracking)
         {
             var ticket = await ticketsService.GetTicketById(tracking.TicketId);
-            var order = await ordersService.GetOrderByTicketIdAndStatus(ticket.Id, OrderStatuses.Confirmed);
+            var order = await ordersService.GetOrderByTicketIdAndStatuses(ticket.Id, OrderStatuses.Confirmed);
 
             await ordersService.ChangeOrderTracking(order, tracking.TrackingNumber);
 

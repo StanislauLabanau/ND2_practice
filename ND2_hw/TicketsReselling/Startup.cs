@@ -41,11 +41,11 @@ namespace TicketsReselling
                 opts.ResourcesPath = "Resources";
             });
 
-            services.AddScoped<EventsService>();
-            services.AddScoped<OrdersService>();
-            services.AddScoped<TicketsService>();
-            services.AddScoped<VenuesService>();
-            services.AddScoped<CitiesService>();
+            services.AddScoped<IEventsService, EventsService>();
+            services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<ITicketsService, TicketsService>();
+            services.AddScoped<IVenuesService, VenuesService>();
+            services.AddScoped<ICitiesService, CitiesService>();
             services.AddScoped<IEmailService, EmailService>();
 
             services.AddDbContext<TicketsResellingContext>(o =>

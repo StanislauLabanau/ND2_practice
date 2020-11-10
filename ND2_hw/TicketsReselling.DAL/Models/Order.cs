@@ -6,7 +6,7 @@ using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.DAL.Models
 {
-    public class Order : IEntity<int>
+    public class Order
     {
         public int Id { get; set; }
         public int TicketId { get; set; }

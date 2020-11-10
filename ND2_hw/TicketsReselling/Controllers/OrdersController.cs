@@ -88,7 +88,7 @@ namespace TicketsReselling.Controllers
 
         public async Task<IActionResult> CancelOrder(int orderId)
         {
-            var order = await ordersService.GetOrerById(orderId);
+            var order = await ordersService.GetOrderById(orderId);
             var ticket = await ticketsService.GetTicketById(order.TicketId);
 
             await ticketsService.ChangeTicketStatus(ticket, TicketStatuses.Selling);
@@ -99,14 +99,14 @@ namespace TicketsReselling.Controllers
 
         public async Task<IActionResult> TrackingInfo(int orderId)
         {
-            ViewBag.trackingNumber = (await ordersService.GetOrerById(orderId))?.TrackingNumber;
+            ViewBag.trackingNumber = (await ordersService.GetOrderById(orderId))?.TrackingNumber;
 
             return View("TrackingNumberInfo");
         }
 
         public async Task<IActionResult> ConfirmOrderReceiving(int orderId)
         {
-            var order = await ordersService.GetOrerById(orderId);
+            var order = await ordersService.GetOrderById(orderId);
             var ticket = await ticketsService.GetTicketById(order.TicketId);
 
             await ordersService.ChangeOrderStatus(order, OrderStatuses.Completed);
@@ -117,7 +117,7 @@ namespace TicketsReselling.Controllers
 
         public async Task<IActionResult> RemoveOrder(int orderId)
         {
-            var order = await ordersService.GetOrerById(orderId);
+            var order = await ordersService.GetOrderById(orderId);
 
             await ordersService.ChangeOrderStatus(order, OrderStatuses.Removed);
 

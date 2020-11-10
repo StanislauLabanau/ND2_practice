@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketsReselling.Core.Interfaces;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Enums;
 using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling.Core
 {
-    public class VenuesService
+    public class VenuesService : IVenuesService
     {
         private readonly TicketsResellingContext context;
 
@@ -31,16 +32,9 @@ namespace TicketsReselling.Core
             return await context.Venues.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Venue>> GetVenuesByStatus(VenueStatuses status)
+        public async Task<IEnumerable<Venue>> GetVenuesByStatuses(params VenueStatuses[] statuses)
         {
-            var venues = context.Venues.Where(v => v.Status == status);
-
-            return await venues.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Venue>> GetVenuesByStatus(VenueStatuses status, VenueStatuses status1)
-        {
-            var venues = context.Venues.Where(v => v.Status == status || v.Status == status1);
+            var venues = context.Venues.Where(v => statuses.Contains(v.Status));
 
             return await venues.ToListAsync();
         }
@@ -58,7 +52,7 @@ namespace TicketsReselling.Core
             await context.SaveChangesAsync();
         }
 
-        public async void RemoveVenue(int Id)
+        public async Task RemoveVenue(int Id)
         {
             context.Venues.Remove(await GetVenueById(Id));
             await context.SaveChangesAsync();

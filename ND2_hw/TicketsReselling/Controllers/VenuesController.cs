@@ -39,7 +39,7 @@ namespace TicketsReselling.Controllers
             var model = new VenuesViewModel
             {
                 Cities = await citiesService.GetCityesByStatus(CityStatuses.Avaliable, CityStatuses.NotAvaliable),
-                Venues = await venuesService.GetVenuesByStatus(VenueStatuses.Avaliable, VenueStatuses.NotAvaliable)
+                Venues = await venuesService.GetVenuesByStatuses(VenueStatuses.Avaliable, VenueStatuses.NotAvaliable)
             };
 
             return View(model);

@@ -29,7 +29,7 @@ namespace TicketsReselling.Tests
             {
                 var citiesService = new CitiesService(context);
 
-                var cities = citiesService.GetCityes().Result.ToList();
+                var cities = citiesService.GetCities().Result.ToList();
 
                 cities.Count().Should().Be(3);
                 cities[0].Name.Should().Be("Tallin");
@@ -45,7 +45,7 @@ namespace TicketsReselling.Tests
 
                 citiesService.RemoveCity(2);
 
-                var cities = citiesService.GetCityes().Result.ToList();
+                var cities = citiesService.GetCities().Result.ToList();
 
                 cities.Count().Should().Be(2);
                 cities[0].Name.Should().Be("Tallin");
@@ -62,7 +62,7 @@ namespace TicketsReselling.Tests
 
                 var city = new City { Name = "Berlin", Status = CityStatuses.Avaliable };
                 citiesService.AddCity(city);
-                var cities = citiesService.GetCityes().Result.ToList();
+                var cities = citiesService.GetCities().Result.ToList();
 
                 cities.Count().Should().Be(4);
                 cities[3].Name.Should().Be("Berlin");
@@ -98,7 +98,7 @@ namespace TicketsReselling.Tests
                 citiesService.MakeCityAndAllItsVenuesNotAvaliable(2);
 
                 var city = citiesService.GetCityById(2).Result;
-                var venues = venueService.GetVenuesByStatus(VenueStatuses.NotAvaliable).Result.ToList();
+                var venues = venueService.GetVenuesByStatuses(VenueStatuses.NotAvaliable).Result.ToList();
 
                 city.Status.Should().Be(CityStatuses.NotAvaliable);
                 venues.Count.Should().Be(4);
@@ -116,7 +116,7 @@ namespace TicketsReselling.Tests
                 citiesService.MakeCityAndAllItsVenuesAvaliable(1);
 
                 var city = citiesService.GetCityById(1).Result;
-                var venues = venueService.GetVenuesByStatus(VenueStatuses.Avaliable).Result.ToList();
+                var venues = venueService.GetVenuesByStatuses(VenueStatuses.Avaliable).Result.ToList();
 
                 city.Status.Should().Be(CityStatuses.Avaliable);
                 venues.Count.Should().Be(6);

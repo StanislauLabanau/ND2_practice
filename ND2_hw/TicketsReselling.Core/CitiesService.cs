@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketsReselling.Core.Interfaces;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Enums;
 using TicketsReselling.DAL.Models;
 
 namespace TicketsReselling.Core
 {
-    public class CitiesService
+    public class CitiesService : ICitiesService
     {
         private readonly TicketsResellingContext context;
 
@@ -19,23 +20,16 @@ namespace TicketsReselling.Core
             this.context = context;
         }
 
-        public async Task<IEnumerable<City>> GetCityes()
+        public async Task<IEnumerable<City>> GetCities()
         {
             var cityes = context.Cities;
 
             return await cityes.ToListAsync();
         }
 
-        public async Task<IEnumerable<City>> GetCityesByStatus(CityStatuses status)
+        public async Task<IEnumerable<City>> GetCityesByStatus(params CityStatuses[] statuses)
         {
-            var cityes = context.Cities.Where(c=>c.Status == status);
-
-            return await cityes.ToListAsync();
-        }
-
-        public async Task<IEnumerable<City>> GetCityesByStatus(CityStatuses status, CityStatuses status1)
-        {
-            var cityes = context.Cities.Where(c => c.Status == status || c.Status ==status1);
+            var cityes = context.Cities.Where(c => statuses.Contains(c.Status));
 
             return await cityes.ToListAsync();
         }

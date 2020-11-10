@@ -6,7 +6,7 @@ using TicketsReselling.DAL.Enums;
 
 namespace TicketsReselling.DAL.Models
 {
-    public class Ticket : IEntity<int>
+    public class Ticket
     {
         public int Id { get; set; }
         public int EventId { get; set; }
