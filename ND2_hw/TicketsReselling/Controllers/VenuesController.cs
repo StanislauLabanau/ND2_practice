@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
+using TicketsReselling.Core.Interfaces;
 using TicketsReselling.DAL.Enums;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.Models;
@@ -16,13 +17,13 @@ namespace TicketsReselling.Controllers
     [Authorize(Roles = UserRoles.Administrator)]
     public class VenuesController : Controller
     {
-        private readonly VenuesService venuesService;
-        private readonly CitiesService citiesService;
+        private readonly IVenuesService venuesService;
+        private readonly ICitiesService citiesService;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
         public VenuesController(
-            VenuesService venuesService,
-            CitiesService citiesService,
+            IVenuesService venuesService,
+            ICitiesService citiesService,
             IStringLocalizer<EventsController> stringLocalizer)
         {
             this.venuesService = venuesService;

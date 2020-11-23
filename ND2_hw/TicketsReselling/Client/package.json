@@ -1,13 +1,14 @@
 {
-  "name": "Store.App",
+  "name": "TicketsReselling",
   "version": "1.0.0",
   "dependencies": {
     "bootstrap": "4.5.3",
+    "bootstrap-autocomplete": "^2.3.7",
+    "bootstrap-select": "1.13.18",
     "jquery": "3.5.1",
     "jquery-validation": "1.19.2",
     "jquery-validation-unobtrusive": "3.2.11",
-    "popper.js": "1.16.1",
-    "bootstrap-select": "1.13.18"
+    "popper.js": "1.16.1"
   },
   "devDependencies": {
     "css-loader": "5.0.1",

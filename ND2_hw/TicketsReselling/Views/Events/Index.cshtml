@@ -1,72 +1,93 @@
 ﻿@model EventsViewModel
+@using TicketsReselling.Core.Enums
+@using TicketsReselling.Core.Consts
 @using TicketsReselling.Business.Models
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
-<h1>@Localizer["Events"]</h1>
-<div class="col-md-6 pt-2">
+@{
+    object scriptProps = new
+    {
+        showEventUrl = Url.Action("EventWithTickets", "Events"),
+        removeEventUrl = Url.Action("RemoveEvent", "Events"),
+        userInAdminRole = User.IsInRole(UserRoles.Administrator).ToString().ToLower()
+    };
+}
 
-    <form class="form-inline">
-        <label>@Localizer["ChooseCategory"] =></label>
-        <select name="categoryId" class="form-control">
+<div class="row filter">
+    <div class="col-md-2 text-center">
+        <h1>@Localizer["Events"]</h1>
+    </div>
+    <div class="col-md-2 pt-3">
+        @Html.ActionLink(Localizer["AddEvent"].Value.ToString(), "AddEvent", "Events")
+    </div>
+    <div class="col-md-8 pt-2 text-right">
+        <div class="searchBoxForm">
+            @Html.TextBoxFor(m => m.SearchText, new { @class = "searchBox", id = "autosuggest" }) <input value="Search" class="searchBoxSubmit" id="search" type="submit">
+        </div>
+    </div>
+</div>
+
+<div class="row pt-1 mb-3 text-center">
+    <div class="col-md-4">
+        <label>@Localizer["Category"]</label>
+        <select id="category" multiple class="selectpicker">
             @foreach (var category in Model.Categories)
             {
                 <option value="@category.Id">@category.Name</option>
             }
         </select>
-        <input type="submit" value=@Localizer["Apply"] class="btn btn-primary" />
-    </form>
-    @Html.ActionLink(Localizer["AddEvent"].Value.ToString(), "AddEvent", "Events")
-</div>
-@if (ViewBag.categoryId == 1)
-{
-    @foreach (var category in Model.Categories.Where(c => c.Id != 1))
-    {
-        <h2 class="pt-5">@category.Name</h2>
-        <div class="container-fluid pt-4">
-            <div class="row row-cols-md-3">
-                @foreach (var eventItem in Model.Events.Where(e => e.Category.Id == category.Id))
-                {
-                    <div class="col mb-4">
-                        <div class="card text-center">
-                            <img src="~/Public/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
-                            <h3>@eventItem.Name</h3>
-                            <h4><b>@eventItem.Venue.City.Name</b></h4>
-                            <h4><b>@eventItem.Venue.Name</b></h4>
-                            <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
-                            @if (User.IsInRole(UserRoles.Administrator))
-                            {
-                                @Html.ActionLink(Localizer["RemoveEvent"].Value.ToString(), "RemoveEvent", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
-                            }
-                            @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary pt-1 mb-1" })
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    }
-}
-else
-{
-    <h2 class="pt-5">@ViewBag.categoryName</h2>
-    <div class="container-fluid pt-4">
-        <div class="row row-cols-md-3">
-            @foreach (var eventItem in Model.Events.Where(e => e.Category.Id == ViewBag.categoryId))
-            {
-                <div class="col mb-4">
-                    <div class="card text-center">
-                        <img src="~/Public/@eventItem.Banner" alt="@eventItem.Name" class="card-img-top img-fluid" />
-                        <h3>@eventItem.Name</h3>
-                        <h4><b>@eventItem.Venue.City.Name</b></h4>
-                        <h4><b>@eventItem.Venue.Name</b></h4>
-                        <h4><b>@eventItem.Date.ToShortDateString()</b></h4>
-                        @if (User.IsInRole(UserRoles.Administrator))
-                        {
-                            @Html.ActionLink(Localizer["RemoveEvent"].Value.ToString(), "RemoveEvent", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-danger pt-1 mb-1" })
-                        }
-                        @Html.ActionLink(Localizer["ShowTickets"].Value.ToString(), "EventWithTickets", "Events", new { eventId = eventItem.Id }, new { @class = "btn btn-primary" })
-                    </div>
-                </div>
-            }
-        </div>
     </div>
+    <div class="col-md-4">
+        <label>@Localizer["City"]</label>
+        <select id="city" multiple class="selectpicker">
+            @foreach (var city in Model.Cities)
+            {
+                <option value="@city.Id">@city.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label>@Localizer["Venue"]</label>
+        <select id="venue" multiple class="selectpicker"></select>
+    </div>
+</div>
+
+<div class="row pt-1 mb-1 justify-content-between filter">
+    <div class="col-md-3 mb-1 text-left">
+        <label>@Localizer["FromDate"]</label>
+        @Html.TextBoxFor(m => m.FromDate, new { type = "date", id = "fromDate", @class = "form-control d-inline" })
+    </div>
+    <div class="col-md-3 mb-1 text-left">
+        <label>@Localizer["ToDate"]</label>
+        @Html.TextBoxFor(m => m.ToDate, new { type = "date", id = "toDate", @class = "form-control d-inline" })
+    </div>
+    <div class="col-md-2 mb-1 text-left">
+        <label>@Localizer["SortBy"]</label>
+        <select id="sortBy" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortBy>()"></select>
+    </div>
+    <div class="col-md-2 text-left">
+        <label>@Localizer["SortOrder"]</label>
+        <select id="sortOrder" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortOrder>()"></select>
+    </div>
+    <div class="col-md-2 mb-1 text-left">
+        <label>@Localizer["PageSize"]</label>
+        @Html.DropDownListFor(m => m.PageSize, new SelectList(PageSizesKeeper.PageSizes), new { id = "pageSize", @class = "form-control d-inline" })
+    </div>
+</div>
+
+<div class="container-fluid pt-3">
+    <div id="events" class="row row-cols-4 pt-1 mb-1">
+    </div>
+    <nav aria-label="...">
+        <ul class="pagination">
+        </ul>
+    </nav>
+</div>
+
+@section Scripts
+    {
+    <script>
+        const props = @Html.Raw(Json.Serialize(@scriptProps));
+    </script>
+    <script src="dist/event.entry.js" type="module" defer></script>
 }

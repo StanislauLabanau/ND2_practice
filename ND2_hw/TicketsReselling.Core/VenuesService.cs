@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketsReselling.Core.Interfaces;
+using TicketsReselling.Core.Queries;
 using TicketsReselling.DAL;
 using TicketsReselling.DAL.Enums;
 using TicketsReselling.DAL.Models;
@@ -37,6 +38,18 @@ namespace TicketsReselling.Core
             var venues = context.Venues.Where(v => statuses.Contains(v.Status));
 
             return await venues.ToListAsync();
+        }
+        
+        public async Task<IEnumerable<Venue>> GetVenuesByStatusesAndQuery(VenueQuery query, params VenueStatuses[] statuses)
+        {
+            var queriable = context.Venues.Where(v => statuses.Contains(v.Status));
+
+            if (query.Cities != null)
+            {
+                queriable = queriable.Where(v => query.Cities.Contains(v.CityId));
+            }
+
+            return await queriable.ToListAsync();
         }
 
         public async Task ChangeVenueStatus(Venue venue, VenueStatuses status)

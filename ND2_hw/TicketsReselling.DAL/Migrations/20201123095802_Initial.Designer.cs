@@ -10,7 +10,7 @@ using TicketsReselling.DAL;
 namespace TicketsReselling.DAL.Migrations
 {
     [DbContext(typeof(TicketsResellingContext))]
-    [Migration("20201109101025_Initial")]
+    [Migration("20201123095802_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

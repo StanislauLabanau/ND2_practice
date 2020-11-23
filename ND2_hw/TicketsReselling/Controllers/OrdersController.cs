@@ -11,22 +11,23 @@ using TicketsReselling.Business.Models;
 using TicketsReselling.Core;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.Models;
+using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling.Controllers
 {
     [Authorize(Roles = UserRoles.User)]
     public class OrdersController : Controller
     {
-        private readonly TicketsService ticketsService;
-        private readonly EventsService eventsService;
-        private readonly OrdersService ordersService;
+        private readonly ITicketsService ticketsService;
+        private readonly IEventsService eventsService;
+        private readonly IOrdersService ordersService;
         private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
         public OrdersController(
-            TicketsService ticketsService,
-            EventsService eventsService,
-            OrdersService ordersService,
+            ITicketsService ticketsService,
+            IEventsService eventsService,
+            IOrdersService ordersService,
             UserManager<User> userManager,
             IStringLocalizer<EventsController> stringLocalizer)
         {

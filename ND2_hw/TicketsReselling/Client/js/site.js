@@ -1,7 +1,7 @@
 ﻿// JS Dependencies
-import 'bootstrap';
 import 'jquery';
-import 'bootstrap-select';
+//import 'bootstrap';
+//import 'bootstrap-select';
 
 // CSS Dependencies
 import 'bootstrap/dist/css/bootstrap.css';

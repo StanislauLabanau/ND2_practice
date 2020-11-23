@@ -18,7 +18,7 @@ namespace TicketsReselling.Controllers
         private readonly ITicketsService ticketsService;
         private readonly IEventsService eventsService;
         private readonly IVenuesService venuesService;
-        private readonly ICitiesService citiesService; 
+        private readonly ICitiesService citiesService;
         private readonly UserManager<User> userManager;
         private readonly IStringLocalizer<EventsController> stringLocalizer;
 
@@ -38,24 +38,15 @@ namespace TicketsReselling.Controllers
             this.stringLocalizer = stringLocalizer;
         }
 
-        public async Task<IActionResult> Index(int categoryId=1)
+        public async Task<IActionResult> Index()
         {
             ViewData["Title"] = stringLocalizer["eventpagetitle"];
-
-            ViewBag.categoryId = categoryId;
-            ViewBag.categoryName = (await eventsService.GetCategoryById(categoryId))?.Name;
 
             var model = new EventsViewModel
             {
                 Categories = await eventsService.GetCategories(),
-                Events = await eventsService.GetEventsByStatus((int) EventStatuses.Current)
+                Cities = await citiesService.GetCityesByStatus(CityStatuses.Avaliable)
             };
-
-            foreach (Event eventItem in model.Events)
-            {
-                eventItem.Venue = await venuesService.GetVenueById(eventItem.VenueId);
-                eventItem.Venue.City = await citiesService.GetCityById(eventItem.Venue.CityId);
-            }
 
             return View(model);
         }
@@ -109,7 +100,7 @@ namespace TicketsReselling.Controllers
                 var bannerName = FileUploader.UploadFile(newEvent.Banner).Result;
 
                 await eventsService.AddEvent(new Event
-                { 
+                {
                     Description = newEvent.Description,
                     Name = newEvent.Name,
                     Banner = bannerName,

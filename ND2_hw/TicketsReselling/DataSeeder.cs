@@ -36,7 +36,6 @@ namespace TicketsReselling
 
             cities = new List<City>
             {
-                new City {Name = "All cities", Status = CityStatuses.Avaliable},
                 new City {Name = "Tallin", Status = CityStatuses.Avaliable},
                 new City {Name = "Vilnius", Status = CityStatuses.Avaliable},
                 new City {Name = "Riga", Status = CityStatuses.Avaliable},
@@ -47,23 +46,22 @@ namespace TicketsReselling
 
             venues = new List<Venue>
             {
-                new Venue {Name = "TallinVenueA", City = cities[1], Address = "TallinVenueAAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "TallinVenueB", City = cities[1], Address = "TallinVenueBAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "VilniusVenueA", City = cities[2], Address = "VilniusVenueAAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "VilniusVenueB", City = cities[2], Address = "VilniusVenueBAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "RigaVenueA", City = cities[3], Address = "RigaVenueAAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "RigaVenueB", City = cities[3], Address = "RigaVenueBAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "WasawVenueA", City = cities[4], Address = "WasawVenueAAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "WasawVenueB", City = cities[4], Address = "WasawVenueBAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "PragaVenueA", City = cities[5], Address = "PragaVenueAAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "PragaVenueB", City = cities[5], Address = "PragaVenueBAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "BratislavaVenueA", City = cities[6], Address = "BratislavaVenueAAddres", Status = VenueStatuses.Avaliable},
-                new Venue {Name = "BratislavaVenueB", City = cities[6], Address = "BratislavaVenueBAddres", Status = VenueStatuses.Avaliable}
+                new Venue {Name = "TallinVenueA", City = cities[0], Address = "TallinVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "TallinVenueB", City = cities[0], Address = "TallinVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "VilniusVenueA", City = cities[1], Address = "VilniusVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "VilniusVenueB", City = cities[1], Address = "VilniusVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "RigaVenueA", City = cities[2], Address = "RigaVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "RigaVenueB", City = cities[2], Address = "RigaVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "WasawVenueA", City = cities[3], Address = "WasawVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "WasawVenueB", City = cities[3], Address = "WasawVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "PragaVenueA", City = cities[4], Address = "PragaVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "PragaVenueB", City = cities[4], Address = "PragaVenueBAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "BratislavaVenueA", City = cities[5], Address = "BratislavaVenueAAddres", Status = VenueStatuses.Avaliable},
+                new Venue {Name = "BratislavaVenueB", City = cities[5], Address = "BratislavaVenueBAddres", Status = VenueStatuses.Avaliable}
             };
 
             categories = new List<Category>
             {
-                new Category {Name = "All categories"},
                 new Category {Name = "Concerts"},
                 new Category {Name = "Sports"},
                 new Category {Name = "Exhibitions"}
@@ -71,19 +69,19 @@ namespace TicketsReselling
 
             events = new List<Event>
             {
-                new Event {Category = categories[1], Name = "Concert1", Status = EventStatuses.Current, Venue = venues[0], Banner = "ImagineD1.jpg",
+                new Event {Category = categories[0], Name = "Concert1", Status = EventStatuses.Current, Venue = venues[0], Banner = "ImagineD1.jpg",
                     Description = "<div class=\"text-break\"> Concert1 description </></div>", Date = new DateTime(2022,01,01)},
-                new Event {Category = categories[1], Name = "Concert2", Status = EventStatuses.Current, Venue = venues[1], Banner = "ImagineD2.jpg",
+                new Event {Category = categories[0], Name = "Concert2", Status = EventStatuses.Current, Venue = venues[1], Banner = "ImagineD2.jpg",
                     Description = "<div class=\"text-break\"> Concert2 description </></div>", Date = new DateTime(2022,02,02)},
-                new Event {Category = categories[1], Name = "Concert3", Status = EventStatuses.Current, Venue = venues[3], Banner = "ImagineD3.jpg",
+                new Event {Category = categories[0], Name = "Concert3", Status = EventStatuses.Current, Venue = venues[3], Banner = "ImagineD3.jpg",
                     Description = "<div class=\"text-break\"> Concert3 description </></div>", Date = new DateTime(2022,03,03)},
-                new Event {Category = categories[1], Name = "Concert4", Status = EventStatuses.Current, Venue = venues[4], Banner = "ImagineD4.jpg",
+                new Event {Category = categories[0], Name = "Concert4", Status = EventStatuses.Current, Venue = venues[4], Banner = "ImagineD4.jpg",
                     Description = "<div class=\"text-break\"> Concert4 description </></div>", Date = new DateTime(2022,04,04)},
-                new Event {Category = categories[2], Name = "Sports1", Venue = venues[4], Status = EventStatuses.Current, Banner = "Foot1.jpg",
+                new Event {Category = categories[1], Name = "Sports1", Venue = venues[4], Status = EventStatuses.Current, Banner = "Foot1.jpg",
                     Description = "<div class=\"text-break\"> Sports1 description </></div>", Date = new DateTime(2022,05,05)},
-                new Event {Category = categories[2], Name = "Sports2", Venue = venues[10], Status = EventStatuses.Current, Banner = "Foot2.jpg",
+                new Event {Category = categories[1], Name = "Sports2", Venue = venues[10], Status = EventStatuses.Current, Banner = "Foot2.jpg",
                     Description = "<div class=\"text-break\"> Sports2 description </></div>", Date = new DateTime(2022,06,06)},
-                new Event {Category = categories[3], Name = "Exhibition1", Venue = venues[11], Status = EventStatuses.Current, Banner = "Exhibition1.jpg",
+                new Event {Category = categories[2], Name = "Exhibition1", Venue = venues[11], Status = EventStatuses.Current, Banner = "Exhibition1.jpg",
                     Description = "<div class=\"text-break\"> Exhibition1 description </></div>", Date = new DateTime(2022,07,07)},
             };
 
@@ -124,6 +122,9 @@ namespace TicketsReselling
 
         public async Task SeedDataAsync()
         {
+            //await context.Database.EnsureDeletedAsync();
+            //await context.Database.EnsureCreatedAsync();
+
             if (await context.Database.CanConnectAsync())
             {
                 if (await roleManager.FindByNameAsync(UserRoles.Administrator) == null)
