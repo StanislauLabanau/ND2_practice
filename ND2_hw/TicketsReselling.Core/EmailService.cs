@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TicketsReselling.Core.Consts;
 using TicketsReselling.Core.Interfaces;
 
 namespace TicketsReselling.Core
@@ -14,7 +15,7 @@ namespace TicketsReselling.Core
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Service administration", "TicketResellingAdm@gmail.com"));
+            emailMessage.From.Add(new MailboxAddress(EmailConsts.ServiceSignature, EmailConsts.ServiceEmail ));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -25,7 +26,7 @@ namespace TicketsReselling.Core
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.gmail.com", 587, false);
-                await client.AuthenticateAsync("ticketresellingadm@gmail.com", "ticketreselling");
+                await client.AuthenticateAsync(EmailConsts.ServiceEmail, EmailConsts.ServiceEmailPassword);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
             }

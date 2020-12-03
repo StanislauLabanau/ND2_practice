@@ -14,6 +14,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using TicketsReselling.DAL.Models;
 using TicketsReselling.Core.Interfaces;
+using TicketsReselling.Mapper;
+using AutoMapper;
+using System.Text.Json.Serialization;
+using TicketsReselling.Core.Queries;
+using Microsoft.Net.Http.Headers;
+
 
 namespace TicketsReselling
 {
@@ -34,7 +40,13 @@ namespace TicketsReselling
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
 
-            //services.AddRazorPages();
+            services.AddMvc()
+              .AddXmlDataContractSerializerFormatters()
+              .AddMvcOptions(opts =>
+              {
+                  opts.FormatterMappings.SetMediaTypeMappingForFormat("xml", new MediaTypeHeaderValue("application/xml"));
+              })
+              .AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddLocalization(opts =>
             {
@@ -75,6 +87,16 @@ namespace TicketsReselling
 
                 options.SignIn.RequireConfirmedAccount = true;
             });
+
+            services.AddSwaggerGen();
+
+            services.AddAutoMapper(typeof(MappingProfile));
+
+            services.Scan(scan => scan
+               .FromAssemblyOf<BaseQuery>()
+               .AddClasses(c => c.AssignableTo(typeof(ISortingProvider<>)))
+               .AsImplementedInterfaces()
+               .WithScopedLifetime());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,6 +115,8 @@ namespace TicketsReselling
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSwagger();
+
             var localizationoptions = new RequestLocalizationOptions()
                 .SetDefaultCulture(Locales.SupportedLocales[0])
                 .AddSupportedCultures(Locales.SupportedLocales)
@@ -105,12 +129,17 @@ namespace TicketsReselling
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSwaggerUI(s=> {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "TicketReselling API v1");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }
