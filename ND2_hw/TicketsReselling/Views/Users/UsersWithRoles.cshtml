@@ -23,13 +23,13 @@
                 @Html.ActionLink(user.UserName, "PublicInfo", "Users", new { userId = user.UserId })
             </div>
             <div class="col-md-6 text-center">
-                @if (user.UserRoles.Contains(UserRoles.User))
+                @if (user.UserRoles.Contains(UserRoles.Broker))
                 {
-                    @Html.ActionLink(UserRoles.User, "RevokeUserRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-primary pt-1 mb-1" })
+                    @Html.ActionLink(UserRoles.Broker, "RevokeBrokerRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-primary pt-1 mb-1" })
                 }
                 else
                 {
-                    @Html.ActionLink(UserRoles.User, "GrantUserRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-secondary pt-1 mb-1" })
+                    @Html.ActionLink(UserRoles.Broker, "GrantBrokerRights", "Users", new { userId = user.UserId }, new { @class = "btn btn-secondary pt-1 mb-1" })
                 }
 
                 @if (user.UserRoles.Contains(UserRoles.Administrator))

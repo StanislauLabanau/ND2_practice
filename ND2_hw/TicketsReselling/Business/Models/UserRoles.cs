@@ -9,5 +9,6 @@ namespace TicketsReselling.Business.Models
     {
         public const string User = "User";
         public const string Administrator = "Administrator";
+        public const string Broker = "Broker";
     }
 }

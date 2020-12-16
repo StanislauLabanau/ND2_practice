@@ -10,10 +10,13 @@ namespace TicketsReselling.DAL.Models
     {
         public int Id { get; set; }
         public int EventId { get; set; }
+        public Event Event { get; set; }
         public decimal Price { get; set; }
         public string SellerId { get; set; }
         public User Seller { get; set; }
         public TicketStatuses Status { get; set; }
         public string SellerNotes { get; set; }
+        public int? ListingId { get; set; }
+        public Listing Listing { get; set; }
     }
 }

@@ -15,7 +15,9 @@ namespace TicketsReselling.Core.Interfaces
         public Task AddTicket(Ticket newCity);
         public Task RemoveTicket(int Id);
         public Task<IEnumerable<Ticket>> GetTicketsByUserId(string userId);
-        public Task<IEnumerable<Ticket>> GetTicketsByEventIdAndStatus(int eventId, TicketStatuses status);
+        public IEnumerable<Ticket> GetTicketsByEventIdAndStatus(int eventId, TicketStatuses status);
+        public Task<IEnumerable<Ticket>> GetUserTicketsByEventId(int eventId, string userId);
         public Task ChangeTicketStatus(Ticket ticket, TicketStatuses status);
+        public Task AddListingWithTickets(Ticket newTicket, int amount, string listingName);
     }
 }

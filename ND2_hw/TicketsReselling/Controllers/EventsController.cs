@@ -54,7 +54,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> EventWithTickets(int eventId)
         {
             var currentEvent = await eventsService.GetEventById(eventId);
-            var eventTickets = await ticketsService.GetTicketsByEventIdAndStatus(eventId, TicketStatuses.Selling);
+            var eventTickets = ticketsService.GetTicketsByEventIdAndStatus(eventId, TicketStatuses.Selling);
             currentEvent.Venue = await venuesService.GetVenueById(currentEvent.VenueId);
             currentEvent.Venue.City = await citiesService.GetCityById(currentEvent.Venue.CityId);
             var ticketsList = new List<EventTickets>();

@@ -101,6 +101,14 @@ namespace TicketsReselling.Core
                 queryable = queryable.Where(e => e.Date <= query.ToDate);
             }
 
+            if (query.WithUserTicketsOnly)
+            {
+                var userTickets = context.Tickets.Where(t=>t.SellerId.Equals(query.CurrentUserId)).ToArray();
+                var userTicketsEventsIds = userTickets.Select(t => t.EventId).Distinct();
+
+                queryable = queryable.Where(e => userTicketsEventsIds.Contains(e.Id));
+            }
+
             var count = await queryable.CountAsync();
 
             queryable = sortingProvider.ApplySorting(queryable, query);

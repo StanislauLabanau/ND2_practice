@@ -15,6 +15,7 @@ namespace TicketsReselling.DAL
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Listing> Listings { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -26,6 +27,7 @@ namespace TicketsReselling.DAL
 
             modelBuilder.Entity<Category>().ToTable("Categories");
             modelBuilder.Entity<Ticket>().ToTable("Tickets");
+            modelBuilder.Entity<Listing>().ToTable("Listings");
             modelBuilder.Entity<Order>().ToTable("Orders");
             modelBuilder.Entity<Event>().ToTable("Events");
             modelBuilder.Entity<City>().ToTable("Cityes");

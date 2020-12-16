@@ -25,6 +25,7 @@ namespace TicketsReselling
         private readonly List<Ticket> tickets;
         private readonly List<User> users;
         private readonly List<User> administrators;
+        private readonly List<Listing> listings;
         private readonly string[] userPasswords;
         private readonly string[] adminPasswords;
 
@@ -96,9 +97,11 @@ namespace TicketsReselling
                 new User {FirstName = "Hermione", SecondName ="Granger", Localization = "England", Address = "Address3",
                     PhoneNumber="333-33-33", UserName = "hermione@hogwarts.en", Email = "hermione@hogwarts.en", EmailConfirmed = true},
 
+                new User {FirstName = "Severus", SecondName ="Snape", Localization = "England", Address = "Address4",
+                    PhoneNumber="444-44-44", UserName = "severus@hogwarts.en", Email = "severus@hogwarts.en", EmailConfirmed = true},
             };
 
-            userPasswords = new string[] { "harry123", "ron123", "hermione123" };
+            userPasswords = new string[] { "harry123", "ron123", "hermione123", "severus123" };
 
             administrators = new List<User>
             {
@@ -108,15 +111,21 @@ namespace TicketsReselling
 
             adminPasswords = new string[] { "albus123" };
 
+            listings = new List<Listing> {
+                new Listing {Name = "Severus listing 1", Event = events[5]}
+            };
+
             tickets = new List<Ticket>
             {
-                new Ticket {EventId = 1, Status = TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
-                new Ticket {EventId = 1, Status = TicketStatuses.Selling, Price = 100, Seller = users[0], SellerNotes="Notes" },
-                new Ticket {EventId = 1, Status = TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
-                new Ticket {EventId = 2, Status = TicketStatuses.Selling, Price = 100, Seller = users[1], SellerNotes="Notes" },
-                new Ticket {EventId = 3, Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
-                new Ticket {EventId = 4, Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
-                new Ticket {EventId = 5, Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {Event = events[0], Status = TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
+                new Ticket {Event = events[0], Status = TicketStatuses.Selling, Price = 100, Seller = users[0], SellerNotes="Notes" },
+                new Ticket {Event = events[0], Status = TicketStatuses.Selling, Price = 110, Seller = users[0], SellerNotes="Notes" },
+                new Ticket {Event = events[1], Status = TicketStatuses.Selling, Price = 100, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {Event = events[2], Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {Event = events[3], Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {Event = events[5], Status = TicketStatuses.Selling, Price = 90, Seller = users[1], SellerNotes="Notes" },
+                new Ticket {Event = events[5], Status = TicketStatuses.Selling, Price = 90, Seller = users[3], SellerNotes="Notes", Listing = listings[0] },
+                new Ticket {Event = events[5], Status = TicketStatuses.Selling, Price = 90, Seller = users[3], SellerNotes="Notes", Listing = listings[0] },
             };
         }
 
@@ -135,6 +144,11 @@ namespace TicketsReselling
                 if (await roleManager.FindByNameAsync(UserRoles.User) == null)
                 {
                     await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.User });
+                }
+
+                if (await roleManager.FindByNameAsync(UserRoles.Broker) == null)
+                {
+                    await roleManager.CreateAsync(new IdentityRole { Name = UserRoles.Broker });
                 }
 
                 if ((await userManager.GetUsersInRoleAsync(UserRoles.Administrator)).Count() == 0)
@@ -174,6 +188,11 @@ namespace TicketsReselling
                 if (!context.Tickets.Any())
                 {
                     await context.Tickets.AddRangeAsync(tickets);
+                }
+
+                if (!context.Listings.Any())
+                {
+                    await context.Listings.AddRangeAsync(listings);
                 }
 
                 if (!context.Cities.Any())

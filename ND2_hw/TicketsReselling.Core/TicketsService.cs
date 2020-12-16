@@ -38,9 +38,28 @@ namespace TicketsReselling.Core
             return await userTickets.ToListAsync();
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsByEventIdAndStatus(int eventId, TicketStatuses status)
+        public IEnumerable<Ticket> GetTicketsByEventIdAndStatus(int eventId, TicketStatuses status)
         {
-            var eventTickets = context.Tickets.Where(t => t.EventId == eventId && t.Status == status);
+            var eventTickets = context.Tickets.Where(t => t.EventId == eventId && t.Status == status && t.ListingId == null).ToList();
+            var listingEventTickets = context.Tickets.Where(t => t.EventId == eventId && t.Status == status && t.ListingId != null);
+            var eventListings = context.Listings.Where(l => l.EventId == eventId).ToList();
+
+            foreach (Listing listing in eventListings)
+            {
+                var firstTicketInListing = listingEventTickets.FirstOrDefault(t => t.ListingId == listing.Id && t.Status == status);
+                if (firstTicketInListing!=null)
+                {
+                    eventTickets.Add(firstTicketInListing);
+                }
+            }
+
+            return eventTickets;
+        }
+
+        public async Task<IEnumerable<Ticket>> GetUserTicketsByEventId(int eventId, string userId)
+        {
+            var eventTickets = context.Tickets.Where(t => t.EventId == eventId && t.SellerId.Equals(userId) && t.Status != TicketStatuses.Removed)
+                .Include(t => t.Listing).ThenInclude(l => l.Event);
 
             return await eventTickets.ToListAsync();
         }
@@ -56,6 +75,29 @@ namespace TicketsReselling.Core
         {
             context.Tickets.Add(newTicket);
             await context.SaveChangesAsync();
+        }
+
+        public async Task AddListingWithTickets(Ticket newTicket, int amount, string listingName)
+        {
+            var listing = new Listing { Name = listingName, EventId = newTicket.EventId };
+            context.Listings.Add(listing);
+            await context.SaveChangesAsync();
+
+            for (int i = 0; i < amount; i++)
+            {
+                var ticket = new Ticket()
+                {
+                    EventId = newTicket.EventId,
+                    Price = newTicket.Price,
+                    SellerId = newTicket.SellerId,
+                    Status = newTicket.Status,
+                    SellerNotes = newTicket.SellerNotes,
+                    Listing = listing
+                };
+
+                context.Tickets.Add(ticket);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task RemoveTicket(int id)

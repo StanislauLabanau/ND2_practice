@@ -1,0 +1,27 @@
+﻿.catalog {
+    display: grid;
+    grid-template-areas: 
+            "categories filters"
+            "categories items ";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 150px 1fr;
+    grid-gap: 10px;
+}
+
+.categories, .filters, .items {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: lightgrey;
+    padding: 20px;
+}
+
+.categories {
+    grid-area: categories;
+}
+
+.filters {
+    grid-area: filters;
+}
+
+.items {
+    grid-area: items;
+}

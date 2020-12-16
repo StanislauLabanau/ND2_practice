@@ -124,4 +124,7 @@
   <data name="Users" xml:space="preserve">
     <value>Users</value>
   </data>
+  <data name="ManageListings" xml:space="preserve">
+    <value>Manage listings</value>
+  </data>
 </root>

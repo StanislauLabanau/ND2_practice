@@ -12,6 +12,9 @@ namespace TicketsReselling.Mapper
                 .ForMember(m => m.VenueName, opt => opt.MapFrom(src => src.Venue.Name))
                 .ForMember(m => m.CityName, opt => opt.MapFrom(src => src.Venue.City.Name));
             CreateMap<Venue, VenueResource>();
+            CreateMap<City, CityResource>();
+            CreateMap<Category, CategoryResource>();
+            CreateMap<Ticket, TicketResource>();
         }
     }
 }
