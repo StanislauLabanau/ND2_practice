@@ -30,6 +30,9 @@ class Events extends Component {
   }
 
   render() {
+    if (this.props.events.length === 0) {
+      return <h2>No event found</h2>;
+  }
     return (
       <div className={style.catalog}>
         <div className={style.categories}>
@@ -47,7 +50,7 @@ class Events extends Component {
           {this.props.isLoading ? (
             <Preloader />
           ) : (
-              <EventItems products={this.props.products} onAddListingClick={this.onAddListingHandler} />
+              <EventItems events={this.props.events} onAddListingClick={this.onAddListingHandler} />
             )}
         </div>
       </div>
@@ -57,7 +60,7 @@ class Events extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.catalog.products,
+    events: state.catalog.events,
     filters: state.catalog.filters,
     isLoading: state.catalog.isLoading,
   };

@@ -44,14 +44,8 @@ class ListingsManager extends Component {
         }
 
         if (this.props.listings.length === 0) {
-            return <h2>No listings or this event</h2>;
+            return <h2>No listings for this event</h2>;
         }
-
-        // const ticketsGroupedByStatus = this.state.listings
-        //     .reduce((hash, obj) => {
-        //         if (obj.staus === undefined) return hash;
-        //         return Object.assign(hash, { [obj.staus]: (hash[obj.staus] || []).concat(obj) })
-        //     }, {})
 
         const ticketsGroupedByStatus = this.props.listings
             .reduce((hash, { status: value, ...rest }) => ({ ...hash, [value]: (hash[value] || []).concat({ status: value, ...rest }) }), {});

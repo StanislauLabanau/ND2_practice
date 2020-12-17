@@ -3,21 +3,21 @@ import styles from "./EventItems.module.css";
 import { MANAGE_MY_LISTINGS } from "../../constants";
 import { NavLink } from "react-router-dom";
 
-const CatalogItems = (props) => {
+const EventItems = (props) => {
 
-  var addZeroDate = value => {
+  var addZeroDate = (value) => {
     if (value < 10) {
       value = '0' + value;
     }
     return value;
   }
 
-  var addListing = eventId => e =>{
+  var addListing = (eventId) => e =>{
     e.preventDefault();
     props.onAddListingClick(eventId);
   }
 
-  const items = props.products.map((p) => {
+  const items = props.events.map((p) => {
     const date = new Date(p.date);
     const dateStr = `${addZeroDate(date.getDate())}.${addZeroDate(date.getMonth() + 1)}.${date.getFullYear()}`;
     const manageListingsLink = MANAGE_MY_LISTINGS.replace(":eventId", p.id);
@@ -41,4 +41,4 @@ const CatalogItems = (props) => {
   return <div className={styles.items}>{items}</div>;
 };
 
-export default CatalogItems;
+export default EventItems;

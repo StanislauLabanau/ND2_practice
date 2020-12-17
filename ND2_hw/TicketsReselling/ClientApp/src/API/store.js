@@ -27,6 +27,7 @@ export const loadCategories = () => {
 export const addListing = async (listing) => {
   const response = await instance
     .post("Tickets/addListing", {
+      listingName: listing.listingName,
       eventId: listing.eventId,
       price: Number(listing.price),
       amount: Number(listing.amount),

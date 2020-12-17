@@ -5,6 +5,15 @@ const AddListingForm = (props) => {
     const { handleSubmit } = props;
     return (
         <form onSubmit={handleSubmit}>
+             <div>
+                <label htmlFor="listingName">Listing name</label>
+                <Field
+                    name="listingName"
+                    component={Input}
+                    type="text"
+                    validate={[required]}
+                />
+            </div>
             <div>
                 <label htmlFor="price">Price</label>
                 <Field
@@ -73,4 +82,4 @@ const moreThanZero = value => {
     return "Value must be more than 0";
 }
 
-export default reduxForm({ form: "contact" })(AddListingForm);
+export default reduxForm({ form: "listing" })(AddListingForm);

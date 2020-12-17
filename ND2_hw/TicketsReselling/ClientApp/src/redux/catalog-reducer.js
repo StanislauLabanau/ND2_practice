@@ -1,10 +1,9 @@
-import { loadEvents } from "../API/store";
-import { loadCategories, addListing, getTicketsForListings, deleteTicket } from "../API/store";
+import { loadCategories, addListing, getTicketsForListings, deleteTicket, loadEvents } from "../API/store";
 
 const ADD_CATEGORY = "ADD_CATEGORY";
 const REMOVE_CATEGORY = "REMOVE_CATEGORY";
 const CLEAR_CATEGORIES = "CLEAR_CATEGORIES";
-const GET_PRODUCTS = "GET_PRODUCTS";
+const GET_EVENTS = "GET_EVENTS";
 const TOGGLE_IS_LOADING = "TOGGLE_IS_LOADING";
 const TOGGLE_IS_CATEGORIES_LOADING = "TOGGLE_IS_CATEGORIES_LOADING";
 const LOAD_CATEGORIES = "LOAD_CATEGORIES";
@@ -15,7 +14,7 @@ const LOAD_LISTINGS = "LOAD_LISTINGS";
 
 const initialState = {
   categories: [],
-  products: [],
+  events: [],
   listings: [],
   filters: {
     categories: [],
@@ -55,10 +54,10 @@ const catalogReducer = (state = initialState, action) => {
           categories: [],
         },
       };
-    case GET_PRODUCTS:
+    case GET_EVENTS:
       return {
         ...state,
-        products: action.products,
+        events: action.events,
       };
     case TOGGLE_IS_LOADING: {
       return { ...state, isLoading: !state.isLoading };
@@ -112,9 +111,9 @@ export const changeCategoryActionCreator = (id, value) =>
 
 export const clearCategoriesActionCreator = () => ({ type: CLEAR_CATEGORIES });
 
-export const getProductsActionCreator = (products) => ({
-  type: GET_PRODUCTS,
-  products,
+export const getEventsActionCreator = (events) => ({
+  type: GET_EVENTS,
+  events,
 });
 
 export const loadCategoriesActionCreator = (categories) => ({
@@ -155,7 +154,7 @@ export const getEvents = (filters) => {
     dispatch(toggleIsLoading());
     loadEvents(filters).then((data) => {
       dispatch(toggleIsLoading());
-      dispatch(getProductsActionCreator(data));
+      dispatch(getEventsActionCreator(data));
     });
   };
 };
