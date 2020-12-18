@@ -59,7 +59,7 @@ namespace TicketsReselling.Core
                 suggestedEvents = suggestedEvents.Concat(queryable.Where(e => e.Venue.Name.Contains(query.SearchText)));
             }
 
-            if(suggestedEvents.Count() > 10)
+            if (suggestedEvents.Count() > 10)
             {
                 suggestedEvents = suggestedEvents.Take(suggestedEventsNumber);
             }
@@ -99,6 +99,14 @@ namespace TicketsReselling.Core
             if (query.ToDate != null)
             {
                 queryable = queryable.Where(e => e.Date <= query.ToDate);
+            }
+
+            if (query.WithUserTicketsOnly)
+            {
+                var userTickets = context.Tickets.Where(t => t.SellerId.Equals(query.CurrentUserId) && t.Status != TicketStatuses.Removed).ToArray();
+                var userTicketsEventsIds = userTickets.Select(t => t.EventId).Distinct();
+
+                queryable = queryable.Where(e => userTicketsEventsIds.Contains(e.Id));
             }
 
             var count = await queryable.CountAsync();

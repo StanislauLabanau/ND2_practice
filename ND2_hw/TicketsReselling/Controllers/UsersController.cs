@@ -47,9 +47,7 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> GrantAdminRights(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
-            //var userRoles = await userManager.GetRolesAsync(user);
 
-            //userRoles.Add(UserRoles.Administrator);
             await userManager.AddToRoleAsync(user, UserRoles.Administrator);
 
             return RedirectToAction("UsersWithRoles", "Users");
@@ -58,32 +56,26 @@ namespace TicketsReselling.Controllers
         public async Task<IActionResult> RevokeAdminRights(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
-            //var userRoles = await userManager.GetRolesAsync(user);
 
-            //userRoles.Remove(UserRoles.Administrator);
             await userManager.RemoveFromRoleAsync(user, UserRoles.Administrator);
 
             return RedirectToAction("UsersWithRoles", "Users");
         }
 
-        public async Task<IActionResult> GrantUserRights(string userId)
+        public async Task<IActionResult> GrantBrokerRights(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
-            //var userRoles = await userManager.GetRolesAsync(user);
 
-            //userRoles.Add(UserRoles.Administrator);
-            await userManager.AddToRoleAsync(user, UserRoles.User);
+            await userManager.AddToRoleAsync(user, UserRoles.Broker);
 
             return RedirectToAction("UsersWithRoles", "Users");
         }
 
-        public async Task<IActionResult> RevokeUserRights(string userId)
+        public async Task<IActionResult> RevokeBrokerRights(string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
-            //var userRoles = await userManager.GetRolesAsync(user);
 
-            //userRoles.Remove(UserRoles.Administrator);
-            await userManager.RemoveFromRoleAsync(user, UserRoles.User);
+            await userManager.RemoveFromRoleAsync(user, UserRoles.Broker);
 
             return RedirectToAction("UsersWithRoles", "Users");
         }

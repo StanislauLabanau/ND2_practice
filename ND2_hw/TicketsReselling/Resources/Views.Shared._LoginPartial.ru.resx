@@ -124,4 +124,7 @@
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>
   </data>
+  <data name="ManageListings" xml:space="preserve">
+    <value>Управление пакетами</value>
+  </data>
 </root>

@@ -1,0 +1,11 @@
+﻿.navigation a {
+    text-transform: uppercase;
+    background-color: gray;
+    color: white;
+    padding: 1em 1.5em;
+    text-decoration: none;
+}
+
+.navigation a.active {
+    background-color: darkslategrey;
+}

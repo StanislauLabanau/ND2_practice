@@ -19,7 +19,7 @@ using AutoMapper;
 using System.Text.Json.Serialization;
 using TicketsReselling.Core.Queries;
 using Microsoft.Net.Http.Headers;
-
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace TicketsReselling
 {
@@ -97,6 +97,11 @@ namespace TicketsReselling
                .AddClasses(c => c.AssignableTo(typeof(ISortingProvider<>)))
                .AsImplementedInterfaces()
                .WithScopedLifetime());
+
+            services.AddSpaStaticFiles(config =>
+            {
+                config.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +119,7 @@ namespace TicketsReselling
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseSwagger();
 
@@ -140,6 +146,16 @@ namespace TicketsReselling
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer("start");
+                }
             });
         }
     }

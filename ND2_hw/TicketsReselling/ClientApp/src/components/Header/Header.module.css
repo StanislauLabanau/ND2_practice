@@ -1,0 +1,10 @@
+﻿.header {
+    background-color: lightgrey;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.header {
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 20px;
+}

@@ -1,0 +1,31 @@
+.listingsHeader {
+    display: flex;
+    border-bottom-style: groove;
+    margin-bottom: 30px;
+    padding-bottom: 5px;
+}
+
+.ticketItem {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.listingsHeader div, .ticketItem div {
+    flex: 0 0 33%;
+    max-width: 33%;
+}
+
+.listingsWrapper {
+    width: 50%;
+    margin: 50px auto;
+}
+
+h2 {
+    text-align: left;
+}
+
+.statusName {
+    margin-bottom: 10px;
+    margin-top: 20px;
+    text-decoration: underline;
+}
