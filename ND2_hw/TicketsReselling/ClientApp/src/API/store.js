@@ -26,7 +26,7 @@ export const loadCategories = () => {
 
 export const addListing = async (listing) => {
   const response = await instance
-    .post("Tickets/addListing", {
+    .post("TicketsAPI/addListing", {
       listingName: listing.listingName,
       eventId: listing.eventId,
       price: Number(listing.price),
@@ -38,7 +38,7 @@ export const addListing = async (listing) => {
 
 export const getTicketsForListings = eventId => {
   return instance
-    .get("Tickets", {
+    .get("TicketsAPI", {
       params: {
         eventId: eventId
       }
@@ -50,6 +50,6 @@ export const getTicketsForListings = eventId => {
 
 export const deleteTicket = async (ticketId) => {
   const response = await instance
-    .post("Tickets/removeTicket", {id: ticketId});
+    .post("TicketsAPI/removeTicket", {id: ticketId});
   return response.data;
 }
