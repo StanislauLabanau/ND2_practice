@@ -165,7 +165,7 @@ namespace TicketsReselling
 
                 if ((await userManager.GetUsersInRoleAsync(UserRoles.User)).Count() == 0)
                 {
-                    for (int i = 0; i < users.Count(); i++)
+                    for (int i = 0; i< users.Count(); i++)
                     {
                         IdentityResult result = await userManager.CreateAsync(users[i], userPasswords[i]);
                         if (result.Succeeded)

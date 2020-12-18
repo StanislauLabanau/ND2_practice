@@ -5,6 +5,12 @@
 <ul class="navbar-nav">
     @if (User.Identity.IsAuthenticated)
     {
+        if (User.IsInRole(UserRoles.Broker))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/ClientApp">@Localizer["ManageListings"]</a>
+            </li>
+        }
 
         if (User.IsInRole(UserRoles.User))
         {
@@ -13,13 +19,6 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">@Localizer["MyOrders"]</a>
-            </li>
-        }
-
-        if (User.IsInRole(UserRoles.Broker))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/ClientApp">@Localizer["ManageListings"]</a>
             </li>
         }
 

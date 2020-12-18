@@ -17,7 +17,7 @@ namespace TicketsReselling.Controllers.Api
     [Authorize(Roles = UserRoles.Broker)]
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class TicketsController : Controller
+    public class TicketsControllerAPI : Controller
     {
 
         private readonly ITicketsService ticketsService;
@@ -25,7 +25,7 @@ namespace TicketsReselling.Controllers.Api
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
 
-        public TicketsController(
+        public TicketsControllerAPI(
             ITicketsService ticketsService,
             IOrdersService ordersService,
             IMapper mapper,
